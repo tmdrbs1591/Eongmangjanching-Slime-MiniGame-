@@ -10,6 +10,7 @@ public class ScoreListItem : MonoBehaviourPunCallbacks
 {
 
     [SerializeField] TMP_Text nicNametext;
+    [SerializeField] TMP_Text scoreText;
     Player player;
 
     private void Start()
