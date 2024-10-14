@@ -30,6 +30,10 @@ public class PlayerScript : MonoBehaviourPunCallbacks
 
     [SerializeField] TMP_Text nickNameText;
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
     void Start()
     {
         rb = GetComponent<Rigidbody>();  // Rigidbody 컴포넌트 가져오기

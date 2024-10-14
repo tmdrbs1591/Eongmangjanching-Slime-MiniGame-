@@ -2130,8 +2130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6559c01fe3653944be06820ebbe22e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  customizingManager: {fileID: 0}
-  dumiSkinMeshRenderer: {fileID: 0}
+  dumiSkinMeshRenderer: {fileID: 1789384988}
 --- !u!1 &374589623
 GameObject:
   m_ObjectHideFlags: 0
@@ -7862,6 +7861,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding: {x: -8, y: -5, z: -8, w: -5}
   m_Softness: {x: 0, y: 0}
+--- !u!137 &1789384988 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4643577701059586711, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
+  m_PrefabInstance: {fileID: 1502620206}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1794716694
 GameObject:
   m_ObjectHideFlags: 0

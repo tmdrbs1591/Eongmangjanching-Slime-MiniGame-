@@ -37,7 +37,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         if (SceneManager.GetActiveScene().name == "SampleScene")
         {
-            PhotonNetwork.Instantiate("Player", new Vector3(0, 0, 0), Quaternion.identity);
         }
     }
 }

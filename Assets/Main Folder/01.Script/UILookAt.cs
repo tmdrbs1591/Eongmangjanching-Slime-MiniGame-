@@ -1,6 +1,8 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Photon.Pun;
 
-public class UILookAt : MonoBehaviour
+public class UILookAt : MonoBehaviourPunCallbacks
 {
     private Transform mainCameraTransform; // 메인 카메라의 Transform을 저장할 변수
 
@@ -34,5 +36,32 @@ public class UILookAt : MonoBehaviour
 
         // UI 요소를 회전시킵니다.
         transform.rotation = lookRotation;
+    }
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        SceneManager.sceneLoaded -= OnSceneLoaded; // 구독 해제
+    }
+    void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        if (SceneManager.GetActiveScene().name == "SampleScene")
+        {
+            Camera mainCamera = Camera.main;
+
+            if (mainCamera == null)
+            {
+                Debug.LogError("Main camera not found. Make sure it is tagged as 'MainCamera'.");
+                return;
+            }
+
+            // 메인 카메라의 Transform을 가져옵니다.
+            mainCameraTransform = mainCamera.transform;
+        }
     }
 }
