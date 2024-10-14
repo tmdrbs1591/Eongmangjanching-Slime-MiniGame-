@@ -79,6 +79,7 @@ public class LogMiniGame : TimeManager
                     if (!playerScore.isDeath && PhotonNetwork.IsMasterClient)
                     {
                         playerScore.AddScore(1000);  // 점수 추가
+                        playerScore.isDeath = false;
                     }
                 }
                 // 0이 되면 씬 전환

@@ -29,7 +29,7 @@ public class SpawnPoint : MonoBehaviourPunCallbacks
     void Update()
     {
         // spawnPoints가 비어있지 않고, 현재 인덱스가 playerScores보다 작은 경우
-        if (spawnPoints.Count > 0 && currentSpawnIndex < GameManager.instance.playerScores.Count )
+        if (spawnPoints.Count > 0 && currentSpawnIndex < GameManager.instance.playerScores.Count)
         {
             // 현재 플레이어와 해당 위치로 이동
             MovePlayerToSpawnPoint(GameManager.instance.playerScores[currentSpawnIndex], spawnPoints[currentSpawnIndex]);
