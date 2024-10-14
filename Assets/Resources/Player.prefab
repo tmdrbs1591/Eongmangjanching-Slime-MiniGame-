@@ -1198,6 +1198,7 @@ GameObject:
   - component: {fileID: 9102362032493875033}
   - component: {fileID: 6744191222174374810}
   - component: {fileID: 241058014987394038}
+  - component: {fileID: 6200685911922212104}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1391,6 +1392,18 @@ MonoBehaviour:
   yellowColor: {fileID: 2100000, guid: 26c8b20f18a312e44bd852b4f720bf70, type: 2}
   blueColor: {fileID: 2100000, guid: 371c15593a714924f9d4fdd6b955769d, type: 2}
   whiteColor: {fileID: 2100000, guid: 2cd5d85cdbaae714ebcf8ccab24e3677, type: 2}
+--- !u!114 &6200685911922212104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6219377485858338322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d310e7e26cf4d489ba453d8f4aef57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6501756355856599368
 GameObject:
   m_ObjectHideFlags: 0

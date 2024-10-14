@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine.UI;
+using System.Linq;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
@@ -41,6 +42,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     [Header("LobbyPanel")]
     public GameObject StartButton;
+
+    [SerializeField] Transform playerLisContent;
+    [SerializeField] GameObject playerListItemPrefab;
+    private Dictionary<string, GameObject> playerObjects = new Dictionary<string, GameObject>(); // 플레이어 오브젝트 관리 딕셔너리
 
     string roomCode; // 방 코드를 저장할 변수
 
@@ -187,6 +192,17 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+
+        Player[] players = PhotonNetwork.PlayerList;
+
+        for (int i = 0; i < players.Count(); i++)
+        {
+            GameObject playerItem = Instantiate(playerListItemPrefab, playerLisContent);
+            playerItem.GetComponent<ScoreListItem>().Setup(players[i]);
+            playerObjects[players[i].NickName] = playerItem; // 플레이어 오브젝트 저장
+        }
+
+
         RoomPanel.SetActive(true);
         RoomRenewal();
         ChatInput.text = "";
@@ -221,6 +237,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         RoomRenewal();
         ChatRPC("<color=yellow>" + newPlayer.NickName + "님이 참가하셨습니다</color>");
+
+        GameObject playerItem = Instantiate(playerListItemPrefab, playerLisContent);
+        playerItem.GetComponent<ScoreListItem>().Setup(newPlayer);
+        playerObjects[newPlayer.NickName] = playerItem; // 플레이어 오브젝트 저장
+
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
