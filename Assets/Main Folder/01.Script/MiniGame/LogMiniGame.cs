@@ -79,13 +79,12 @@ public class LogMiniGame : TimeManager
                     // 플레이어가 죽지 않았으면 점수 추가
                     if (!playerScore.isDeath && PhotonNetwork.IsMasterClient)
                     {
-                        StartCoroutine(FadeScene());
-
                         Debug.Log("점수 추가");
                         playerScore.AddScore(1000);  // 점수 추가
                         playerScore.isDeath = false;
                     }
                 }
+                StartCoroutine(FadeScene());
             }
         }
     }
