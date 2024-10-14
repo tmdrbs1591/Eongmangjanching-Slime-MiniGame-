@@ -12,10 +12,15 @@ public class TimeManager : MonoBehaviourPunCallbacks
     protected float countdownTimer = 1f; // 1초 카운트다운 타이머
 
 
-    void Start()
+    [SerializeField] protected GameObject Fadein;
+    [SerializeField] protected GameObject FadeOut;
+
+
+    protected virtual void Start()
     {
         // 처음 시작할 때 텍스트 초기화
         countdownText.text = timeRemaining.ToString();
+        FadeOut.SetActive(true);
     }
 
     protected virtual void Update()
@@ -36,9 +41,15 @@ public class TimeManager : MonoBehaviourPunCallbacks
 
             if (timeRemaining <= 0)
             {
-                // 0이 되면 씬 전환
-                SceneManager.LoadScene(sceneName); // "NextScene"은 전환할 씬의 이름으로 바꿔주세요.
+                StartCoroutine(FadeScene());
             }
         }
+    }
+
+    protected IEnumerator FadeScene()
+    {
+        Fadein.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(sceneName); // "NextScene"은 전환할 씬의 이름으로 바꿔주세요.
     }
 }

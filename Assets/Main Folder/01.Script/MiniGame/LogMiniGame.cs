@@ -16,8 +16,9 @@ public class LogMiniGame : TimeManager
     [SerializeField] float moveSpeed = 5f; // 이동 속도 설정
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         // 마스터 클라이언트만 로그를 생성하도록 설정
         if (PhotonNetwork.IsMasterClient)
         {
@@ -78,12 +79,13 @@ public class LogMiniGame : TimeManager
                     // 플레이어가 죽지 않았으면 점수 추가
                     if (!playerScore.isDeath && PhotonNetwork.IsMasterClient)
                     {
+                        StartCoroutine(FadeScene());
+
+                        Debug.Log("점수 추가");
                         playerScore.AddScore(1000);  // 점수 추가
                         playerScore.isDeath = false;
                     }
                 }
-                // 0이 되면 씬 전환
-                SceneManager.LoadScene(sceneName); // "NextScene"은 전환할 씬의 이름으로 바꿔주세요.
             }
         }
     }

@@ -78,7 +78,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("01.WaitRoom");
+            PhotonNetwork.LoadLevel("01.StartWaitRoom");
         }
     }
 
