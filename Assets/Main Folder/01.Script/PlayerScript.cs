@@ -9,6 +9,16 @@ public class PlayerScript : MonoBehaviourPunCallbacks
     [SerializeField] private float moveSpeed = 5f;  // 이동 속도 설정
     [SerializeField] private float rotationSpeed = 10f;  // 회전 속도 설정
     [SerializeField] private float jumpForce = 5f; // 점프 힘
+
+
+
+    [SerializeField] Vector3 interactionkBoxSize; //상호작용 범위
+    [SerializeField] Transform interactionBoxPos; // 상호작용 위치
+
+
+    [SerializeField] GameObject customizingPanel;
+
+
     private Rigidbody rb;
     private Animator anim; // Animator 컴포넌트
 
@@ -41,6 +51,8 @@ public class PlayerScript : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             HandleInput();
+            Interaction();
+
         }
     }
 
@@ -92,5 +104,35 @@ public class PlayerScript : MonoBehaviourPunCallbacks
     {
         // Rigidbody에 위 방향으로 힘을 추가하여 점프
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+
+    void Interaction()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+
+
+            Collider[] colliders = Physics.OverlapBox(interactionBoxPos.position, interactionkBoxSize / 2f);
+            foreach (Collider collider in colliders)
+            {
+                if (collider != null && collider.CompareTag("Facility"))
+                {
+                    var facilityScript = collider.GetComponent<Facility>();
+
+                    if (facilityScript.currentType == FacilityType.PlayerCustomizingBox)
+                    {
+                        UIManager.instance.PushUI(customizingPanel);
+                    }
+                }
+            }
+
+
+        }
+     
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(interactionBoxPos.position, interactionkBoxSize);
     }
 }
