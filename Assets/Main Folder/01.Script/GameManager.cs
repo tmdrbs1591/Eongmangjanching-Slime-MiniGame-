@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager instance { get; private set; }
 
-    public CustomizingManager customizingManager;
+    public SkinnedMeshRenderer dumiSkinMeshRenderer;
 
     private void Awake()
     {

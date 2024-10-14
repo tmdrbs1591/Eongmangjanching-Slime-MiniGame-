@@ -332,8 +332,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6744191222174374810}
-        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+      - m_Target: {fileID: 241058014987394038}
+        m_TargetAssemblyTypeName: PlayerCustomizing, Assembly-CSharp
         m_MethodName: ColorChange
         m_Mode: 5
         m_Arguments:
@@ -1200,6 +1200,7 @@ GameObject:
   - component: {fileID: 3224315629755803059}
   - component: {fileID: 9102362032493875033}
   - component: {fileID: 6744191222174374810}
+  - component: {fileID: 241058014987394038}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1374,9 +1375,24 @@ MonoBehaviour:
   interactionkBoxSize: {x: 1.41, y: 1.79, z: 1.9}
   interactionBoxPos: {fileID: 4972318756172046635}
   CustomPanel: {fileID: 6501756355856599368}
-  skinnedMeshRenderer: {fileID: 4803461811521755736}
-  currentMaterial: {fileID: 2100000, guid: 2cd5d85cdbaae714ebcf8ccab24e3677, type: 2}
   nickNameText: {fileID: 2239100715136714696}
+--- !u!114 &241058014987394038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6219377485858338322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52533ab4bdbd6d14b83bced0e4a4a899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skinnedMeshRenderer: {fileID: 4803461811521755736}
+  currentMaterial: {fileID: 2100000, guid: 8c3f067d97073e844a53d8283b2d3820, type: 2}
+  redColor: {fileID: 2100000, guid: 8c7b8f4b8ca63364ca7ffc833f8970db, type: 2}
+  yellowColor: {fileID: 2100000, guid: 26c8b20f18a312e44bd852b4f720bf70, type: 2}
+  blueColor: {fileID: 2100000, guid: 371c15593a714924f9d4fdd6b955769d, type: 2}
 --- !u!1 &6501756355856599368
 GameObject:
   m_ObjectHideFlags: 0
@@ -1851,8 +1867,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6744191222174374810}
-        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+      - m_Target: {fileID: 241058014987394038}
+        m_TargetAssemblyTypeName: PlayerCustomizing, Assembly-CSharp
         m_MethodName: ColorChange
         m_Mode: 5
         m_Arguments:
@@ -2120,8 +2136,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6744191222174374810}
-        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+      - m_Target: {fileID: 241058014987394038}
+        m_TargetAssemblyTypeName: PlayerCustomizing, Assembly-CSharp
         m_MethodName: ColorChange
         m_Mode: 5
         m_Arguments:

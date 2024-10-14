@@ -5,20 +5,66 @@ using Photon.Pun;
 
 public class PlayerCustomizing : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private GameObject Canvas;
+    [SerializeField] SkinnedMeshRenderer skinnedMeshRenderer;
+    [SerializeField] public Material currentMaterial;
 
-    // Start is called before the first frame update
+
+    [SerializeField] public Material redColor;
+    [SerializeField] public Material yellowColor;
+    [SerializeField] public Material blueColor;
     void Start()
     {
-        if (!photonView.IsMine)
+
+        if (photonView.IsMine)
         {
-            Canvas.SetActive(false);
+            Select();
+        }
+
+    }
+
+    [PunRPC]
+    public void RPC_Select()
+    {
+        skinnedMeshRenderer.material = currentMaterial;
+    }
+
+    public void Select()
+    {
+        photonView.RPC("RPC_Select", RpcTarget.AllBuffered);
+    }
+
+
+    [PunRPC]
+    public void RPC_ColorChange(string colorName)
+    {
+        switch (colorName.ToLower())
+        {
+            case "red":
+                GameManager.instance.dumiSkinMeshRenderer.material = redColor;
+                currentMaterial = redColor;
+                break;
+
+            case "yellow":
+                GameManager.instance.dumiSkinMeshRenderer.material = yellowColor;
+
+                currentMaterial = yellowColor;
+                break;
+
+            case "blue":
+                GameManager.instance.dumiSkinMeshRenderer.material = blueColor;
+                currentMaterial =blueColor;
+                break;
+
+            default:
+                Debug.LogWarning("Unknown color name: " + colorName);
+                break;
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ColorChange(string colorName)
     {
-        
+        photonView.RPC("RPC_ColorChange", RpcTarget.AllBuffered, colorName);
+        Select();
     }
+
 }
