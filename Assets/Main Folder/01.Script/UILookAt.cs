@@ -50,8 +50,6 @@ public class UILookAt : MonoBehaviourPunCallbacks
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        if (SceneManager.GetActiveScene().name == "SampleScene")
-        {
             Camera mainCamera = Camera.main;
 
             if (mainCamera == null)
@@ -62,6 +60,5 @@ public class UILookAt : MonoBehaviourPunCallbacks
 
             // 메인 카메라의 Transform을 가져옵니다.
             mainCameraTransform = mainCamera.transform;
-        }
     }
 }
