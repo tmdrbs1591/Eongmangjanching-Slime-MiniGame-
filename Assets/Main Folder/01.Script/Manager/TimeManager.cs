@@ -2,13 +2,14 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement; // 씬을 변경하려면 필요
+using Photon.Pun;
 
-public class TimeManager : MonoBehaviour
+public class TimeManager : MonoBehaviourPunCallbacks
 {
-    [SerializeField] TMP_Text countdownText; // 텍스트 UI를 위한 변수
-    [SerializeField] string sceneName;
+    [SerializeField] protected TMP_Text countdownText; // 텍스트 UI를 위한 변수
+    [SerializeField] protected string sceneName;
     public int timeRemaining = 5; // 5초 카운트다운, int로 설정
-    private float countdownTimer = 1f; // 1초 카운트다운 타이머
+    protected float countdownTimer = 1f; // 1초 카운트다운 타이머
 
 
     void Start()
@@ -17,7 +18,7 @@ public class TimeManager : MonoBehaviour
         countdownText.text = timeRemaining.ToString();
     }
 
-    void Update()
+    protected virtual void Update()
     {
         // 카운트다운 타이머가 0 이하로 내려가면 숫자 감소
         countdownTimer -= Time.deltaTime;

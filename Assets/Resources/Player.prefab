@@ -1555,6 +1555,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentScore: 0
   scoreText: {fileID: 8639573388065547552}
+  isDeath: 0
 --- !u!1 &6501756355856599368
 GameObject:
   m_ObjectHideFlags: 0

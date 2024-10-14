@@ -459,53 +459,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -110}
   m_SizeDelta: {x: 1324.2441, y: 50}
   m_Pivot: {x: 0.5, y: 1}
---- !u!1 &375919803
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 375919805}
-  - component: {fileID: 375919804}
-  m_Layer: 0
-  m_Name: Time Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &375919804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 375919803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98840320355379b4fb46453aa5a430dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  countdownText: {fileID: 350409795}
-  sceneName: 01.WaitRoom
-  timeRemaining: 40
---- !u!4 &375919805
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 375919803}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 960, y: 950, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &439987203
 GameObject:
   m_ObjectHideFlags: 0
@@ -893,7 +846,7 @@ Transform:
   - {fileID: 1708996449}
   - {fileID: 1933014011}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &608810965
 MonoBehaviour:
@@ -907,6 +860,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94cb97c3bec5604ea1f8915ee82ffcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  countdownText: {fileID: 350409795}
+  sceneName: 01.WaitRoom
+  timeRemaining: 40
   leftPos: {fileID: 481382724}
   rightPos: {fileID: 1257174172}
   frontPos: {fileID: 1933014011}
@@ -1629,9 +1585,10 @@ GameObject:
   - component: {fileID: 1718805623}
   - component: {fileID: 1718805622}
   - component: {fileID: 1718805621}
+  - component: {fileID: 1718805625}
   m_Layer: 0
   m_Name: Ocean
-  m_TagString: Untagged
+  m_TagString: Ocean
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1722,6 +1679,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1718805625
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718805620}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 155.9589, y: 40.03463, z: 155.9589}
+  m_Center: {x: 0, y: -18.232178, z: 0}
 --- !u!1001 &1722993921
 PrefabInstance:
   m_ObjectHideFlags: 0

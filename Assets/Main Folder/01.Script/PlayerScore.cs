@@ -10,6 +10,12 @@ public class PlayerScore : MonoBehaviourPunCallbacks
 
     [SerializeField] TMP_Text scoreText;
 
+    [SerializeField] public bool isDeath;
+
+    private void Start()
+    {
+       GameManager.instance.playerScores.Add(this);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -29,9 +35,20 @@ public class PlayerScore : MonoBehaviourPunCallbacks
         currentScore += score;
     }
 
-    void AddScore(float score)
+   public void AddScore(float score)
     {
         // 네트워크를 통해 모든 클라이언트에 점수 업데이트를 전달
         photonView.RPC("AddScoreRPC", RpcTarget.All, score);
+    }
+
+
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Ocean"))
+        {
+            isDeath = true;
+        }
     }
 }

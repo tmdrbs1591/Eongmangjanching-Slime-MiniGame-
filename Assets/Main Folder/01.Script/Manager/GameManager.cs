@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public SkinnedMeshRenderer dumiSkinMeshRenderer;
 
+
+    public List<PlayerScore> playerScores = new List<PlayerScore>();
     private void Awake()
     {
         // ΩÃ±€≈Ê ¿ŒΩ∫≈œΩ∫ º≥¡§
