@@ -188,7 +188,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e4d98c3b1f83ea4f919d85dbb7bd8c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nicNametext: {fileID: 1934685342935354282}
+  nickNameText: {fileID: 1934685342935354282}
+  scoreText: {fileID: 8844770450085865054}
 --- !u!114 &7414570002032020040
 MonoBehaviour:
   m_ObjectHideFlags: 0
