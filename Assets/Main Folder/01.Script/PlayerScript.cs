@@ -15,8 +15,10 @@ public class PlayerScript : MonoBehaviourPunCallbacks
     [SerializeField] Vector3 interactionkBoxSize; //상호작용 범위
     [SerializeField] Transform interactionBoxPos; // 상호작용 위치
 
+    [SerializeField] GameObject CustomPanel;
 
-    [SerializeField] GameObject customizingPanel;
+    [SerializeField] SkinnedMeshRenderer skinnedMeshRenderer;
+    [SerializeField] public Material currentMaterial;
 
 
     private Rigidbody rb;
@@ -33,11 +35,13 @@ public class PlayerScript : MonoBehaviourPunCallbacks
         rb = GetComponent<Rigidbody>();  // Rigidbody 컴포넌트 가져오기
         anim = GetComponent<Animator>(); // Animator 컴포넌트 가져오기
 
+ 
         if (photonView.IsMine)
         {
             nickNameText.text = PhotonNetwork.NickName;
             nickNameText.color = Color.green;
 
+            Select();
         }
         else
         {
@@ -61,10 +65,54 @@ public class PlayerScript : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             Move();
+
+           
         }
     }
 
+    [PunRPC]
+    public void RPC_Select()
+    {
+        skinnedMeshRenderer.material = currentMaterial;
+    }
 
+    public void Select()
+    {
+        photonView.RPC("RPC_Select", RpcTarget.AllBuffered);
+    }
+
+
+    [PunRPC]
+    public void RPC_ColorChange(string colorName)
+    {
+        switch (colorName.ToLower())
+        {
+            case "red":
+                CustomizingManager.instance.dumiSkinMeshRenderer.material = CustomizingManager.instance.redColor;
+                currentMaterial = CustomizingManager.instance.redColor;
+                break;
+
+            case "yellow":
+                CustomizingManager.instance.dumiSkinMeshRenderer.material = CustomizingManager.instance.yellowColor;
+                currentMaterial = CustomizingManager.instance.yellowColor;
+                break;
+
+            case "blue":
+                CustomizingManager.instance.dumiSkinMeshRenderer.material = CustomizingManager.instance.blueColor;
+                currentMaterial = CustomizingManager.instance.blueColor;
+                break;
+
+            default:
+                Debug.LogWarning("Unknown color name: " + colorName);
+                break;
+        }
+    }
+
+    public void ColorChange(string colorName)
+    {
+        photonView.RPC("RPC_ColorChange", RpcTarget.AllBuffered, colorName);
+        Select();
+    }
     void Move()
     {
         // 입력을 받지만 이동은 FixedUpdate에서 처리
@@ -121,7 +169,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks
 
                     if (facilityScript.currentType == FacilityType.PlayerCustomizingBox)
                     {
-                        UIManager.instance.PushUI(customizingPanel);
+                        UIManager.instance.PushUI(CustomPanel);
                     }
                 }
             }

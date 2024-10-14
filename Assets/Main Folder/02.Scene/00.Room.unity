@@ -840,6 +840,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 107344949}
   m_CullTransparentMesh: 1
+--- !u!137 &155213638 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4643577701059586711, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
+  m_PrefabInstance: {fileID: 1502620206}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &159751115
 GameObject:
   m_ObjectHideFlags: 0
@@ -2072,6 +2077,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 367552210}
+  - component: {fileID: 367552211}
+  - component: {fileID: 367552212}
   m_Layer: 0
   m_Name: Customizing Manager
   m_TagString: Untagged
@@ -2094,6 +2101,44 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &367552211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367552209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6589a08d444ac9746a566a9663631a29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dumiSkinMeshRenderer: {fileID: 155213638}
+  redColor: {fileID: 2100000, guid: 8c7b8f4b8ca63364ca7ffc833f8970db, type: 2}
+  yellowColor: {fileID: 2100000, guid: 26c8b20f18a312e44bd852b4f720bf70, type: 2}
+  blueColor: {fileID: 2100000, guid: 371c15593a714924f9d4fdd6b955769d, type: 2}
+--- !u!114 &367552212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367552209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 3
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &374589623
 GameObject:
   m_ObjectHideFlags: 0
@@ -4024,7 +4069,7 @@ Transform:
   - {fileID: 899830740}
   - {fileID: 839510911}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &885012810
 GameObject:
@@ -5107,7 +5152,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1026033761
 MonoBehaviour:
@@ -5121,6 +5166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69fde7c958729df4e89077ae5960fb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  customizingPanel: {fileID: 0}
 --- !u!114 &1026033762
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8,6 +8,9 @@ public class UIManager : MonoBehaviourPunCallbacks
     // 싱글톤 인스턴스
     public static UIManager instance { get; private set; }
 
+    [SerializeField] public GameObject customizingPanel;
+
+
     // UI 요소를 담을 스택
     private Stack<GameObject> uiStack = new Stack<GameObject>();
 
