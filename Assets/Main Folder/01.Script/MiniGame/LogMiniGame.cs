@@ -81,7 +81,6 @@ public class LogMiniGame : TimeManager
                     {
                         Debug.Log("점수 추가");
                         playerScore.AddScore(1000);  // 점수 추가
-                        playerScore.isDeath = false;
                     }
                 }
                 StartCoroutine(FadeScene());

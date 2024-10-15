@@ -9,13 +9,15 @@ public class PlayerScore : MonoBehaviourPunCallbacks
     public float currentScore;
 
     [SerializeField] TMP_Text scoreText;
+    [SerializeField] public GameObject crown;
 
     [SerializeField] public bool isDeath;
 
     private void Start()
     {
-       GameManager.instance.playerScores.Add(this);
+        GameManager.instance.playerScores.Add(this);
     }
+
     // Update is called once per frame
     void Update()
     {
@@ -33,16 +35,14 @@ public class PlayerScore : MonoBehaviourPunCallbacks
     void AddScoreRPC(float score)
     {
         currentScore += score;
+        GameManager.instance.UpdateCrown();  // 점수 변경 시 왕관 갱신
     }
 
-   public void AddScore(float score)
+    public void AddScore(float score)
     {
         // 네트워크를 통해 모든 클라이언트에 점수 업데이트를 전달
         photonView.RPC("AddScoreRPC", RpcTarget.All, score);
     }
-
-
-
 
     private void OnTriggerEnter(Collider other)
     {
