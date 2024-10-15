@@ -50,6 +50,8 @@ public class TimeManager : MonoBehaviourPunCallbacks
     {
         Fadein.SetActive(true);
         yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene(sceneName); // "NextScene"은 전환할 씬의 이름으로 바꿔주세요.
+        PhotonNetwork.LoadLevel(sceneName);
+
+
     }
 }
