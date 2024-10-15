@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement; // 씬을 변경하려면 필요
 
 public class LogMiniGame : TimeManager
 {
-    // 각 위치를 Transform으로 선언
     [SerializeField] Transform leftPos;
     [SerializeField] Transform rightPos;
     [SerializeField] Transform frontPos;
@@ -15,7 +14,8 @@ public class LogMiniGame : TimeManager
     [SerializeField] GameObject logPrefabs;
     [SerializeField] float moveSpeed = 5f; // 이동 속도 설정
 
-    // Start is called before the first frame update
+    private bool isScoreAdded = false;  // 점수가 이미 추가되었는지 확인하는 변수
+
     protected override void Start()
     {
         base.Start();
@@ -26,10 +26,12 @@ public class LogMiniGame : TimeManager
             InvokeRepeating("EventStart", 2.0f, 2.0f);
         }
     }
+
     void Update()
     {
         TimeEnd();
     }
+
     void EventStart()
     {
         // 4개의 위치 중 랜덤으로 선택
@@ -72,8 +74,9 @@ public class LogMiniGame : TimeManager
             // 타이머 초기화
             countdownTimer = 1f;
 
-            if (timeRemaining <= 0)
+            if (timeRemaining <= 0 && !isScoreAdded)
             {
+                // 점수를 한 번만 추가하도록 체크
                 foreach (var playerScore in GameManager.instance.playerScores)
                 {
                     // 플레이어가 죽지 않았으면 점수 추가
@@ -83,6 +86,10 @@ public class LogMiniGame : TimeManager
                         playerScore.AddScore(1000);  // 점수 추가
                     }
                 }
+
+                // 점수가 추가되었음을 기록
+                isScoreAdded = true;
+
                 StartCoroutine(FadeScene());
             }
         }
