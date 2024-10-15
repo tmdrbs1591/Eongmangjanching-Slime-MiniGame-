@@ -32,30 +32,29 @@ public class LogMiniGame : TimeManager
         TimeEnd();
     }
 
+    private Transform lastSpawnPoint = null; // 마지막으로 선택된 위치를 저장
+
     void EventStart()
     {
-        // 4개의 위치 중 랜덤으로 선택
-        int randomIndex = Random.Range(0, 4);
+        // 이전에 선택된 위치에 따라 새로운 위치를 결정
         Transform spawnPoint = null;
 
-        switch (randomIndex)
+        if (lastSpawnPoint == leftPos || lastSpawnPoint == rightPos)
         {
-            case 0:
-                spawnPoint = leftPos;
-                break;
-            case 1:
-                spawnPoint = rightPos;
-                break;
-            case 2:
-                spawnPoint = frontPos;
-                break;
-            case 3:
-                spawnPoint = backPos;
-                break;
+            // lastSpawnPoint가 leftPos 또는 rightPos인 경우 frontPos나 backPos 중에서 선택
+            spawnPoint = Random.Range(0, 2) == 0 ? frontPos : backPos;
+        }
+        else
+        {
+            // lastSpawnPoint가 frontPos 또는 backPos인 경우 leftPos나 rightPos 중에서 선택
+            spawnPoint = Random.Range(0, 2) == 0 ? leftPos : rightPos;
         }
 
         // 네트워크에서 로그 프리팹 생성 (PhotonView가 포함된 프리팹)
         PhotonNetwork.Instantiate(logPrefabs.name, spawnPoint.position, spawnPoint.rotation);
+
+        // 마지막 선택된 위치 갱신
+        lastSpawnPoint = spawnPoint;
     }
 
     void TimeEnd()
