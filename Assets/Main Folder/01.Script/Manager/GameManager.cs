@@ -77,6 +77,9 @@ public class GameManager : MonoBehaviourPunCallbacks
             foreach (var playerScore in playerScores)
             {
                     playerScore.isDeath =false;
+
+                var playerscript = playerScore.gameObject.GetComponent<PlayerScript>();
+                playerscript.isStun = false;
             }
         }
     }

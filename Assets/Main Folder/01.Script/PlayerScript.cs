@@ -21,7 +21,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks
     [SerializeField] GameObject CustomPanel;
 
     [Header("Bool")]
-    [SerializeField] bool isStun;
+    [SerializeField] public bool isStun;
 
     [Header("Effects")]
     [SerializeField] ParticleSystem runPtc; // 파티클 시스템
