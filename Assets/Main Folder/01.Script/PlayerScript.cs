@@ -6,20 +6,25 @@ using Photon.Pun;
 
 public class PlayerScript : MonoBehaviourPunCallbacks   
 {
+
+    [Header("Move")]
     [SerializeField] private float moveSpeed = 5f;  // 이동 속도 설정
     [SerializeField] private float rotationSpeed = 10f;  // 회전 속도 설정
     [SerializeField] private float jumpForce = 5f; // 점프 힘
 
 
-
+    [Header("Interaction")]
     [SerializeField] Vector3 interactionkBoxSize; //상호작용 범위
     [SerializeField] Transform interactionBoxPos; // 상호작용 위치
     private PlayerCustomizing playerCustomizing;
 
+
+    [Header("UI")]
     [SerializeField] GameObject CustomPanel;
 
-  
 
+    [Header("Bool")]
+    [SerializeField] bool isStun;
 
     private Rigidbody rb;
     private Animator anim; // Animator 컴포넌트
@@ -77,6 +82,9 @@ public class PlayerScript : MonoBehaviourPunCallbacks
 
     void Move()
     {
+        if (isStun)
+            return;
+
         // 입력을 받지만 이동은 FixedUpdate에서 처리
         float moveX = Input.GetAxisRaw("Horizontal"); // A, D
         float moveZ = Input.GetAxisRaw("Vertical");   // W, S
@@ -141,6 +149,13 @@ public class PlayerScript : MonoBehaviourPunCallbacks
 
         }
      
+    }
+
+    public IEnumerator StunCor()
+    {
+        isStun = true;
+        yield return new WaitForSeconds(1f);
+        isStun = false; 
     }
     private void OnDrawGizmos()
     {

@@ -1522,6 +1522,7 @@ MonoBehaviour:
   interactionkBoxSize: {x: 1.41, y: 1.79, z: 1.9}
   interactionBoxPos: {fileID: 4972318756172046635}
   CustomPanel: {fileID: 6501756355856599368}
+  isStun: 0
   nickNameText: {fileID: 2239100715136714696}
 --- !u!114 &241058014987394038
 MonoBehaviour:
