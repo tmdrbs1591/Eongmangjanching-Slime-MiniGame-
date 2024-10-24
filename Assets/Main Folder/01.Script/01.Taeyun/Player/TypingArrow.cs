@@ -33,6 +33,7 @@ public class TypingArrow : MonoBehaviourPunCallbacks
             // 틀렸거나 입력 시간이 아닐 경우 처리하지 않음
             if (isFailed || ArrowEventManager.instance.isTypingTime == false)
             {
+                currentArrowCount = 0;
                 return;
             }
 
@@ -40,40 +41,43 @@ public class TypingArrow : MonoBehaviourPunCallbacks
             {
                 if (Input.GetKeyDown(KeyCode.UpArrow))
                 {
-                    bool isCorrect = ArrowEventManager.instance.CheckArrow("↑", currentArrowCount);
-                    photonView.RPC("SetArrowActive", RpcTarget.All, isCorrect, "Up");
-                    if (!isCorrect) FailedArrow();
-                    currentArrowCount++;
+                    HandleArrowInput("↑", "Up");
                 }
                 if (Input.GetKeyDown(KeyCode.DownArrow))
                 {
-                    bool isCorrect = ArrowEventManager.instance.CheckArrow("↓", currentArrowCount);
-                    photonView.RPC("SetArrowActive", RpcTarget.All, isCorrect, "Down");
-                    if (!isCorrect) FailedArrow();
-                    currentArrowCount++;
+                    HandleArrowInput("↓", "Down");
                 }
                 if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
-                    bool isCorrect = ArrowEventManager.instance.CheckArrow("←", currentArrowCount);
-                    photonView.RPC("SetArrowActive", RpcTarget.All, isCorrect, "Left");
-                    if (!isCorrect) FailedArrow();
-                    currentArrowCount++;
+                    HandleArrowInput("←", "Left");
                 }
                 if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
-                    bool isCorrect = ArrowEventManager.instance.CheckArrow("→", currentArrowCount);
-                    photonView.RPC("SetArrowActive", RpcTarget.All, isCorrect, "Right");
-                    if (!isCorrect) FailedArrow();
-                    currentArrowCount++;
+                    HandleArrowInput("→", "Right");
                 }
             }
+        }
+    }
+
+    private void HandleArrowInput(string arrow, string arrowDirection)
+    {
+        bool isCorrect = ArrowEventManager.instance.CheckArrow(arrow, currentArrowCount);
+        photonView.RPC("SetArrowActive", RpcTarget.All, isCorrect, arrowDirection);
+
+        if (isCorrect)
+        {
+            currentArrowCount++; // 맞았을 때만 증가
+        }
+        else
+        {
+            FailedArrow(); // 틀렸으면 실패 처리
         }
     }
 
     [PunRPC]
     private void SetArrowActive(bool isCorrect, string arrowDirection)
     {
-        // 맞춘 화살표만 true로, 나머지는 false로 설정
+        // 모든 화살표를 비활성화하고 맞춘 화살표만 활성화
         leftArrow.SetActive(false);
         rightArrow.SetActive(false);
         upArrow.SetActive(false);
@@ -104,6 +108,7 @@ public class TypingArrow : MonoBehaviourPunCallbacks
         isFailed = true;
         player.rb.constraints = RigidbodyConstraints.None;
 
+        // 캐릭터가 뒤로 날아가게 하는 로직
         player.rb.AddForce((-transform.forward + Vector3.up) * forceAmount, ForceMode.Impulse);
     }
 }

@@ -129,6 +129,7 @@ public class ArrowEventManager : TimeManager
     }
 
 
+
     private void ResetBord()
     {
         readyText.text = "";
