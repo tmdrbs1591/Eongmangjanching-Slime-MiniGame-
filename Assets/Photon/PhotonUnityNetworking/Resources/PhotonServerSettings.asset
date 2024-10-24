@@ -48,6 +48,12 @@ MonoBehaviour:
   - StopRunParticle
   - SyncPlayerPosition
   - PunAttack
+  - SetArrowActive
+  - AddArrowToList
+  - SetTypingTime
+  - LoadRandomScene
+  - ChooseRandomScene
+  - LoadSelectedScene
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

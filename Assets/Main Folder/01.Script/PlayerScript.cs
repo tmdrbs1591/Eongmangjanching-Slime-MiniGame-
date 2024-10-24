@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using Photon.Pun;
 
-public class PlayerScript : MonoBehaviourPunCallbacks
+public class PlayerScript : MonoBehaviourPunCallbacks , IPunObservable
 {
     [Header("Move")]
     [SerializeField] private float moveSpeed = 5f;  // 이동 속도 설정
@@ -26,7 +26,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks
     [Header("Effects")]
     [SerializeField] ParticleSystem runPtc; // 파티클 시스템
 
-    private Rigidbody rb;
+    public Rigidbody rb;
     private Animator anim; // Animator 컴포넌트
 
     private Vector3 moveDirection; // 이동 방향 저장
@@ -144,7 +144,6 @@ public class PlayerScript : MonoBehaviourPunCallbacks
                     if (facilityScript.currentType == FacilityType.PlayerCustomizingBox)
                     {
                         UIManager.instance.PushUI(CustomPanel);
-
                         GameManager.instance.dumiSkinMeshRenderer.material = playerCustomizing.currentMaterial;
                     }
                 }
@@ -180,4 +179,24 @@ public class PlayerScript : MonoBehaviourPunCallbacks
         if (runPtc.isPlaying)
             runPtc.Stop();
     }
+
+    // 포톤 시리얼라이즈 뷰로 위치와 회전 동기화
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting) // 로컬 플레이어가 작성하는 경우
+        {
+            stream.SendNext(rb.position); // 위치 전송
+            stream.SendNext(rb.rotation); // 회전 전송
+        }
+        else // 다른 플레이어가 읽는 경우
+        {
+            Vector3 receivedPosition = (Vector3)stream.ReceiveNext(); // 위치 수신
+            Quaternion receivedRotation = (Quaternion)stream.ReceiveNext(); // 회전 수신
+
+            // 위치와 회전을 보간하여 부드러운 동기화
+            rb.position = Vector3.Lerp(rb.position, receivedPosition, Time.deltaTime * 5f); // 부드러운 위치 보간
+            rb.rotation = Quaternion.Lerp(rb.rotation, receivedRotation, Time.deltaTime * 5f); // 부드러운 회전 보간
+        }
+    }
+
 }

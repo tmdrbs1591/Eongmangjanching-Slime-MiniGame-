@@ -30,7 +30,7 @@ public static class AllIn1ShaderImporter
 	private const string LIT_SHADER_UNITY_VERSION_KEY = "AllIn1SpriteShader_LitShader_UnityVersion";
 	private const string LIT_SHADER_FIRST_TIME_PROJECT = "AllIn1SpriteShader_LitShader_FirstTimeProject";
 
-	private const string LIT_SHADER_PATH		= "../../Shaders/Resources/AllIn1SpriteShaderLit.shader";
+	private const string LIT_SHADER_PATH		= "../../Shaders/AllIn1SpriteShaderLit.shader";
 
 	private const string SHADER_PATH_STANDARD	= "../../Shaders/LitShaders/AllIn1SpriteShaderLit_BetterShader_Standard.txt";
 
@@ -48,8 +48,6 @@ public static class AllIn1ShaderImporter
 
 	private const string SHADER_PATH_URP_2023	= "../../Shaders/LitShaders/AllIn1SpriteShaderLit_BetterShader_URP2023.txt";
 	private const string SHADER_PATH_HDRP_2023	= "../../Shaders/LitShaders/AllIn1SpriteShaderLit_BetterShader_HDRP2023.txt";
-
-	private const string ACTIVE_SHADER = "../../Shaders/Resources/CurrentLitShader.shader";
 
 	static AllIn1ShaderImporter()
 	{

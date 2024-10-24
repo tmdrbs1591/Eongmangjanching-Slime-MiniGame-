@@ -15,6 +15,7 @@ public class PlayerScore : MonoBehaviourPunCallbacks
 
     [SerializeField] public GameObject crown;
     [SerializeField] public GameObject hammer;
+    [SerializeField] public GameObject arrowBrain;
 
     private void Start()
     {
