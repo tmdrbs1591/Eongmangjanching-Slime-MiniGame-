@@ -78,7 +78,29 @@ public class GameManager : MonoBehaviourPunCallbacks
             highestScorePlayer.crown.SetActive(true);
         }
     }
+    #region 화살표 이벤트
+    public void ArrowBrainTrue()
+    {
+        foreach (var playerScore in playerScores)
+        {
+            if (playerScore.crown != null)
+            {
+                playerScore.arrowBrain.SetActive(true);
+            }
+        }
+    }
 
+    public void ArrowBrainFalse()
+    {
+        foreach (var playerScore in playerScores)
+        {
+            if (playerScore.crown != null)
+            {
+                playerScore.arrowBrain.SetActive(false);
+            }
+        }
+    }
+    #endregion
     #region 뿅망치 이벤트
     public void HammerTrue()
     {

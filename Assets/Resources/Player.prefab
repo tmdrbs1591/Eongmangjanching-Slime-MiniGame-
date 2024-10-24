@@ -6757,6 +6757,7 @@ MonoBehaviour:
   isDeath: 0
   crown: {fileID: 6999086777948758987}
   hammer: {fileID: 3867063812416735091}
+  arrowBrain: {fileID: 3161577638740474842}
 --- !u!1 &6501756355856599368
 GameObject:
   m_ObjectHideFlags: 0

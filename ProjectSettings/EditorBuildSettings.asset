@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: "Assets/Main Folder/02.Scene/\uC774\uBCA4\uD2B8\uB4E4/EV.LogEvent.unity"
     guid: e25ab9597cd8ad2499675092313c9f55
+  - enabled: 1
+    path: "Assets/Main Folder/02.Scene/\uC774\uBCA4\uD2B8\uB4E4/EV.Arrow Event.unity"
+    guid: aeb622bd9967898489576e236d03bd13
   m_configObjects: {}
