@@ -811,6 +811,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentArrowCount: 0
+  forceAmount: 30
 --- !u!114 &2820515916715644702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6720,6 +6721,7 @@ MonoBehaviour:
   CustomPanel: {fileID: 6501756355856599368}
   isStun: 0
   runPtc: {fileID: 5406469795148101}
+  rb: {fileID: 0}
   nickNameText: {fileID: 2239100715136714696}
 --- !u!114 &241058014987394038
 MonoBehaviour:

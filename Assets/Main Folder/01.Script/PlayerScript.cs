@@ -26,7 +26,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks , IPunObservable
     [Header("Effects")]
     [SerializeField] ParticleSystem runPtc; // 파티클 시스템
 
-    private Rigidbody rb;
+    public Rigidbody rb;
     private Animator anim; // Animator 컴포넌트
 
     private Vector3 moveDirection; // 이동 방향 저장
