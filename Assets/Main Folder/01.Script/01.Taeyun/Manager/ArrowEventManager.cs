@@ -24,6 +24,8 @@ public class ArrowEventManager : TimeManager
 
     private bool isScoreAdded = false;  // 점수가 이미 추가되었는지 확인하는 변수
 
+    public delegate void TypingTimeEndHandler();
+    public event TypingTimeEndHandler OnTypingTimeEnd; // 타이핑 시간이 끝났을 때 이벤트
 
     private void Awake()
     {
@@ -35,6 +37,7 @@ public class ArrowEventManager : TimeManager
         base.Start();
         StartCoroutine(ArrowEvent());
     }
+
     void Update()
     {
         TimeEnd();
@@ -56,6 +59,8 @@ public class ArrowEventManager : TimeManager
         readyText.text = "입력하세요!";
         isTypingTime = true;
         yield return new WaitForSeconds(6f);
+        isTypingTime = false;
+        OnTypingTimeEnd?.Invoke(); // 타이핑 시간이 끝났을 때 이벤트 호출
 
         ResetBord();
         yield return StartCoroutine(StartPhase(6, 3));
@@ -63,6 +68,8 @@ public class ArrowEventManager : TimeManager
         readyText.text = "입력하세요!";
         isTypingTime = true;
         yield return new WaitForSeconds(6f);
+        isTypingTime = false;
+        OnTypingTimeEnd?.Invoke();
 
         ResetBord();
         yield return StartCoroutine(StartPhase(10, 5));
@@ -70,6 +77,8 @@ public class ArrowEventManager : TimeManager
         readyText.text = "입력하세요!";
         isTypingTime = true;
         yield return new WaitForSeconds(6f);
+        isTypingTime = false;
+        OnTypingTimeEnd?.Invoke();
     }
 
     IEnumerator StartPhase(float _arrowCount, float time)
@@ -135,6 +144,7 @@ public class ArrowEventManager : TimeManager
         readyText.text = "";
         arrowList.Clear();
         isTypingTime = false;
+        arrowCount = 0;
     }
     void TimeEnd()
     {
