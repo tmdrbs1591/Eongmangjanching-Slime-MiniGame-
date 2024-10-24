@@ -83,10 +83,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         foreach (var playerScore in playerScores)
         {
-            if (playerScore.crown != null)
-            {
                 playerScore.arrowBrain.SetActive(true);
-            }
         }
     }
 
@@ -94,10 +91,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         foreach (var playerScore in playerScores)
         {
-            if (playerScore.crown != null)
-            {
                 playerScore.arrowBrain.SetActive(false);
-            }
         }
     }
     #endregion

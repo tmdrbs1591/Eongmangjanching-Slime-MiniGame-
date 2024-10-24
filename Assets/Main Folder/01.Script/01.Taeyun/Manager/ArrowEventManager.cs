@@ -176,8 +176,7 @@ public class ArrowEventManager : TimeManager
 
                 // 점수가 추가되었음을 기록
                 isScoreAdded = true;
-
-                GameManager.instance.HammerFalse();
+                GameManager.instance.ArrowBrainFalse();
 
                 StartCoroutine(FadeScene());
             }
