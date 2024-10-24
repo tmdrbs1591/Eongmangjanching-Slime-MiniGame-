@@ -122,7 +122,7 @@ public class TypingArrow : MonoBehaviourPunCallbacks
     private void OnTypingTimeEnd()
     {
         // 타이핑 시간이 끝났을 때 아직 모든 화살표를 입력하지 못한 경우 실패 처리
-        if (currentArrowCount < ArrowEventManager.instance.arrowCount)
+        if (currentArrowCount < ArrowEventManager.instance.arrowCount && photonView.IsMine)
         {
             FailedArrow();
         }
