@@ -145,6 +145,7 @@ GameObject:
   - component: {fileID: 574187168548962218}
   - component: {fileID: 2353047909581810702}
   - component: {fileID: 7040253702268020820}
+  - component: {fileID: 5886760783955919226}
   m_Layer: 5
   m_Name: ' Up Arrow'
   m_TagString: Untagged
@@ -226,6 +227,18 @@ MonoBehaviour:
   normalStrength: 5
   normalSmoothing: 1
   computingNormal: 0
+--- !u!114 &5886760783955919226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316412205086856866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85b2d70166960ea48b11df09cce815e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1371589127924966381
 GameObject:
   m_ObjectHideFlags: 0
@@ -1048,6 +1061,7 @@ GameObject:
   - component: {fileID: 1746190400939763945}
   - component: {fileID: 2883373173743438133}
   - component: {fileID: 6050714773613578668}
+  - component: {fileID: 8779366446089412519}
   m_Layer: 5
   m_Name: Down Arrow
   m_TagString: Untagged
@@ -1129,6 +1143,18 @@ MonoBehaviour:
   normalStrength: 5
   normalSmoothing: 1
   computingNormal: 0
+--- !u!114 &8779366446089412519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3373530765456111330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85b2d70166960ea48b11df09cce815e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3518311494433435793
 GameObject:
   m_ObjectHideFlags: 0
@@ -6827,6 +6853,7 @@ GameObject:
   - component: {fileID: 5907898690111265974}
   - component: {fileID: 7169328210562192560}
   - component: {fileID: 5562606575587629405}
+  - component: {fileID: 4606006336893969241}
   m_Layer: 5
   m_Name: Left Arrow
   m_TagString: Untagged
@@ -6929,6 +6956,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4606006336893969241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6077831904782654551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85b2d70166960ea48b11df09cce815e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6219377485858338322
 GameObject:
   m_ObjectHideFlags: 0
@@ -8012,6 +8051,7 @@ GameObject:
   - component: {fileID: 6498259737313908664}
   - component: {fileID: 2736943937820228460}
   - component: {fileID: 4019892842479759155}
+  - component: {fileID: 6318100704454616277}
   m_Layer: 5
   m_Name: Right Arrow
   m_TagString: Untagged
@@ -8093,6 +8133,18 @@ MonoBehaviour:
   normalStrength: 5
   normalSmoothing: 1
   computingNormal: 0
+--- !u!114 &6318100704454616277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8421240398502478137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85b2d70166960ea48b11df09cce815e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7917514540521741978
 PrefabInstance:
   m_ObjectHideFlags: 0
