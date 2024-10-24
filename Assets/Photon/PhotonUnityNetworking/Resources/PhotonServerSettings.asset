@@ -46,6 +46,7 @@ MonoBehaviour:
   - AddScoreRPC
   - PlayRunParticle
   - StopRunParticle
+  - SyncPlayerPosition
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
