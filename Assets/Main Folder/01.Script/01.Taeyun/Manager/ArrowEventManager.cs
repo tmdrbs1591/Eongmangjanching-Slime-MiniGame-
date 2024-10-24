@@ -24,8 +24,6 @@ public class ArrowEventManager : TimeManager
 
     private bool isScoreAdded = false;  // 점수가 이미 추가되었는지 확인하는 변수
 
-    public delegate void TypingTimeEndHandler();
-    public event TypingTimeEndHandler OnTypingTimeEnd; // 타이핑 시간이 끝났을 때 이벤트
 
     private void Awake()
     {
@@ -37,7 +35,6 @@ public class ArrowEventManager : TimeManager
         base.Start();
         StartCoroutine(ArrowEvent());
     }
-
     void Update()
     {
         TimeEnd();
@@ -53,34 +50,26 @@ public class ArrowEventManager : TimeManager
         yield return new WaitForSeconds(1f);
         readyText.text = "";
 
-        
+        ResetBord();
         yield return StartCoroutine(StartPhase(4, 2));
 
         readyText.text = "입력하세요!";
         isTypingTime = true;
         yield return new WaitForSeconds(6f);
-        isTypingTime = false;
-        OnTypingTimeEnd?.Invoke(); // 타이핑 시간이 끝났을 때 이벤트 호출
 
-        photonView.RPC("ResetBord", RpcTarget.AllBuffered);
-
+        ResetBord();
         yield return StartCoroutine(StartPhase(6, 3));
 
         readyText.text = "입력하세요!";
         isTypingTime = true;
         yield return new WaitForSeconds(6f);
-        isTypingTime = false;
-        OnTypingTimeEnd?.Invoke();
 
-        photonView.RPC("ResetBord", RpcTarget.AllBuffered);
-
+        ResetBord();
         yield return StartCoroutine(StartPhase(10, 5));
 
         readyText.text = "입력하세요!";
         isTypingTime = true;
         yield return new WaitForSeconds(6f);
-        isTypingTime = false;
-        OnTypingTimeEnd?.Invoke();
     }
 
     IEnumerator StartPhase(float _arrowCount, float time)
@@ -139,16 +128,14 @@ public class ArrowEventManager : TimeManager
         }
     }
 
-    [PunRPC]
+
+
     private void ResetBord()
     {
         readyText.text = "";
         arrowList.Clear();
         isTypingTime = false;
-        arrowCount = 0;  // arrowCount도 초기화해보세요
-        isScoreAdded = false;  // 점수 초기화
     }
-
     void TimeEnd()
     {
         // 카운트다운 타이머가 0 이하로 내려가면 숫자 감소
@@ -180,7 +167,8 @@ public class ArrowEventManager : TimeManager
 
                 // 점수가 추가되었음을 기록
                 isScoreAdded = true;
-                GameManager.instance.ArrowBrainFalse();
+
+                GameManager.instance.HammerFalse();
 
                 StartCoroutine(FadeScene());
             }
