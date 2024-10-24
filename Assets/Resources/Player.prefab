@@ -918,7 +918,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentArrowCount: 0
-  forceAmount: 30
+  forceAmount: 10
   leftArrow: {fileID: 6077831904782654551}
   rightArrow: {fileID: 8421240398502478137}
   upArrow: {fileID: 1316412205086856866}
