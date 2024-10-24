@@ -4,13 +4,22 @@ using UnityEngine;
 using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
-using UnityEngine.UI;  // 슬라이더를 사용하기 위한 네임스페이스
 
 public class ScoreListItem : MonoBehaviourPunCallbacks
 {
     [SerializeField] TMP_Text nickNameText;        // 플레이어 이름을 표시할 텍스트
-    [SerializeField] TMP_Text scoreText;   // 레벨을 표시할 텍스트
+    [SerializeField] TMP_Text scoreText;            // 점수를 표시할 텍스트
     Player player;
+
+    [SerializeField] public GameObject firstImage;        // 1등 이미지
+    [SerializeField] public GameObject secondImage;       // 2등 이미지
+    [SerializeField] public GameObject thirdImage;        // 3등 이미지
+    [SerializeField] public GameObject fourthImage;       // 4등 이미지
+
+    private void Awake()
+    {
+        GameManager.instance.scoreListItem.Add(this);
+    }
 
     public void Setup(Player _player)
     {
@@ -25,8 +34,7 @@ public class ScoreListItem : MonoBehaviourPunCallbacks
         PlayerScore playerStats = GetPlayerStatsByNickName(nickNameText.text);
         if (playerStats != null)
         {
-
-            // 레벨 텍스트 설정
+            // 점수 텍스트 설정
             scoreText.text = playerStats.currentScore.ToString();
         }
     }
@@ -61,5 +69,14 @@ public class ScoreListItem : MonoBehaviourPunCallbacks
     void Update()
     {
         UpdateHPBar();  // 매 프레임 HP와 레벨을 업데이트 (최신 상태 반영)
+    }
+
+    // 순위 이미지 업데이트 메서드
+    public void UpdateRankImage(int rank)
+    {
+        firstImage.SetActive(rank == 1);
+        secondImage.SetActive(rank == 2);
+        thirdImage.SetActive(rank == 3);
+        fourthImage.SetActive(rank == 4);
     }
 }
