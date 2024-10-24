@@ -19,7 +19,7 @@ public class TypingArrow : MonoBehaviourPunCallbacks
     {
         if (ArrowEventManager.instance != null)
         {
-            player.rb.constraints = RigidbodyConstraints.FreezeAll
+            player.rb.constraints = RigidbodyConstraints.FreezeAll;
             ArrowEventManager.instance.OnTypingTimeEnd -= OnTypingTimeEnd;  // 중복 방지
             ArrowEventManager.instance.OnTypingTimeEnd += OnTypingTimeEnd;
         }
