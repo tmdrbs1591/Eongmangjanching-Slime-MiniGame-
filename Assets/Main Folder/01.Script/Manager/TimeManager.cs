@@ -1,13 +1,12 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement; // 씬을 변경하려면 필요
 using Photon.Pun;
 
 public class TimeManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] protected TMP_Text countdownText; // 텍스트 UI를 위한 변수
-    [SerializeField] protected string[] sceneName; // 씬 이름 배열
+    [SerializeField] protected string[] sceneNames; // 씬 이름 배열
     public int timeRemaining = 5; // 5초 카운트다운, int로 설정
     protected float countdownTimer = 1f; // 1초 카운트다운 타이머
 
@@ -39,21 +38,29 @@ public class TimeManager : MonoBehaviourPunCallbacks
 
             if (timeRemaining <= 0)
             {
-                StartCoroutine(FadeScene());
+                // 마스터 클라이언트에서 랜덤 인덱스 생성
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    int randomIndex = Random.Range(0, sceneNames.Length);
+                    PhotonView photonView = PhotonView.Get(this);
+                    photonView.RPC("LoadRandomScene", RpcTarget.All, randomIndex);
+                }
             }
         }
     }
 
-    protected IEnumerator FadeScene()
+    [PunRPC]
+    private void LoadRandomScene(int index)
+    {
+        StartCoroutine(FadeScene(sceneNames[index]));
+    }
+
+    protected IEnumerator FadeScene(string sceneName)
     {
         Fadein.SetActive(true);
         yield return new WaitForSeconds(1.5f);
 
-        // sceneName 배열에서 랜덤으로 하나의 씬 이름 선택
-        int randomIndex = Random.Range(0, sceneName.Length);
-        string randomScene = sceneName[randomIndex];
-
-        // 랜덤으로 선택된 씬으로 이동
-        PhotonNetwork.LoadLevel(randomScene);
+        // 선택된 씬으로 이동
+        PhotonNetwork.LoadLevel(sceneName);
     }
 }
