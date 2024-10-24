@@ -1,17 +1,20 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement; // 씬을 변경하려면 필요
 using Photon.Pun;
 
 public class TimeManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] protected TMP_Text countdownText; // 텍스트 UI를 위한 변수
-    [SerializeField] protected string[] sceneNames; // 씬 이름 배열
+    [SerializeField] protected string[] sceneName; // 씬 이름 배열
     public int timeRemaining = 5; // 5초 카운트다운, int로 설정
     protected float countdownTimer = 1f; // 1초 카운트다운 타이머
 
     [SerializeField] protected GameObject Fadein;
     [SerializeField] protected GameObject FadeOut;
+
+    private string selectedScene; // 선택된 씬 이름 저장 변수
 
     protected virtual void Start()
     {
@@ -38,29 +41,28 @@ public class TimeManager : MonoBehaviourPunCallbacks
 
             if (timeRemaining <= 0)
             {
-                // 마스터 클라이언트에서 랜덤 인덱스 생성
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    int randomIndex = Random.Range(0, sceneNames.Length);
-                    PhotonView photonView = PhotonView.Get(this);
-                    photonView.RPC("LoadRandomScene", RpcTarget.All, randomIndex);
-                }
+                // 서버에서 씬을 전환하도록 요청
+                photonView.RPC("LoadRandomScene", RpcTarget.All);
             }
         }
     }
 
     [PunRPC]
-    private void LoadRandomScene(int index)
+    protected void LoadRandomScene()
     {
-        StartCoroutine(FadeScene(sceneNames[index]));
+        // sceneName 배열에서 랜덤으로 하나의 씬 이름 선택
+        int randomIndex = Random.Range(0, sceneName.Length);
+        selectedScene = sceneName[randomIndex]; // 선택된 씬 이름 저장
+
+        StartCoroutine(FadeScene());
     }
 
-    protected IEnumerator FadeScene(string sceneName)
+    protected IEnumerator FadeScene()
     {
         Fadein.SetActive(true);
         yield return new WaitForSeconds(1.5f);
 
-        // 선택된 씬으로 이동
-        PhotonNetwork.LoadLevel(sceneName);
+        // 저장된 랜덤 씬으로 이동
+        PhotonNetwork.LoadLevel(selectedScene);
     }
 }
