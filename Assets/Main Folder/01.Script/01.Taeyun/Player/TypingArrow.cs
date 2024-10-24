@@ -19,11 +19,18 @@ public class TypingArrow : MonoBehaviourPunCallbacks
     {
         player = GetComponentInParent<PlayerScript>();
         player.rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+
+        ArrowEventManager.instance.OnTypingTimeEnd += OnTypingTimeEnd;
     }
 
     private void OnDisable()
     {
         player.rb.constraints = RigidbodyConstraints.None;
+
+        if (ArrowEventManager.instance != null)
+        {
+            ArrowEventManager.instance.OnTypingTimeEnd -= OnTypingTimeEnd;
+        }
     }
 
     private void Update()
@@ -110,5 +117,14 @@ public class TypingArrow : MonoBehaviourPunCallbacks
 
         // 캐릭터가 뒤로 날아가게 하는 로직
         player.rb.AddForce((-transform.forward + Vector3.up) * forceAmount, ForceMode.Impulse);
+    }
+
+    private void OnTypingTimeEnd()
+    {
+        // 타이핑 시간이 끝났을 때 아직 모든 화살표를 입력하지 못한 경우 실패 처리
+        if (currentArrowCount < ArrowEventManager.instance.arrowCount)
+        {
+            FailedArrow();
+        }
     }
 }
