@@ -19,6 +19,7 @@ public class TypingArrow : MonoBehaviourPunCallbacks
     {
         if (ArrowEventManager.instance != null)
         {
+            player.rb.constraints = RigidbodyConstraints.FreezeAll
             ArrowEventManager.instance.OnTypingTimeEnd -= OnTypingTimeEnd;  // 중복 방지
             ArrowEventManager.instance.OnTypingTimeEnd += OnTypingTimeEnd;
         }
@@ -28,6 +29,7 @@ public class TypingArrow : MonoBehaviourPunCallbacks
     {
         if (ArrowEventManager.instance != null)
         {
+            player.rb.constraints = RigidbodyConstraints.FreezeRotation;
             ArrowEventManager.instance.OnTypingTimeEnd -= OnTypingTimeEnd;
         }
     }
@@ -113,7 +115,7 @@ public class TypingArrow : MonoBehaviourPunCallbacks
     private void FailedArrow()
     {
         isFailed = true;
-        player.rb.constraints = RigidbodyConstraints.None;
+        player.rb.constraints = RigidbodyConstraints.FreezeRotation;
 
         // 캐릭터가 뒤로 날아가게 하는 로직
         player.rb.AddForce((-transform.forward + Vector3.up) * forceAmount, ForceMode.Impulse);
