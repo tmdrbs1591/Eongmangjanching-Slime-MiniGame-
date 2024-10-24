@@ -17,23 +17,28 @@ public class TypingArrow : MonoBehaviourPunCallbacks
 
     private void OnEnable()
     {
+        player = GetComponentInParent<PlayerScript>();
+        player.rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+
         if (ArrowEventManager.instance != null)
         {
-            player.rb.constraints = RigidbodyConstraints.FreezeAll;
-            ArrowEventManager.instance.OnTypingTimeEnd -= OnTypingTimeEnd;  // 중복 방지
+            // 중복 구독 방지
+            ArrowEventManager.instance.OnTypingTimeEnd -= OnTypingTimeEnd;
             ArrowEventManager.instance.OnTypingTimeEnd += OnTypingTimeEnd;
         }
+
+        ResetState(); // 이벤트 시작 시 상태 초기화
     }
 
     private void OnDisable()
     {
+        player.rb.constraints = RigidbodyConstraints.FreezeRotation;
+
         if (ArrowEventManager.instance != null)
         {
-            player.rb.constraints = RigidbodyConstraints.FreezeRotation;
             ArrowEventManager.instance.OnTypingTimeEnd -= OnTypingTimeEnd;
         }
     }
-
 
     private void Update()
     {
@@ -115,7 +120,7 @@ public class TypingArrow : MonoBehaviourPunCallbacks
     private void FailedArrow()
     {
         isFailed = true;
-        player.rb.constraints = RigidbodyConstraints.FreezeRotation;
+        player.rb.constraints = RigidbodyConstraints.None;
 
         // 캐릭터가 뒤로 날아가게 하는 로직
         player.rb.AddForce((-transform.forward + Vector3.up) * forceAmount, ForceMode.Impulse);
@@ -124,9 +129,21 @@ public class TypingArrow : MonoBehaviourPunCallbacks
     private void OnTypingTimeEnd()
     {
         // 타이핑 시간이 끝났을 때 아직 모든 화살표를 입력하지 못한 경우 실패 처리
-        if (currentArrowCount < ArrowEventManager.instance.arrowCount && photonView.IsMine)
+        if (currentArrowCount < ArrowEventManager.instance.arrowCount)
         {
             FailedArrow();
         }
+        else
+        {
+            ResetState(); // 이벤트가 끝날 때 상태 초기화
+        }
+    }
+
+    private void ResetState()
+    {
+        // 이벤트가 시작될 때나 끝날 때 상태를 초기화
+        isFailed = false;
+        currentArrowCount = 0;
+        player.rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
     }
 }
