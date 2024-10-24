@@ -17,21 +17,21 @@ public class TypingArrow : MonoBehaviourPunCallbacks
 
     private void OnEnable()
     {
-        player = GetComponentInParent<PlayerScript>();
-        player.rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
-
-        ArrowEventManager.instance.OnTypingTimeEnd += OnTypingTimeEnd;
+        if (ArrowEventManager.instance != null)
+        {
+            ArrowEventManager.instance.OnTypingTimeEnd -= OnTypingTimeEnd;  // 중복 방지
+            ArrowEventManager.instance.OnTypingTimeEnd += OnTypingTimeEnd;
+        }
     }
 
     private void OnDisable()
     {
-        player.rb.constraints = RigidbodyConstraints.FreezeRotation;
-
         if (ArrowEventManager.instance != null)
         {
             ArrowEventManager.instance.OnTypingTimeEnd -= OnTypingTimeEnd;
         }
     }
+
 
     private void Update()
     {

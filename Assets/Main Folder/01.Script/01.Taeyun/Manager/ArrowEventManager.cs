@@ -137,14 +137,15 @@ public class ArrowEventManager : TimeManager
         }
     }
 
-
-
     private void ResetBord()
     {
         readyText.text = "";
         arrowList.Clear();
         isTypingTime = false;
+        arrowCount = 0;  // arrowCount도 초기화해보세요
+        isScoreAdded = false;  // 점수 초기화
     }
+
     void TimeEnd()
     {
         // 카운트다운 타이머가 0 이하로 내려가면 숫자 감소
