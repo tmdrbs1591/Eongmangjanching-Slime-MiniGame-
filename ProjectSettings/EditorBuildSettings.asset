@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Main Folder/02.Scene/01.WaitRoom.unity
     guid: 76887be7906a40341b407a90bf078acf
+  - enabled: 1
+    path: "Assets/Main Folder/02.Scene/\uC774\uBCA4\uD2B8\uB4E4/EV.LogEvent.unity"
+    guid: e25ab9597cd8ad2499675092313c9f55
   m_configObjects: {}

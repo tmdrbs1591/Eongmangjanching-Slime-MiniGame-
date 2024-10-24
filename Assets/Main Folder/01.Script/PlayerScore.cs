@@ -9,9 +9,12 @@ public class PlayerScore : MonoBehaviourPunCallbacks
     public float currentScore;
 
     [SerializeField] TMP_Text scoreText;
-    [SerializeField] public GameObject crown;
+    [SerializeField] public GameObject crcown;
 
     [SerializeField] public bool isDeath;
+
+    [SerializeField] public GameObject crown;
+    [SerializeField] public GameObject hammer;
 
     private void Start()
     {

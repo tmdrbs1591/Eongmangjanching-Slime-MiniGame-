@@ -57,6 +57,29 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    #region »Ð¸ÁÄ¡ ÀÌº¥Æ®
+    public void HammerTrue()
+    {
+        foreach (var playerScore in playerScores)
+        {
+            if (playerScore.crown != null)
+            {
+                playerScore.hammer.SetActive(true);
+            }
+        }
+    }
+
+    public void HammerFalse()
+    {
+        foreach (var playerScore in playerScores)
+        {
+            if (playerScore.crown != null)
+            {
+                playerScore.hammer.SetActive(false);
+            }
+        }
+    }
+    #endregion
 
     public override void OnEnable()
     {

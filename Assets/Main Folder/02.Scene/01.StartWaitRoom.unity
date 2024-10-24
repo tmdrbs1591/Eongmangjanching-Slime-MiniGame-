@@ -1257,7 +1257,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   countdownText: {fileID: 377954782}
-  sceneName: EV.LogEvent
+  sceneName:
+  - EV.HammerEvent
+  - EV.LogEvent
   timeRemaining: 5
   Fadein: {fileID: 1380958396}
   FadeOut: {fileID: 1592727345}
