@@ -1179,6 +1179,7 @@ MonoBehaviour:
   sceneName:
   - EV.HammerEvent
   - EV.LogEvent
+  - EV.Arrow Event
   timeRemaining: 5
   Fadein: {fileID: 765542665}
   FadeOut: {fileID: 1278790345}
