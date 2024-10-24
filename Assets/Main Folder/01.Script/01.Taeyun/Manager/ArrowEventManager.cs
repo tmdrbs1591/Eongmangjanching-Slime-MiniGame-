@@ -53,7 +53,7 @@ public class ArrowEventManager : TimeManager
         yield return new WaitForSeconds(1f);
         readyText.text = "";
 
-        ResetBord();
+        
         yield return StartCoroutine(StartPhase(4, 2));
 
         readyText.text = "입력하세요!";
@@ -62,7 +62,8 @@ public class ArrowEventManager : TimeManager
         isTypingTime = false;
         OnTypingTimeEnd?.Invoke(); // 타이핑 시간이 끝났을 때 이벤트 호출
 
-        ResetBord();
+        photonView.RPC("ResetBord", RpcTarget.AllBuffered);
+
         yield return StartCoroutine(StartPhase(6, 3));
 
         readyText.text = "입력하세요!";
@@ -71,7 +72,8 @@ public class ArrowEventManager : TimeManager
         isTypingTime = false;
         OnTypingTimeEnd?.Invoke();
 
-        ResetBord();
+        photonView.RPC("ResetBord", RpcTarget.AllBuffered);
+
         yield return StartCoroutine(StartPhase(10, 5));
 
         readyText.text = "입력하세요!";
@@ -137,6 +139,7 @@ public class ArrowEventManager : TimeManager
         }
     }
 
+    [PunRPC]
     private void ResetBord()
     {
         readyText.text = "";
