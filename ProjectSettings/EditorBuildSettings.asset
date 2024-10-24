@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Main Folder/02.Scene/01.StartWaitRoom.unity
     guid: c61f7a8e469c5874791a799c4720e890
   - enabled: 1
-    path: Assets/Main Folder/02.Scene/02.Event.unity
+    path: "Assets/Main Folder/02.Scene/\uC774\uBCA4\uD2B8\uB4E4/EV.HammerEvent.unity"
     guid: d1c3109bdb54ad54c8a2b2838528e640
   - enabled: 1
     path: Assets/Main Folder/02.Scene/01.WaitRoom.unity
