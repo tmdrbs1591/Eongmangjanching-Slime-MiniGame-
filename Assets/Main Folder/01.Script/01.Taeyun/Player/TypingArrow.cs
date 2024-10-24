@@ -10,6 +10,11 @@ public class TypingArrow : MonoBehaviourPunCallbacks
     private PlayerScript player;
     [SerializeField] private float forceAmount;
 
+    [SerializeField] private GameObject leftArrow;
+    [SerializeField] private GameObject rightArrow;
+    [SerializeField] private GameObject upArrow;
+    [SerializeField] private GameObject downArrow;
+
     private void OnEnable()
     {
         player = GetComponentInParent<PlayerScript>();
@@ -36,27 +41,60 @@ public class TypingArrow : MonoBehaviourPunCallbacks
                 if (Input.GetKeyDown(KeyCode.UpArrow))
                 {
                     bool isCorrect = ArrowEventManager.instance.CheckArrow("↑", currentArrowCount);
-                    if (!isCorrect) FailedArrow();  // 틀렸으면 isFailed를 true로 설정
+                    photonView.RPC("SetArrowActive", RpcTarget.All, isCorrect, "Up");
+                    if (!isCorrect) FailedArrow();
                     currentArrowCount++;
                 }
                 if (Input.GetKeyDown(KeyCode.DownArrow))
                 {
                     bool isCorrect = ArrowEventManager.instance.CheckArrow("↓", currentArrowCount);
+                    photonView.RPC("SetArrowActive", RpcTarget.All, isCorrect, "Down");
                     if (!isCorrect) FailedArrow();
                     currentArrowCount++;
                 }
                 if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
                     bool isCorrect = ArrowEventManager.instance.CheckArrow("←", currentArrowCount);
+                    photonView.RPC("SetArrowActive", RpcTarget.All, isCorrect, "Left");
                     if (!isCorrect) FailedArrow();
                     currentArrowCount++;
                 }
                 if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
                     bool isCorrect = ArrowEventManager.instance.CheckArrow("→", currentArrowCount);
+                    photonView.RPC("SetArrowActive", RpcTarget.All, isCorrect, "Right");
                     if (!isCorrect) FailedArrow();
                     currentArrowCount++;
                 }
+            }
+        }
+    }
+
+    [PunRPC]
+    private void SetArrowActive(bool isCorrect, string arrowDirection)
+    {
+        // 맞춘 화살표만 true로, 나머지는 false로 설정
+        leftArrow.SetActive(false);
+        rightArrow.SetActive(false);
+        upArrow.SetActive(false);
+        downArrow.SetActive(false);
+
+        if (isCorrect)
+        {
+            switch (arrowDirection)
+            {
+                case "Up":
+                    upArrow.SetActive(true);
+                    break;
+                case "Down":
+                    downArrow.SetActive(true);
+                    break;
+                case "Left":
+                    leftArrow.SetActive(true);
+                    break;
+                case "Right":
+                    rightArrow.SetActive(true);
+                    break;
             }
         }
     }
