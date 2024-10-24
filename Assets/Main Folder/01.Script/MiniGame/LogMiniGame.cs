@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using UnityEngine.SceneManagement; // ¾ÀÀ» º¯°æÇÏ·Á¸é ÇÊ¿ä
+using UnityEngine.SceneManagement; // ì”¬ì„ ë³€ê²½í•˜ë ¤ë©´ í•„ìš”
 
 public class LogMiniGame : TimeManager
 {
@@ -12,17 +12,17 @@ public class LogMiniGame : TimeManager
     [SerializeField] Transform backPos;
 
     [SerializeField] GameObject logPrefabs;
-    [SerializeField] float moveSpeed = 5f; // ÀÌµ¿ ¼Óµµ ¼³Á¤
+    [SerializeField] float moveSpeed = 5f; // ì´ë™ ì†ë„ ì„¤ì •
 
-    private bool isScoreAdded = false;  // Á¡¼ö°¡ ÀÌ¹Ì Ãß°¡µÇ¾ú´ÂÁö È®ÀÎÇÏ´Â º¯¼ö
+    private bool isScoreAdded = false;  // ì ìˆ˜ê°€ ì´ë¯¸ ì¶”ê°€ë˜ì—ˆëŠ”ì§€ í™•ì¸í•˜ëŠ” ë³€ìˆ˜
 
     protected override void Start()
     {
         base.Start();
-        // ¸¶½ºÅÍ Å¬¶óÀÌ¾ğÆ®¸¸ ·Î±×¸¦ »ı¼ºÇÏµµ·Ï ¼³Á¤
+        // ë§ˆìŠ¤í„° í´ë¼ì´ì–¸íŠ¸ë§Œ ë¡œê·¸ë¥¼ ìƒì„±í•˜ë„ë¡ ì„¤ì •
         if (PhotonNetwork.IsMasterClient)
         {
-            // 2ÃÊ¸¶´Ù EventStart ÇÔ¼ö¸¦ ¹İº¹ ½ÇÇà
+            // 2ì´ˆë§ˆë‹¤ EventStart í•¨ìˆ˜ë¥¼ ë°˜ë³µ ì‹¤í–‰
             InvokeRepeating("EventStart", 2.0f, 2.0f);
         }
     }
@@ -32,61 +32,61 @@ public class LogMiniGame : TimeManager
         TimeEnd();
     }
 
-    private Transform lastSpawnPoint = null; // ¸¶Áö¸·À¸·Î ¼±ÅÃµÈ À§Ä¡¸¦ ÀúÀå
+    private Transform lastSpawnPoint = null; // ë§ˆì§€ë§‰ìœ¼ë¡œ ì„ íƒëœ ìœ„ì¹˜ë¥¼ ì €ì¥
 
     void EventStart()
     {
-        // ÀÌÀü¿¡ ¼±ÅÃµÈ À§Ä¡¿¡ µû¶ó »õ·Î¿î À§Ä¡¸¦ °áÁ¤
+        // ì´ì „ì— ì„ íƒëœ ìœ„ì¹˜ì— ë”°ë¼ ìƒˆë¡œìš´ ìœ„ì¹˜ë¥¼ ê²°ì •
         Transform spawnPoint = null;
 
         if (lastSpawnPoint == leftPos || lastSpawnPoint == rightPos)
         {
-            // lastSpawnPoint°¡ leftPos ¶Ç´Â rightPosÀÎ °æ¿ì frontPos³ª backPos Áß¿¡¼­ ¼±ÅÃ
+            // lastSpawnPointê°€ leftPos ë˜ëŠ” rightPosì¸ ê²½ìš° frontPosë‚˜ backPos ì¤‘ì—ì„œ ì„ íƒ
             spawnPoint = Random.Range(0, 2) == 0 ? frontPos : backPos;
         }
         else
         {
-            // lastSpawnPoint°¡ frontPos ¶Ç´Â backPosÀÎ °æ¿ì leftPos³ª rightPos Áß¿¡¼­ ¼±ÅÃ
+            // lastSpawnPointê°€ frontPos ë˜ëŠ” backPosì¸ ê²½ìš° leftPosë‚˜ rightPos ì¤‘ì—ì„œ ì„ íƒ
             spawnPoint = Random.Range(0, 2) == 0 ? leftPos : rightPos;
         }
 
-        // ³×Æ®¿öÅ©¿¡¼­ ·Î±× ÇÁ¸®ÆÕ »ı¼º (PhotonView°¡ Æ÷ÇÔµÈ ÇÁ¸®ÆÕ)
+        // ë„¤íŠ¸ì›Œí¬ì—ì„œ ë¡œê·¸ í”„ë¦¬íŒ¹ ìƒì„± (PhotonViewê°€ í¬í•¨ëœ í”„ë¦¬íŒ¹)
         PhotonNetwork.Instantiate(logPrefabs.name, spawnPoint.position, spawnPoint.rotation);
 
-        // ¸¶Áö¸· ¼±ÅÃµÈ À§Ä¡ °»½Å
+        // ë§ˆì§€ë§‰ ì„ íƒëœ ìœ„ì¹˜ ê°±ì‹ 
         lastSpawnPoint = spawnPoint;
     }
 
     void TimeEnd()
     {
-        // Ä«¿îÆ®´Ù¿î Å¸ÀÌ¸Ó°¡ 0 ÀÌÇÏ·Î ³»·Á°¡¸é ¼ıÀÚ °¨¼Ò
+        // ì¹´ìš´íŠ¸ë‹¤ìš´ íƒ€ì´ë¨¸ê°€ 0 ì´í•˜ë¡œ ë‚´ë ¤ê°€ë©´ ìˆ«ì ê°ì†Œ
         countdownTimer -= Time.deltaTime;
 
         if (countdownTimer <= 0)
         {
-            // 1ÃÊ°¡ Áö³ª¸é Ä«¿îÆ®´Ù¿î ¼ıÀÚ °¨¼Ò
+            // 1ì´ˆê°€ ì§€ë‚˜ë©´ ì¹´ìš´íŠ¸ë‹¤ìš´ ìˆ«ì ê°ì†Œ
             timeRemaining -= 1;
 
-            // ÅØ½ºÆ® °»½Å
+            // í…ìŠ¤íŠ¸ ê°±ì‹ 
             countdownText.text = timeRemaining.ToString();
 
-            // Å¸ÀÌ¸Ó ÃÊ±âÈ­
+            // íƒ€ì´ë¨¸ ì´ˆê¸°í™”
             countdownTimer = 1f;
 
             if (timeRemaining <= 0 && !isScoreAdded)
             {
-                // Á¡¼ö¸¦ ÇÑ ¹ø¸¸ Ãß°¡ÇÏµµ·Ï Ã¼Å©
+                // ì ìˆ˜ë¥¼ í•œ ë²ˆë§Œ ì¶”ê°€í•˜ë„ë¡ ì²´í¬
                 foreach (var playerScore in GameManager.instance.playerScores)
                 {
-                    // ÇÃ·¹ÀÌ¾î°¡ Á×Áö ¾Ê¾ÒÀ¸¸é Á¡¼ö Ãß°¡
+                    // í”Œë ˆì´ì–´ê°€ ì£½ì§€ ì•Šì•˜ìœ¼ë©´ ì ìˆ˜ ì¶”ê°€
                     if (!playerScore.isDeath && PhotonNetwork.IsMasterClient)
                     {
-                        Debug.Log("Á¡¼ö Ãß°¡");
-                        playerScore.AddScore(1000);  // Á¡¼ö Ãß°¡
+                        Debug.Log("ì ìˆ˜ ì¶”ê°€");
+                        playerScore.AddScore(1000);  // ì ìˆ˜ ì¶”ê°€
                     }
                 }
 
-                // Á¡¼ö°¡ Ãß°¡µÇ¾úÀ½À» ±â·Ï
+                // ì ìˆ˜ê°€ ì¶”ê°€ë˜ì—ˆìŒì„ ê¸°ë¡
                 isScoreAdded = true;
 
                 StartCoroutine(FadeScene());
