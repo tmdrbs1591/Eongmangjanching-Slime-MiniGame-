@@ -8,7 +8,7 @@ namespace AllIn1SpriteShader
 {
     public class AllIn1ShaderWindow : EditorWindow
     {
-        private const string versionString = "4.0";
+        private const string versionString = "4.2";
         [MenuItem("Tools/AllIn1/SpriteShaderWindow")]
         public static void ShowAllIn1ShaderWindowWindow()
         {
@@ -136,7 +136,7 @@ namespace AllIn1SpriteShader
             {
                 case ImageType.ShowImage:
                 case ImageType.HideInComponent:
-                    GetImageInspectorIfNeeded();
+                    if(imageInspector == null) imageInspector = GetInspectorImage();
                     break;
             }
 
@@ -147,10 +147,18 @@ namespace AllIn1SpriteShader
             }
             DrawLine(Color.grey, 1, 3);
         }
-        
-        private void GetImageInspectorIfNeeded()
+
+        public static Texture2D GetInspectorImage() => GetImage(CUSTOM_EDITOR_HEADER);
+
+        private static Texture2D GetImage(string textureName)
         {
-            if(imageInspector == null) imageInspector = Resources.Load<Texture2D>(CUSTOM_EDITOR_HEADER);
+            string[] guids = AssetDatabase.FindAssets($"{textureName} t:texture");
+            if(guids.Length > 0)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guids[0]);
+                return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            }
+            return null;
         }
 
         private void ShowAssetImageOptionsToggle()
@@ -172,7 +180,7 @@ namespace AllIn1SpriteShader
             GUILayout.Label("This is the shader variant that will be assigned by default to Sprites and UI Images when the asset component is added", EditorStyles.boldLabel);
 
             bool isUrp = false;
-            Shader temp = Resources.Load("AllIn1Urp2dRenderer", typeof(Shader)) as Shader;
+            Shader temp = FindShader("AllIn1Urp2dRenderer");
             if (temp != null) isUrp = true;
 
             shaderTypes = (AllIn1Shader.ShaderTypes)PlayerPrefs.GetInt("allIn1DefaultShader");
@@ -566,7 +574,7 @@ namespace AllIn1SpriteShader
 
             if(!string.IsNullOrEmpty(selectedPath) && Directory.Exists(selectedPath))
             {
-                Material material = new Material(Resources.Load(shaderName, typeof(Shader)) as Shader);
+                Material material = new Material(FindShader(shaderName));
                 string fullPath = selectedPath + "/Mat-" + shaderName + ".mat";
                 if(File.Exists(fullPath)) fullPath = GetNewValidPath(fullPath, ".mat");
                 AssetDatabase.CreateAsset(material, fullPath);
@@ -661,6 +669,23 @@ namespace AllIn1SpriteShader
             #else
             SceneView.lastActiveSceneView.ShowNotification(content);
             #endif
+        }
+        
+        public static Shader FindShader(string shaderName)
+        {
+            string[] guids = AssetDatabase.FindAssets($"{shaderName} t:shader");
+            foreach(string guid in guids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                Shader shader = AssetDatabase.LoadAssetAtPath<Shader>(path);
+                if(shader != null)
+                {
+                    string fullShaderName = shader.name;
+                    string actualShaderName = fullShaderName.Substring(fullShaderName.LastIndexOf('/') + 1);
+                    if(actualShaderName.Equals(shaderName)) return shader;
+                }
+            }
+            return null;
         }
     }
 }
