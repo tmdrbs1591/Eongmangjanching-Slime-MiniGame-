@@ -1,7 +1,6 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement; // 씬을 변경하려면 필요
 using Photon.Pun;
 
 public class TimeManager : MonoBehaviourPunCallbacks
@@ -41,19 +40,29 @@ public class TimeManager : MonoBehaviourPunCallbacks
 
             if (timeRemaining <= 0)
             {
-                // 서버에서 씬을 전환하도록 요청
-                photonView.RPC("LoadRandomScene", RpcTarget.All);
+                // 서버에서 랜덤 씬을 선택하여 모든 클라이언트에게 전송
+                photonView.RPC("ChooseRandomScene", RpcTarget.MasterClient);
             }
         }
     }
 
     [PunRPC]
-    protected void LoadRandomScene()
+    private void ChooseRandomScene()
     {
-        // sceneName 배열에서 랜덤으로 하나의 씬 이름 선택
-        int randomIndex = Random.Range(0, sceneName.Length);
-        selectedScene = sceneName[randomIndex]; // 선택된 씬 이름 저장
+        if (sceneName.Length > 0)
+        {
+            // sceneName 배열에서 랜덤으로 하나의 씬 이름 선택
+            int randomIndex = Random.Range(0, sceneName.Length);
+            selectedScene = sceneName[randomIndex]; // 선택된 씬 이름 저장
 
+            // 모든 클라이언트에게 씬 전환 요청
+            photonView.RPC("LoadSelectedScene", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    private void LoadSelectedScene()
+    {
         StartCoroutine(FadeScene());
     }
 
