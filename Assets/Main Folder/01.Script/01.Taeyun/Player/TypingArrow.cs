@@ -25,7 +25,7 @@ public class TypingArrow : MonoBehaviourPunCallbacks
 
     private void OnDisable()
     {
-        player.rb.constraints = RigidbodyConstraints.None;
+        player.rb.constraints = RigidbodyConstraints.FreezeRotation;
 
         if (ArrowEventManager.instance != null)
         {
