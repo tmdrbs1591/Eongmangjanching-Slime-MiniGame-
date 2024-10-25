@@ -78,25 +78,68 @@ public class GameManager : MonoBehaviourPunCallbacks
             highestScorePlayer.crown.SetActive(true);
         }
     }
-    #region 화살표 이벤트
+    #region 화살 이벤트
     public void ArrowBrainTrue()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            foreach (var playerScore in playerScores)
+            {
+                playerScore.arrowBrain.SetActive(true);
+            }
+            photonView.RPC("SyncArrowBrainTrue", RpcTarget.Others); // 다른 클라이언트에 동기화
+        }
+    }
+
+    [PunRPC]
+    public void SyncArrowBrainTrue()
     {
         foreach (var playerScore in playerScores)
         {
-                playerScore.arrowBrain.SetActive(true);
+            playerScore.arrowBrain.SetActive(true);
         }
     }
 
     public void ArrowBrainFalse()
     {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            foreach (var playerScore in playerScores)
+            {
+                playerScore.arrowBrain.SetActive(false);
+            }
+            photonView.RPC("SyncArrowBrainFalse", RpcTarget.Others); // 다른 클라이언트에 동기화
+        }
+    }
+
+    [PunRPC]
+    public void SyncArrowBrainFalse()
+    {
         foreach (var playerScore in playerScores)
         {
-                playerScore.arrowBrain.SetActive(false);
+            playerScore.arrowBrain.SetActive(false);
         }
     }
     #endregion
+
     #region 뿅망치 이벤트
     public void HammerTrue()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            foreach (var playerScore in playerScores)
+            {
+                if (playerScore.crown != null)
+                {
+                    playerScore.hammer.SetActive(true);
+                }
+            }
+            photonView.RPC("SyncHammerTrue", RpcTarget.Others); // 다른 클라이언트에 동기화
+        }
+    }
+
+    [PunRPC]
+    public void SyncHammerTrue()
     {
         foreach (var playerScore in playerScores)
         {
@@ -109,6 +152,22 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void HammerFalse()
     {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            foreach (var playerScore in playerScores)
+            {
+                if (playerScore.crown != null)
+                {
+                    playerScore.hammer.SetActive(false);
+                }
+            }
+            photonView.RPC("SyncHammerFalse", RpcTarget.Others); // 다른 클라이언트에 동기화
+        }
+    }
+
+    [PunRPC]
+    public void SyncHammerFalse()
+    {
         foreach (var playerScore in playerScores)
         {
             if (playerScore.crown != null)
@@ -118,7 +177,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
     #endregion
-
     public override void OnEnable()
     {
         base.OnEnable();
