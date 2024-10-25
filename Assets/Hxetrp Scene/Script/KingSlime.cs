@@ -146,16 +146,23 @@ public class KingSlime : MonoBehaviourPunCallbacks
                 StartCoroutine(playerScript.StunCor());
             }
 
-            if (playerScript != null)
+            PlayerScript hitPlayer = collision.gameObject.GetComponent<PlayerScript>();
+            if (hitPlayer != null)
             {
-                // 리스트에서 플레이어 제거
-                players.Remove(playerScript);
-                Debug.Log("Removed player: " + playerScript.name + " from target list.");
-                StopCharging(); // 플레이어가 제거되면 충전 정지
+                // Y 값이 3 이상 낮은 플레이어만 리스트에서 제거
+                if (hitPlayer.transform.position.y <= transform.position.y - 3f)
+                {
+                    players.Remove(hitPlayer);
+                    Debug.Log("Removed player: " + hitPlayer.name + " from target list.");
+                    StopCharging(); // 플레이어가 제거되면 충전 정지
+                }
+                else
+                {
+                    Debug.Log(hitPlayer.name + " is above KingSlime, not removing.");
+                }
             }
 
             Debug.Log("HIT " + collision.gameObject.name + "!!!");
         }
     }
-
 }
