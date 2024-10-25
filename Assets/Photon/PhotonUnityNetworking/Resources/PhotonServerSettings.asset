@@ -55,6 +55,13 @@ MonoBehaviour:
   - ChooseRandomScene
   - LoadSelectedScene
   - ResetBord
+  - SyncFadeScene
+  - SyncEventStart
+  - SyncStart
+  - SyncArrowBrainFalse
+  - SyncArrowBrainTrue
+  - SyncHammerFalse
+  - SyncHammerTrue
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

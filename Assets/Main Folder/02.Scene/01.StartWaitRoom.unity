@@ -1259,7 +1259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   countdownText: {fileID: 377954782}
   sceneName:
-  - EV.Arrow Event
+  - EV.LogEvent
   timeRemaining: 5
   Fadein: {fileID: 1380958396}
   FadeOut: {fileID: 1592727345}
@@ -1282,7 +1282,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 1
+  sceneViewId: 21
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1 &598232643

@@ -39,7 +39,14 @@ public class TimeManager : MonoBehaviourPunCallbacks
 
             if (timeRemaining <= 0)
             {
-                StartCoroutine(FadeScene());
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    StartCoroutine(FadeScene());
+                }
+                else
+                {
+                    photonView.RPC("SyncFadeScene", RpcTarget.All); // 다른 클라이언트에게 씬 전환을 동기화
+                }
             }
         }
     }
@@ -55,5 +62,11 @@ public class TimeManager : MonoBehaviourPunCallbacks
 
         // 랜덤으로 선택된 씬으로 이동
         PhotonNetwork.LoadLevel(randomScene);
+    }
+
+    [PunRPC]
+    private void SyncFadeScene()
+    {
+        StartCoroutine(FadeScene()); // 마스터 클라이언트의 씬 전환에 맞춰 실행
     }
 }

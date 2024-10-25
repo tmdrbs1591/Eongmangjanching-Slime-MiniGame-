@@ -28,7 +28,6 @@ public class ScoreListItem : MonoBehaviourPunCallbacks
         UpdateHPBar(); // 초기 HP 및 레벨 업데이트
     }
 
-    // HP 바와 레벨을 업데이트하는 메서드
     void UpdateHPBar()
     {
         PlayerScore playerStats = GetPlayerStatsByNickName(nickNameText.text);

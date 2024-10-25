@@ -10,6 +10,8 @@ public class TypingArrow : MonoBehaviourPunCallbacks
     private PlayerScript player;
     [SerializeField] private float forceAmount;
 
+    [SerializeField] private GameObject failEffect;
+
     [SerializeField] private GameObject leftArrow;
     [SerializeField] private GameObject rightArrow;
     [SerializeField] private GameObject upArrow;
@@ -119,11 +121,14 @@ public class TypingArrow : MonoBehaviourPunCallbacks
 
     private void FailedArrow()
     {
-        isFailed = true;
-        player.rb.constraints = RigidbodyConstraints.None;
-
-        // 캐릭터가 뒤로 날아가게 하는 로직
-        player.rb.AddForce((-transform.forward + Vector3.up) * forceAmount, ForceMode.Impulse);
+        if (photonView.IsMine)
+        {
+            isFailed = true;
+            player.rb.constraints = RigidbodyConstraints.None;
+            PhotonNetwork.Instantiate(failEffect.name, transform.position, Quaternion.identity);
+            // 캐릭터가 뒤로 날아가게 하는 로직
+            player.rb.AddForce((-transform.forward + Vector3.up) * forceAmount, ForceMode.Impulse);
+        }
     }
 
     private void OnTypingTimeEnd()

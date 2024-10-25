@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 2353047909581810702}
   - component: {fileID: 7040253702268020820}
   - component: {fileID: 5886760783955919226}
+  - component: {fileID: 805571620921743237}
   m_Layer: 5
   m_Name: ' Up Arrow'
   m_TagString: Untagged
@@ -239,6 +240,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85b2d70166960ea48b11df09cce815e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCameraTransform: {fileID: 0}
+--- !u!95 &805571620921743237
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316412205086856866}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 75be5ee08048a1c4081d2ba0733a8de8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1371589127924966381
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,6 +794,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85b2d70166960ea48b11df09cce815e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCameraTransform: {fileID: 0}
 --- !u!1 &2513390430411411179
 GameObject:
   m_ObjectHideFlags: 0
@@ -919,6 +943,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentArrowCount: 0
   forceAmount: 10
+  failEffect: {fileID: 1743926635248968, guid: 074ace790ee07f84db15594533663f78, type: 3}
   leftArrow: {fileID: 6077831904782654551}
   rightArrow: {fileID: 8421240398502478137}
   upArrow: {fileID: 1316412205086856866}
@@ -1062,6 +1087,7 @@ GameObject:
   - component: {fileID: 2883373173743438133}
   - component: {fileID: 6050714773613578668}
   - component: {fileID: 8779366446089412519}
+  - component: {fileID: 6254220274999370983}
   m_Layer: 5
   m_Name: Down Arrow
   m_TagString: Untagged
@@ -1155,6 +1181,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85b2d70166960ea48b11df09cce815e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCameraTransform: {fileID: 0}
+--- !u!95 &6254220274999370983
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3373530765456111330}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 75be5ee08048a1c4081d2ba0733a8de8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3518311494433435793
 GameObject:
   m_ObjectHideFlags: 0
@@ -6945,7 +6993,7 @@ Animator:
   m_GameObject: {fileID: 6077831904782654551}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 75be5ee08048a1c4081d2ba0733a8de8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -6968,6 +7016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85b2d70166960ea48b11df09cce815e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCameraTransform: {fileID: 0}
 --- !u!1 &6219377485858338322
 GameObject:
   m_ObjectHideFlags: 0
@@ -7434,6 +7483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85b2d70166960ea48b11df09cce815e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCameraTransform: {fileID: 0}
 --- !u!1 &6510608283136835065
 GameObject:
   m_ObjectHideFlags: 0
@@ -8052,6 +8102,7 @@ GameObject:
   - component: {fileID: 2736943937820228460}
   - component: {fileID: 4019892842479759155}
   - component: {fileID: 6318100704454616277}
+  - component: {fileID: 827528894210737025}
   m_Layer: 5
   m_Name: Right Arrow
   m_TagString: Untagged
@@ -8145,6 +8196,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85b2d70166960ea48b11df09cce815e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCameraTransform: {fileID: 0}
+--- !u!95 &827528894210737025
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8421240398502478137}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 75be5ee08048a1c4081d2ba0733a8de8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &7917514540521741978
 PrefabInstance:
   m_ObjectHideFlags: 0

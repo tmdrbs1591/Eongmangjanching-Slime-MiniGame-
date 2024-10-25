@@ -2365,6 +2365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dumiSkinMeshRenderer: {fileID: 1789384988}
   playerScores: []
+  scoreListItem: []
 --- !u!1 &374589623
 GameObject:
   m_ObjectHideFlags: 0
@@ -5840,7 +5841,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 2
+  sceneViewId: 56
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1 &1069039524
