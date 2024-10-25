@@ -4,7 +4,7 @@ using Photon.Pun;
 
 public class UILookAt : MonoBehaviourPunCallbacks
 {
-    private Transform mainCameraTransform; // 메인 카메라의 Transform을 저장할 변수
+    public Transform mainCameraTransform; // 메인 카메라의 Transform을 저장할 변수
 
     void Start()
     {
