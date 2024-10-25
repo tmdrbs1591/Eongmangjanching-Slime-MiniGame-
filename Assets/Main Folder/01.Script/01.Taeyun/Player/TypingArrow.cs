@@ -1,12 +1,13 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 public class TypingArrow : MonoBehaviourPunCallbacks
 {
     public int currentArrowCount = 0;
-    private bool isFailed = false;  // Æ²·È´ÂÁö ¿©ºÎ¸¦ ÃßÀûÇÒ º¯¼ö
+    private bool isFailed = false;  // í‹€ë ¸ëŠ”ì§€ ì—¬ë¶€ë¥¼ ì¶”ì í•  ë³€ìˆ˜
     private PlayerScript player;
     [SerializeField] private float forceAmount;
 
@@ -24,12 +25,12 @@ public class TypingArrow : MonoBehaviourPunCallbacks
 
         if (ArrowEventManager.instance != null)
         {
-            // Áßº¹ ±¸µ¶ ¹æÁö
+            // ì¤‘ë³µ êµ¬ë… ë°©ì§€
             ArrowEventManager.instance.OnTypingTimeEnd -= OnTypingTimeEnd;
             ArrowEventManager.instance.OnTypingTimeEnd += OnTypingTimeEnd;
         }
 
-        ResetState(); // ÀÌº¥Æ® ½ÃÀÛ ½Ã »óÅÂ ÃÊ±âÈ­
+        ResetState(); // ì´ë²¤íŠ¸ ì‹œì‘ ì‹œ ìƒíƒœ ì´ˆê¸°í™”
     }
 
     private void OnDisable()
@@ -46,7 +47,7 @@ public class TypingArrow : MonoBehaviourPunCallbacks
     {
         if (photonView.IsMine)
         {
-            // Æ²·È°Å³ª ÀÔ·Â ½Ã°£ÀÌ ¾Æ´Ò °æ¿ì Ã³¸®ÇÏÁö ¾ÊÀ½
+            // í‹€ë ¸ê±°ë‚˜ ì…ë ¥ ì‹œê°„ì´ ì•„ë‹ ê²½ìš° ì²˜ë¦¬í•˜ì§€ ì•ŠìŒ
             if (isFailed || ArrowEventManager.instance.isTypingTime == false)
             {
                 currentArrowCount = 0;
@@ -57,19 +58,19 @@ public class TypingArrow : MonoBehaviourPunCallbacks
             {
                 if (Input.GetKeyDown(KeyCode.UpArrow))
                 {
-                    HandleArrowInput("¡è", "Up");
+                    HandleArrowInput("â†‘", "Up");
                 }
                 if (Input.GetKeyDown(KeyCode.DownArrow))
                 {
-                    HandleArrowInput("¡é", "Down");
+                    HandleArrowInput("â†“", "Down");
                 }
                 if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
-                    HandleArrowInput("¡ç", "Left");
+                    HandleArrowInput("â†", "Left");
                 }
                 if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
-                    HandleArrowInput("¡æ", "Right");
+                    HandleArrowInput("â†’", "Right");
                 }
             }
         }
@@ -82,18 +83,18 @@ public class TypingArrow : MonoBehaviourPunCallbacks
 
         if (isCorrect)
         {
-            currentArrowCount++; // ¸Â¾ÒÀ» ¶§¸¸ Áõ°¡
+            currentArrowCount++; // ë§ì•˜ì„ ë•Œë§Œ ì¦ê°€
         }
         else
         {
-            FailedArrow(); // Æ²·ÈÀ¸¸é ½ÇÆĞ Ã³¸®
+            FailedArrow(); // í‹€ë ¸ìœ¼ë©´ ì‹¤íŒ¨ ì²˜ë¦¬
         }
     }
 
     [PunRPC]
     private void SetArrowActive(bool isCorrect, string arrowDirection)
     {
-        // ¸ğµç È­»ìÇ¥¸¦ ºñÈ°¼ºÈ­ÇÏ°í ¸ÂÃá È­»ìÇ¥¸¸ È°¼ºÈ­
+        // ëª¨ë“  í™”ì‚´í‘œë¥¼ ë¹„í™œì„±í™”í•˜ê³  ë§ì¶˜ í™”ì‚´í‘œë§Œ í™œì„±í™”
         leftArrow.SetActive(false);
         rightArrow.SetActive(false);
         upArrow.SetActive(false);
@@ -126,27 +127,27 @@ public class TypingArrow : MonoBehaviourPunCallbacks
             isFailed = true;
             player.rb.constraints = RigidbodyConstraints.None;
             PhotonNetwork.Instantiate(failEffect.name, transform.position, Quaternion.identity);
-            // Ä³¸¯ÅÍ°¡ µÚ·Î ³¯¾Æ°¡°Ô ÇÏ´Â ·ÎÁ÷
+            // ìºë¦­í„°ê°€ ë’¤ë¡œ ë‚ ì•„ê°€ê²Œ í•˜ëŠ” ë¡œì§
             player.rb.AddForce((-transform.forward + Vector3.up) * forceAmount, ForceMode.Impulse);
         }
     }
 
     private void OnTypingTimeEnd()
     {
-        // Å¸ÀÌÇÎ ½Ã°£ÀÌ ³¡³µÀ» ¶§ ¾ÆÁ÷ ¸ğµç È­»ìÇ¥¸¦ ÀÔ·ÂÇÏÁö ¸øÇÑ °æ¿ì ½ÇÆĞ Ã³¸®
+        // íƒ€ì´í•‘ ì‹œê°„ì´ ëë‚¬ì„ ë•Œ ì•„ì§ ëª¨ë“  í™”ì‚´í‘œë¥¼ ì…ë ¥í•˜ì§€ ëª»í•œ ê²½ìš° ì‹¤íŒ¨ ì²˜ë¦¬
         if (currentArrowCount < ArrowEventManager.instance.arrowCount)
         {
             FailedArrow();
         }
         else
         {
-            ResetState(); // ÀÌº¥Æ®°¡ ³¡³¯ ¶§ »óÅÂ ÃÊ±âÈ­
+            ResetState(); // ì´ë²¤íŠ¸ê°€ ëë‚  ë•Œ ìƒíƒœ ì´ˆê¸°í™”
         }
     }
 
     private void ResetState()
     {
-        // ÀÌº¥Æ®°¡ ½ÃÀÛµÉ ¶§³ª ³¡³¯ ¶§ »óÅÂ¸¦ ÃÊ±âÈ­
+        // ì´ë²¤íŠ¸ê°€ ì‹œì‘ë  ë•Œë‚˜ ëë‚  ë•Œ ìƒíƒœë¥¼ ì´ˆê¸°í™”
         isFailed = false;
         currentArrowCount = 0;
         player.rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
