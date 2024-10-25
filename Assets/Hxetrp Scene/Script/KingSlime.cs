@@ -132,7 +132,7 @@ public class KingSlime : MonoBehaviourPunCallbacks
             Debug.Log("Hit a wall, stopping charge.");
             StopCharging();
         }
-        if (collision.gameObject.CompareTag("Player"))
+        else if (collision.gameObject.CompareTag("Player"))
         {
             // 충돌한 객체의 Rigidbody 가져오기
             Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
@@ -146,15 +146,16 @@ public class KingSlime : MonoBehaviourPunCallbacks
                 StartCoroutine(playerScript.StunCor());
             }
 
-            PlayerScript hitPlayer = collision.gameObject.GetComponent<PlayerScript>();
-            if (hitPlayer != null)
+            if (playerScript != null)
             {
-                players.Remove(hitPlayer);
-                Debug.Log("Removed player: " + hitPlayer.name + " from target list.");
+                // 리스트에서 플레이어 제거
+                players.Remove(playerScript);
+                Debug.Log("Removed player: " + playerScript.name + " from target list.");
                 StopCharging(); // 플레이어가 제거되면 충전 정지
             }
 
             Debug.Log("HIT " + collision.gameObject.name + "!!!");
         }
     }
+
 }
