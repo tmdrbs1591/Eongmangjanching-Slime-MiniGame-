@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (i < sortedScores.Count)
             {
                 int rank = i + 1;
+                scoreListItem[i].Setup(sortedScores[i].GetComponent<PhotonView>().Owner); // 순위 업데이트
                 scoreListItem[i].UpdateRankImage(rank); // 순위 이미지 업데이트
             }
             else
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
     }
+
 
     // 매 프레임마다 점수 비교하여 최고 점수 플레이어에게 왕관을 활성화
     public void UpdateCrown()
