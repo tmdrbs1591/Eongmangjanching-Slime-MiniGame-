@@ -1,9 +1,10 @@
+using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KingSlime : MonoBehaviour
+public class KingSlime : MonoBehaviourPunCallbacks
 {
     public float lookDuration = 1f; // 플레이어를 바라보는 시간
     public float chargeSpeed = 5f; // 돌진 속도
@@ -47,7 +48,10 @@ public class KingSlime : MonoBehaviour
     {
         // 게임 시작 후 3초 대기
         yield return new WaitForSeconds(3f);
-        StartCoroutine(ChooseRandomTarget());
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(ChooseRandomTarget());
+        }
     }
 
     IEnumerator ChooseRandomTarget()
@@ -62,9 +66,8 @@ public class KingSlime : MonoBehaviour
         // 타겟을 바라보는 상태로 전환
         currentState = State.Looking;
         warningLine.SetActive(true);
-        
 
-        //타겟을 바라보기
+        // 타겟을 바라보기
         float elapsedTime = 0f;
         while (elapsedTime < lookDuration)
         {
@@ -76,10 +79,11 @@ public class KingSlime : MonoBehaviour
 
         // 타겟을 향해 돌진 시작
         warningLine.SetActive(false);
-        StartCharging();
+        photonView.RPC("StartChargingRPC", RpcTarget.All);
     }
 
-    void StartCharging()
+    [PunRPC]
+    void StartChargingRPC()
     {
         // 돌진 방향 설정 및 돌진 상태로 전환
         chargeDirection = (targetPlayer.transform.position - transform.position).normalized;
@@ -102,7 +106,7 @@ public class KingSlime : MonoBehaviour
 
         // 돌진 종료 후 새로운 타겟을 찾기 시작
         currentState = State.Idle;
-        chargeSpeed += 1f; // 속도 초기화
+        chargeSpeed = initialChargeSpeed; // 속도 초기화
         StartCoroutine(ChooseRandomTarget()); // 새로운 타겟 선택 시작
     }
 
@@ -117,32 +121,31 @@ public class KingSlime : MonoBehaviour
             StopCharging();
         }
     }
-   private void OnTriggerEnter(Collider other)
-{
-    if (other.gameObject.CompareTag("Player"))
+
+    private void OnTriggerEnter(Collider other)
     {
-        Rigidbody playerRb = other.gameObject.GetComponent<Rigidbody>();
-        var playerScript = other.gameObject.GetComponent<PlayerScript>();
-        
-        if (playerRb != null)
+        if (other.gameObject.CompareTag("Player"))
         {
-            // 간단한 충돌 방향 계산
-            Vector3 forceDirection = (other.transform.position - transform.position).normalized;
-            playerRb.AddForce(forceDirection * 1000, ForceMode.Impulse);  // 방향에 힘 가하기
-            StartCoroutine(playerScript.StunCor());
-        }
+            Rigidbody playerRb = other.gameObject.GetComponent<Rigidbody>();
+            var playerScript = other.gameObject.GetComponent<PlayerScript>();
+
+            if (playerRb != null)
+            {
+                // 간단한 충돌 방향 계산
+                Vector3 forceDirection = (other.transform.position - transform.position).normalized;
+                playerRb.AddForce(forceDirection * 1000, ForceMode.Impulse);  // 방향에 힘 가하기
+                StartCoroutine(playerScript.StunCor());
+            }
 
             // 충돌한 플레이어를 타겟 리스트에서 제거
             PlayerScript hitPlayer = other.gameObject.GetComponent<PlayerScript>();
-        if (hitPlayer != null)
-        {
-            players.Remove(hitPlayer);  // 플레이어 목록에서 제거
-            Debug.Log("Removed player: " + hitPlayer.name + " from target list.");
+            if (hitPlayer != null)
+            {
+                players.Remove(hitPlayer);  // 플레이어 목록에서 제거
+                Debug.Log("Removed player: " + hitPlayer.name + " from target list.");
+            }
+
+            Debug.Log("HIT " + other.gameObject.name + "!!!");
         }
-
-        Debug.Log("HIT " + other.gameObject.name + "!!!");
     }
-}
-
-
 }
