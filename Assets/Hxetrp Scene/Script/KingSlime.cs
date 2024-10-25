@@ -8,11 +8,10 @@ public class KingSlime : MonoBehaviourPunCallbacks
 {
     public float lookDuration = 1f; // 플레이어를 바라보는 시간
     public float chargeSpeed = 5f; // 돌진 속도
-    public float initialChargeSpeed; // 돌진 속도의 초기 값
-
     private PlayerScript targetPlayer; // 타겟 플레이어
-    private List<PlayerScript> players;
+    private List<PlayerScript> players = new List<PlayerScript>();
     private Vector3 chargeDirection; // 돌진 방향
+
     private enum State { Idle, Looking, Charging }; // 상태 정의
     private State currentState = State.Idle; // 초기 상태는 Idle
 
@@ -22,13 +21,9 @@ public class KingSlime : MonoBehaviourPunCallbacks
     void Start()
     {
         rb = GetComponent<Rigidbody>(); // Rigidbody 컴포넌트 가져오기
-        initialChargeSpeed = chargeSpeed;
-
         warningLine = transform.Find("Warning Line").gameObject;
-        players = new List<PlayerScript>();
 
         GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
-
         foreach (GameObject playerObject in playerObjects)
         {
             PlayerScript player = playerObject.GetComponent<PlayerScript>();
@@ -47,18 +42,23 @@ public class KingSlime : MonoBehaviourPunCallbacks
     IEnumerator InitialWaitAndChooseTarget()
     {
         yield return new WaitForSeconds(3f);
-        StartCoroutine(ChooseRandomTarget());
+        photonView.RPC("ChooseRandomTarget", RpcTarget.All); // RPC 호출
     }
 
     [PunRPC] // RPC로 설정
-    IEnumerator ChooseRandomTarget()
+    void ChooseRandomTarget()
     {
-        if (players.Count == 0) yield break;
+        if (players.Count == 0) return;
 
         int randomIndex = Random.Range(0, players.Count);
         targetPlayer = players[randomIndex];
         Debug.Log("Targeting: " + targetPlayer.name);
 
+        StartCoroutine(LookAtTarget());
+    }
+
+    IEnumerator LookAtTarget()
+    {
         currentState = State.Looking;
         warningLine.SetActive(true);
 
@@ -81,7 +81,7 @@ public class KingSlime : MonoBehaviourPunCallbacks
         currentState = State.Charging;
 
         // 모든 클라이언트에서 StartChargingRPC 호출
-        photonView.RPC("StartChargingRPC", RpcTarget.All, chargeDirection); // 충전 방향을 RPC에 전달
+        photonView.RPC("StartChargingRPC", RpcTarget.All, chargeDirection);
     }
 
     [PunRPC] // RPC로 설정
@@ -99,12 +99,12 @@ public class KingSlime : MonoBehaviourPunCallbacks
         }
     }
 
-    void StopCharging()
+    void StopCharging() // 충전 정지 메서드 추가
     {
         Debug.Log("Charge complete.");
         currentState = State.Idle;
-        chargeSpeed += 1f;
-        StartCoroutine(ChooseRandomTarget());
+        chargeSpeed += 1f; // 충전 속도 증가
+        photonView.RPC("ChooseRandomTarget", RpcTarget.All); // 새로운 타겟 선택
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -133,6 +133,7 @@ public class KingSlime : MonoBehaviourPunCallbacks
             {
                 players.Remove(hitPlayer);
                 Debug.Log("Removed player: " + hitPlayer.name + " from target list.");
+                StopCharging(); // 플레이어가 제거되면 충전 정지
             }
 
             Debug.Log("HIT " + collision.gameObject.name + "!!!");
