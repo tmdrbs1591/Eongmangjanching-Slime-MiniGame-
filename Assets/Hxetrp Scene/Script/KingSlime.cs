@@ -88,11 +88,15 @@ public class KingSlime : MonoBehaviourPunCallbacks
 
     void StartCharging()
     {
-        chargeDirection = (targetPlayer.transform.position - transform.position).normalized;
-        currentState = State.Charging;
+        // 마스터 클라이언트에서만 충전 시작
+        if (PhotonNetwork.IsMasterClient)
+        {
+            chargeDirection = (targetPlayer.transform.position - transform.position).normalized;
+            currentState = State.Charging;
 
-        // 모든 클라이언트에서 StartChargingRPC 호출
-        photonView.RPC("StartChargingRPC", RpcTarget.All, chargeDirection);
+            // 모든 클라이언트에서 StartChargingRPC 호출
+            photonView.RPC("StartChargingRPC", RpcTarget.All, chargeDirection);
+        }
     }
 
     [PunRPC] // RPC로 설정
