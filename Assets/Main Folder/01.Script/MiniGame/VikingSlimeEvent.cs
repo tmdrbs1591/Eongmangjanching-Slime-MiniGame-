@@ -6,18 +6,14 @@ using UnityEngine.SceneManagement; // 씬을 변경하려면 필요
 
 public class VikingSlimeEvent : TimeManager
 {
-    private bool isScoreAdded = false;  // 점수가 이미 추가되었는지 확인하는 변수
 
-    private Transform target; // 설정된 타겟
+
+    private bool isScoreAdded = false;  // 점수가 이미 추가되었는지 확인하는 변수
 
     protected override void Start()
     {
         base.Start();
         // 마스터 클라이언트만 로그를 생성하도록 설정
-        if (PhotonNetwork.IsMasterClient)
-        {
-            StartCoroutine(InitialTargetSetup());
-        }
     }
 
     void Update()
@@ -29,7 +25,6 @@ public class VikingSlimeEvent : TimeManager
 
     void EventStart()
     {
-        // 이벤트 시작 로직 추가
     }
 
     void TimeEnd()
@@ -50,7 +45,27 @@ public class VikingSlimeEvent : TimeManager
         // 모든 플레이어가 죽었다면 즉시 게임 종료
         if (allPlayersDead)
         {
-            HandleGameEnd();
+            // 즉시 게임 종료를 위한 처리
+            if (!isScoreAdded) // 점수를 추가하지 않았다면
+            {
+                foreach (var playerScore in GameManager.instance.playerScores)
+                {
+                    // 플레이어가 죽지 않았으면 점수 추가
+                    if (!playerScore.isDeath && PhotonNetwork.IsMasterClient)
+                    {
+                        Debug.Log("점수 추가");
+                        playerScore.AddScore(1000);  // 점수 추가
+                    }
+                }
+
+                // 점수가 추가되었음을 기록
+                isScoreAdded = true;
+
+                // 게임 종료 및 씬 전환 처리
+                StartCoroutine(FadeScene());
+            }
+
+            // 타이머를 1로 설정해도 타이머 감소를 막고, 더 이상의 업데이트는 하지 않음
             return;
         }
 
@@ -70,56 +85,23 @@ public class VikingSlimeEvent : TimeManager
 
             if (timeRemaining <= 0 && !isScoreAdded)
             {
-                AddScoresToAlivePlayers();
+                // 점수를 한 번만 추가하도록 체크
+                foreach (var playerScore in GameManager.instance.playerScores)
+                {
+                    // 플레이어가 죽지 않았으면 점수 추가
+                    if (!playerScore.isDeath && PhotonNetwork.IsMasterClient)
+                    {
+                        Debug.Log("점수 추가");
+                        playerScore.AddScore(1000);  // 점수 추가
+                    }
+                }
+
+                // 점수가 추가되었음을 기록
+                isScoreAdded = true;
+
                 StartCoroutine(FadeScene());
             }
         }
     }
 
-    private void HandleGameEnd()
-    {
-        // 게임 종료 및 점수 추가 처리
-        if (!isScoreAdded)
-        {
-            AddScoresToAlivePlayers();
-            StartCoroutine(FadeScene());
-        }
-    }
-
-    private void AddScoresToAlivePlayers()
-    {
-        foreach (var playerScore in GameManager.instance.playerScores)
-        {
-            if (!playerScore.isDeath && PhotonNetwork.IsMasterClient)
-            {
-                Debug.Log("점수 추가");
-                playerScore.AddScore(1000); // 점수 추가
-            }
-        }
-
-        // 점수가 추가되었음을 기록
-        isScoreAdded = true;
-    }
-
-    private IEnumerator InitialTargetSetup()
-    {
-        yield return new WaitForSeconds(1f); // 초기화 지연 시간
-        SetTarget(); // 타겟 설정
-    }
-
-    private void SetTarget()
-    {
-        // 타겟 설정 로직 (여기서 타겟을 선택합니다)
-        // 예: target = 선택된 플레이어의 Transform;
-
-        // 타겟을 설정한 후 다른 클라이언트와 동기화
-        photonView.RPC("SyncTarget", RpcTarget.All, target.position, target.rotation);
-    }
-
-    [PunRPC]
-    private void SyncTarget(Vector3 targetPosition, Quaternion targetRotation)
-    {
-        target.position = targetPosition;
-        target.rotation = targetRotation;
-    }
 }

@@ -38,7 +38,10 @@ public class KingSlime : MonoBehaviourPunCallbacks
             }
         }
 
-        StartCoroutine(InitialWaitAndChooseTarget());
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(InitialWaitAndChooseTarget());
+        }
     }
 
     IEnumerator InitialWaitAndChooseTarget()
@@ -77,14 +80,14 @@ public class KingSlime : MonoBehaviourPunCallbacks
         chargeDirection = (targetPlayer.transform.position - transform.position).normalized;
         currentState = State.Charging;
 
-        // 모든 클라이언트에서 StartChargingRPC 호출
+        // 마스터 클라이언트만 StartChargingRPC 호출
         photonView.RPC("StartChargingRPC", RpcTarget.All);
     }
 
     [PunRPC] // RPC로 설정
     void StartChargingRPC()
     {
-        // 여기서 필요한 로직을 추가 (예: 충전 시작 상태로 변경)
+        currentState = State.Charging; // 모든 클라이언트에서 충전 상태로 변경
     }
 
     void FixedUpdate() // FixedUpdate로 변경
@@ -110,10 +113,11 @@ public class KingSlime : MonoBehaviourPunCallbacks
             Debug.Log("Hit a wall, stopping charge.");
             StopCharging();
         }
-        if (collision.gameObject.CompareTag("Player")) { 
+        if (collision.gameObject.CompareTag("Player"))
+        {
             // 충돌한 객체의 Rigidbody 가져오기
             Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
-        var playerScript = collision.gameObject.GetComponent<PlayerScript>();
+            var playerScript = collision.gameObject.GetComponent<PlayerScript>();
 
             if (playerRb != null)
             {
@@ -133,5 +137,4 @@ public class KingSlime : MonoBehaviourPunCallbacks
             Debug.Log("HIT " + collision.gameObject.name + "!!!");
         }
     }
-    }
-        
+}
