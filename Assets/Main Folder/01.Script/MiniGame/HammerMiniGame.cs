@@ -25,7 +25,7 @@ public class HammerMiniGame : TimeManager
     {
         // 카운트다운 타이머가 0 이하로 내려가면 숫자 감소
         countdownTimer -= Time.deltaTime;
-
+            
         if (countdownTimer <= 0)
         {
             // 1초가 지나면 카운트다운 숫자 감소

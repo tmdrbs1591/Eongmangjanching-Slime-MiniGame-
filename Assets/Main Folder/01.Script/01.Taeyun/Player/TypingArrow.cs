@@ -119,11 +119,14 @@ public class TypingArrow : MonoBehaviourPunCallbacks
 
     private void FailedArrow()
     {
-        isFailed = true;
-        player.rb.constraints = RigidbodyConstraints.None;
+        if (photonView.IsMine)
+        {
+            isFailed = true;
+            player.rb.constraints = RigidbodyConstraints.None;
 
-        // 캐릭터가 뒤로 날아가게 하는 로직
-        player.rb.AddForce((-transform.forward + Vector3.up) * forceAmount, ForceMode.Impulse);
+            // 캐릭터가 뒤로 날아가게 하는 로직
+            player.rb.AddForce((-transform.forward + Vector3.up) * forceAmount, ForceMode.Impulse);
+        }
     }
 
     private void OnTypingTimeEnd()
