@@ -1,5 +1,5 @@
-using Photon.Pun;
 using Photon.Realtime;
+using Photon.Pun; // Photon.Pun 네임스페이스 추가
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,17 +20,13 @@ public class KingSlime : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        // 시작 시 초기 속도를 저장
         initialChargeSpeed = chargeSpeed;
 
         warningLine = transform.Find("Warning Line").gameObject;
-        // 플레이어 목록 초기화
         players = new List<PlayerScript>();
 
-        // "Test Player" 태그를 가진 모든 오브젝트를 찾음
         GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
 
-        // 각 플레이어 오브젝트에서 PlayerScript를 가져와 리스트에 추가
         foreach (GameObject playerObject in playerObjects)
         {
             PlayerScript player = playerObject.GetComponent<PlayerScript>();
@@ -40,69 +36,59 @@ public class KingSlime : MonoBehaviourPunCallbacks
             }
         }
 
-        // 게임 시작 3초 후 첫 타겟 선택
         StartCoroutine(InitialWaitAndChooseTarget());
     }
 
     IEnumerator InitialWaitAndChooseTarget()
     {
-        // 게임 시작 후 3초 대기
         yield return new WaitForSeconds(3f);
-        if (PhotonNetwork.IsMasterClient)
-        {
-            StartCoroutine(ChooseRandomTarget());
-        }
+        StartCoroutine(ChooseRandomTarget());
     }
 
+    [PunRPC] // RPC로 설정
     IEnumerator ChooseRandomTarget()
     {
-        // 랜덤한 타겟 선택
-        if (players.Count == 0) yield break; // 플레이어가 없으면 종료
+        if (players.Count == 0) yield break;
 
         int randomIndex = Random.Range(0, players.Count);
         targetPlayer = players[randomIndex];
         Debug.Log("Targeting: " + targetPlayer.name);
 
-        // 타겟을 바라보는 상태로 전환
         currentState = State.Looking;
         warningLine.SetActive(true);
 
-        // 타겟을 바라보기
         float elapsedTime = 0f;
         while (elapsedTime < lookDuration)
         {
             Vector3 direction = (targetPlayer.transform.position - transform.position).normalized;
-            transform.rotation = Quaternion.LookRotation(direction); // 타겟 방향으로 회전
+            transform.rotation = Quaternion.LookRotation(direction);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        // 타겟을 향해 돌진 시작
         warningLine.SetActive(false);
+        StartCharging();
+    }
+
+    void StartCharging()
+    {
+        chargeDirection = (targetPlayer.transform.position - transform.position).normalized;
+        currentState = State.Charging;
+
+        // 모든 클라이언트에서 StartChargingRPC 호출
         photonView.RPC("StartChargingRPC", RpcTarget.All);
     }
 
-    [PunRPC]
+    [PunRPC] // RPC로 설정
     void StartChargingRPC()
     {
-        if (targetPlayer == null)
-        {
-            // targetPlayer가 null이면 새로운 타겟 선택
-            StartCoroutine(ChooseRandomTarget());
-            return;
-        }
-
-        // 돌진 방향 설정 및 돌진 상태로 전환
-        chargeDirection = (targetPlayer.transform.position - transform.position).normalized;
-        currentState = State.Charging;
+        // 여기서 필요한 로직을 추가 (예: 충전 시작 상태로 변경)
     }
 
     void Update()
     {
-        // 현재 상태에 따라 행동 결정
         if (currentState == State.Charging)
         {
-            // 한 번 설정한 돌진 방향을 고정하여 움직임
             transform.position += chargeDirection * chargeSpeed * Time.deltaTime;
         }
     }
@@ -110,21 +96,16 @@ public class KingSlime : MonoBehaviourPunCallbacks
     void StopCharging()
     {
         Debug.Log("Charge complete.");
-
-        // 돌진 종료 후 새로운 타겟을 찾기 시작
         currentState = State.Idle;
-        chargeSpeed = initialChargeSpeed; // 속도 초기화
-        StartCoroutine(ChooseRandomTarget()); // 새로운 타겟 선택 시작
+        chargeSpeed += 1f;
+        StartCoroutine(ChooseRandomTarget());
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        // 벽에 충돌했을 경우
         if (collision.gameObject.CompareTag("Wall"))
         {
             Debug.Log("Hit a wall, stopping charge.");
-
-            // 벽에 충돌하면 돌진 멈춤
             StopCharging();
         }
     }
@@ -138,17 +119,15 @@ public class KingSlime : MonoBehaviourPunCallbacks
 
             if (playerRb != null)
             {
-                // 간단한 충돌 방향 계산
                 Vector3 forceDirection = (other.transform.position - transform.position).normalized;
-                playerRb.AddForce(forceDirection * 1000, ForceMode.Impulse);  // 방향에 힘 가하기
+                playerRb.AddForce(forceDirection * 1000, ForceMode.Impulse);
                 StartCoroutine(playerScript.StunCor());
             }
 
-            // 충돌한 플레이어를 타겟 리스트에서 제거
             PlayerScript hitPlayer = other.gameObject.GetComponent<PlayerScript>();
             if (hitPlayer != null)
             {
-                players.Remove(hitPlayer);  // 플레이어 목록에서 제거
+                players.Remove(hitPlayer);
                 Debug.Log("Removed player: " + hitPlayer.name + " from target list.");
             }
 
