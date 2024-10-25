@@ -921,6 +921,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentArrowCount: 0
   forceAmount: 10
+  failEffect: {fileID: 1743926635248968, guid: 074ace790ee07f84db15594533663f78, type: 3}
   leftArrow: {fileID: 6077831904782654551}
   rightArrow: {fileID: 8421240398502478137}
   upArrow: {fileID: 1316412205086856866}
