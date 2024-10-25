@@ -1,5 +1,5 @@
 using Photon.Realtime;
-using Photon.Pun; // Photon.Pun 네임스페이스 추가
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -54,7 +54,18 @@ public class KingSlime : MonoBehaviourPunCallbacks
         targetPlayer = players[randomIndex];
         Debug.Log("Targeting: " + targetPlayer.name);
 
-        StartCoroutine(LookAtTarget());
+        // 랜덤 인덱스를 모든 클라이언트에 전송
+        photonView.RPC("SetTargetIndex", RpcTarget.All, randomIndex);
+    }
+
+    [PunRPC]
+    void SetTargetIndex(int index)
+    {
+        if (index >= 0 && index < players.Count)
+        {
+            targetPlayer = players[index]; // 동기화된 타겟 플레이어 설정
+            StartCoroutine(LookAtTarget());
+        }
     }
 
     IEnumerator LookAtTarget()
