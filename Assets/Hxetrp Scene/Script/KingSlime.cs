@@ -17,9 +17,11 @@ public class KingSlime : MonoBehaviourPunCallbacks
     private State currentState = State.Idle; // 초기 상태는 Idle
 
     private GameObject warningLine;
+    private Rigidbody rb; // Rigidbody 추가
 
     void Start()
     {
+        rb = GetComponent<Rigidbody>(); // Rigidbody 컴포넌트 가져오기
         initialChargeSpeed = chargeSpeed;
 
         warningLine = transform.Find("Warning Line").gameObject;
@@ -85,11 +87,11 @@ public class KingSlime : MonoBehaviourPunCallbacks
         // 여기서 필요한 로직을 추가 (예: 충전 시작 상태로 변경)
     }
 
-    void Update()
+    void FixedUpdate() // FixedUpdate로 변경
     {
         if (currentState == State.Charging)
         {
-            transform.position += chargeDirection * chargeSpeed * Time.deltaTime;
+            rb.MovePosition(transform.position + chargeDirection * chargeSpeed * Time.fixedDeltaTime);
         }
     }
 
@@ -108,30 +110,28 @@ public class KingSlime : MonoBehaviourPunCallbacks
             Debug.Log("Hit a wall, stopping charge.");
             StopCharging();
         }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            Rigidbody playerRb = other.gameObject.GetComponent<Rigidbody>();
-            var playerScript = other.gameObject.GetComponent<PlayerScript>();
+        if (collision.gameObject.CompareTag("Player")) { 
+            // 충돌한 객체의 Rigidbody 가져오기
+            Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
+        var playerScript = collision.gameObject.GetComponent<PlayerScript>();
 
             if (playerRb != null)
             {
-                Vector3 forceDirection = (other.transform.position - transform.position).normalized;
-                playerRb.AddForce(forceDirection * 1000, ForceMode.Impulse);
+                // Log 객체가 충돌한 방향으로 힘을 가함
+                Vector3 forceDirection = collision.contacts[0].normal * -1;  // 충돌면의 반대 방향
+                playerRb.AddForce(forceDirection * 15, ForceMode.Impulse);  // 힘을 즉시 가함
                 StartCoroutine(playerScript.StunCor());
             }
 
-            PlayerScript hitPlayer = other.gameObject.GetComponent<PlayerScript>();
+            PlayerScript hitPlayer = collision.gameObject.GetComponent<PlayerScript>();
             if (hitPlayer != null)
             {
                 players.Remove(hitPlayer);
                 Debug.Log("Removed player: " + hitPlayer.name + " from target list.");
             }
 
-            Debug.Log("HIT " + other.gameObject.name + "!!!");
+            Debug.Log("HIT " + collision.gameObject.name + "!!!");
         }
     }
-}
+    }
+        
