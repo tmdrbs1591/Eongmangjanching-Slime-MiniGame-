@@ -116,18 +116,33 @@ public class KingSlime : MonoBehaviour
             // 벽에 충돌하면 돌진 멈춤
             StopCharging();
         }
-        if(collision.gameObject.CompareTag("Test Player"))
-        {
-            Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
-            var playerScript = collision.gameObject.GetComponent<PlayerScript>();
-            if (playerRb != null)
-            {
-                // Log ��ü�� �浹�� �������� ���� ����
-                Vector3 forceDirection = collision.contacts[0].normal * -1;  // �浹���� �ݴ� ����
-                playerRb.AddForce(forceDirection * chargeSpeed, ForceMode.Impulse);  // ���� ��� ����
-               // StartCoroutine(playerScript.StunCor());
-            }
-            Debug.Log("HIT " + targetPlayer.name +"!!!");
-        }
     }
+   private void OnTriggerEnter(Collider other)
+{
+    if (other.gameObject.CompareTag("Test Player"))
+    {
+        Rigidbody playerRb = other.gameObject.GetComponent<Rigidbody>();
+        var playerScript = other.gameObject.GetComponent<PlayerScript>();
+        
+        if (playerRb != null)
+        {
+            // 간단한 충돌 방향 계산
+            Vector3 forceDirection = (other.transform.position - transform.position).normalized;
+            playerRb.AddForce(forceDirection * 1000, ForceMode.Impulse);  // 방향에 힘 가하기
+            StartCoroutine(playerScript.StunCor());
+        }
+
+        // 충돌한 플레이어를 타겟 리스트에서 제거
+        TestPlayer hitPlayer = other.gameObject.GetComponent<TestPlayer>();
+        if (hitPlayer != null)
+        {
+            players.Remove(hitPlayer);  // 플레이어 목록에서 제거
+            Debug.Log("Removed player: " + hitPlayer.name + " from target list.");
+        }
+
+        Debug.Log("HIT " + other.gameObject.name + "!!!");
+    }
+}
+
+
 }
