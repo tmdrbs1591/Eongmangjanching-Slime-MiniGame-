@@ -30,7 +30,7 @@ public class KingSlime : MonoBehaviourPunCallbacks
         // "Test Player" 태그를 가진 모든 오브젝트를 찾음
         GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
 
-        // 각 플레이어 오브젝트에서 TestPlayer 스크립트를 가져와 리스트에 추가
+        // 각 플레이어 오브젝트에서 PlayerScript를 가져와 리스트에 추가
         foreach (GameObject playerObject in playerObjects)
         {
             PlayerScript player = playerObject.GetComponent<PlayerScript>();
@@ -85,6 +85,13 @@ public class KingSlime : MonoBehaviourPunCallbacks
     [PunRPC]
     void StartChargingRPC()
     {
+        if (targetPlayer == null)
+        {
+            // targetPlayer가 null이면 새로운 타겟 선택
+            StartCoroutine(ChooseRandomTarget());
+            return;
+        }
+
         // 돌진 방향 설정 및 돌진 상태로 전환
         chargeDirection = (targetPlayer.transform.position - transform.position).normalized;
         currentState = State.Charging;
