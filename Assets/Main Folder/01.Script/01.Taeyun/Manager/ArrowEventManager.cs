@@ -22,10 +22,10 @@ public class ArrowEventManager : TimeManager
     [Header("CurrentState")]
     public bool isTypingTime = false;
 
-    private bool isScoreAdded = false;  // Á¡¼ö°¡ ÀÌ¹Ì Ãß°¡µÇ¾ú´ÂÁö È®ÀÎÇÏ´Â º¯¼ö
+    private bool isScoreAdded = false;  // ì ìˆ˜ê°€ ì´ë¯¸ ì¶”ê°€ë˜ì—ˆëŠ”ì§€ í™•ì¸í•˜ëŠ” ë³€ìˆ˜
 
     public delegate void TypingTimeEndHandler();
-    public event TypingTimeEndHandler OnTypingTimeEnd; // Å¸ÀÌÇÎ ½Ã°£ÀÌ ³¡³µÀ» ¶§ ÀÌº¥Æ®
+    public event TypingTimeEndHandler OnTypingTimeEnd; // íƒ€ì´í•‘ ì‹œê°„ì´ ëë‚¬ì„ ë•Œ ì´ë²¤íŠ¸
 
     private void Awake()
     {
@@ -56,16 +56,16 @@ public class ArrowEventManager : TimeManager
         ResetBord();
         yield return StartCoroutine(StartPhase(4, 2));
 
-        readyText.text = "ÀÔ·ÂÇÏ¼¼¿ä!";
+        readyText.text = "ì…ë ¥í•˜ì„¸ìš”!";
         isTypingTime = true;
         yield return new WaitForSeconds(6f);
         isTypingTime = false;
-        OnTypingTimeEnd?.Invoke(); // Å¸ÀÌÇÎ ½Ã°£ÀÌ ³¡³µÀ» ¶§ ÀÌº¥Æ® È£Ãâ
+        OnTypingTimeEnd?.Invoke(); // íƒ€ì´í•‘ ì‹œê°„ì´ ëë‚¬ì„ ë•Œ ì´ë²¤íŠ¸ í˜¸ì¶œ
 
         ResetBord();
         yield return StartCoroutine(StartPhase(6, 3));
 
-        readyText.text = "ÀÔ·ÂÇÏ¼¼¿ä!";
+        readyText.text = "ì…ë ¥í•˜ì„¸ìš”!";
         isTypingTime = true;
         yield return new WaitForSeconds(6f);
         isTypingTime = false;
@@ -74,7 +74,7 @@ public class ArrowEventManager : TimeManager
         ResetBord();
         yield return StartCoroutine(StartPhase(10, 5));
 
-        readyText.text = "ÀÔ·ÂÇÏ¼¼¿ä!";
+        readyText.text = "ì…ë ¥í•˜ì„¸ìš”!";
         isTypingTime = true;
         yield return new WaitForSeconds(6f);
         isTypingTime = false;
@@ -105,20 +105,20 @@ public class ArrowEventManager : TimeManager
         switch (i)
         {
             case 0:
-                return "¡æ";
+                return "â†’";
             case 1:
-                return "¡ç";
+                return "â†";
             case 2:
-                return "¡è";
+                return "â†‘";
             case 3:
-                return "¡é";
+                return "â†“";
         }
         return null;
     }
 
     public bool CheckArrow(string arrow, int index)
     {
-        // ÀÎµ¦½º ¹üÀ§ °Ë»ç Ãß°¡
+        // ì¸ë±ìŠ¤ ë²”ìœ„ ê²€ì‚¬ ì¶”ê°€
         if (index >= arrowList.Count)
         {
             Debug.LogError($"Index out of range: {index}. arrowList.Count is {arrowList.Count}");
@@ -127,12 +127,12 @@ public class ArrowEventManager : TimeManager
 
         if (arrowList[index] == arrow)
         {
-            Debug.Log("¸ÂÃè¾î¿ä! Á¤´ä : " + arrow);
+            Debug.Log("ë§ì·„ì–´ìš”! ì •ë‹µ : " + arrow);
             return true;
         }
         else
         {
-            Debug.Log("Æ²·È¾î¿ä¤Ì¤Ì ÀÔ·ÂÇÑ ´ä : " + arrow + " Á¤´ä : " + arrowList[index]);
+            Debug.Log("í‹€ë ¸ì–´ìš”ã…œã…œ ì…ë ¥í•œ ë‹µ : " + arrow + " ì •ë‹µ : " + arrowList[index]);
             return false;
         }
     }
@@ -148,36 +148,36 @@ public class ArrowEventManager : TimeManager
     }
     void TimeEnd()
     {
-        // ¸ğµç ÇÃ·¹ÀÌ¾î°¡ Á×¾ú´ÂÁö °Ë»ç
-        bool allPlayersDead = true; // ¸ğµç ÇÃ·¹ÀÌ¾î°¡ Á×À½À» È®ÀÎÇÏ´Â º¯¼ö
+        // ëª¨ë“  í”Œë ˆì´ì–´ê°€ ì£½ì—ˆëŠ”ì§€ ê²€ì‚¬
+        bool allPlayersDead = true; // ëª¨ë“  í”Œë ˆì´ì–´ê°€ ì£½ìŒì„ í™•ì¸í•˜ëŠ” ë³€ìˆ˜
 
         foreach (var playerScore in GameManager.instance.playerScores)
         {
-            // ÇÑ ¸íÀÌ¶óµµ Á×Áö ¾ÊÀº ÇÃ·¹ÀÌ¾î°¡ ÀÖÀ¸¸é false
+            // í•œ ëª…ì´ë¼ë„ ì£½ì§€ ì•Šì€ í”Œë ˆì´ì–´ê°€ ìˆìœ¼ë©´ false
             if (!playerScore.isDeath)
             {
                 allPlayersDead = false;
-                break; // ´õ ÀÌ»ó °Ë»çÇÒ ÇÊ¿ä ¾øÀ½
+                break; // ë” ì´ìƒ ê²€ì‚¬í•  í•„ìš” ì—†ìŒ
             }
         }
 
-        // ¸ğµç ÇÃ·¹ÀÌ¾î°¡ Á×¾ú´Ù¸é Áï½Ã °ÔÀÓ Á¾·á
+        // ëª¨ë“  í”Œë ˆì´ì–´ê°€ ì£½ì—ˆë‹¤ë©´ ì¦‰ì‹œ ê²Œì„ ì¢…ë£Œ
         if (allPlayersDead)
         {
-            // Áï½Ã °ÔÀÓ Á¾·á¸¦ À§ÇÑ Ã³¸®
-            if (!isScoreAdded) // Á¡¼ö¸¦ Ãß°¡ÇÏÁö ¾Ê¾Ò´Ù¸é
+            // ì¦‰ì‹œ ê²Œì„ ì¢…ë£Œë¥¼ ìœ„í•œ ì²˜ë¦¬
+            if (!isScoreAdded) // ì ìˆ˜ë¥¼ ì¶”ê°€í•˜ì§€ ì•Šì•˜ë‹¤ë©´
             {
                 foreach (var playerScore in GameManager.instance.playerScores)
                 {
-                    // ÇÃ·¹ÀÌ¾î°¡ Á×Áö ¾Ê¾ÒÀ¸¸é Á¡¼ö Ãß°¡
+                    // í”Œë ˆì´ì–´ê°€ ì£½ì§€ ì•Šì•˜ìœ¼ë©´ ì ìˆ˜ ì¶”ê°€
                     if (!playerScore.isDeath && PhotonNetwork.IsMasterClient)
                     {
-                        Debug.Log("Á¡¼ö Ãß°¡");
-                        playerScore.AddScore(1000);  // Á¡¼ö Ãß°¡
+                        Debug.Log("ì ìˆ˜ ì¶”ê°€");
+                        playerScore.AddScore(1000);  // ì ìˆ˜ ì¶”ê°€
                     }
                 }
 
-                // Á¡¼ö°¡ Ãß°¡µÇ¾úÀ½À» ±â·Ï
+                // ì ìˆ˜ê°€ ì¶”ê°€ë˜ì—ˆìŒì„ ê¸°ë¡
                 isScoreAdded = true;
 
                 GameManager.instance.ArrowBrainFalse();
@@ -185,38 +185,38 @@ public class ArrowEventManager : TimeManager
                 StartCoroutine(FadeScene());
             }
 
-            // Å¸ÀÌ¸Ó¸¦ ¸ØÃß±â À§ÇØ ÇÔ¼ö Á¾·á
+            // íƒ€ì´ë¨¸ë¥¼ ë©ˆì¶”ê¸° ìœ„í•´ í•¨ìˆ˜ ì¢…ë£Œ
             return;
         }
 
-        // Ä«¿îÆ®´Ù¿î Å¸ÀÌ¸Ó°¡ 0 ÀÌÇÏ·Î ³»·Á°¡¸é ¼ıÀÚ °¨¼Ò
+        // ì¹´ìš´íŠ¸ë‹¤ìš´ íƒ€ì´ë¨¸ê°€ 0 ì´í•˜ë¡œ ë‚´ë ¤ê°€ë©´ ìˆ«ì ê°ì†Œ
         countdownTimer -= Time.deltaTime;
 
         if (countdownTimer <= 0)
         {
-            // 1ÃÊ°¡ Áö³ª¸é Ä«¿îÆ®´Ù¿î ¼ıÀÚ °¨¼Ò
+            // 1ì´ˆê°€ ì§€ë‚˜ë©´ ì¹´ìš´íŠ¸ë‹¤ìš´ ìˆ«ì ê°ì†Œ
             timeRemaining -= 1;
 
-            // ÅØ½ºÆ® °»½Å
+            // í…ìŠ¤íŠ¸ ê°±ì‹ 
             countdownText.text = timeRemaining.ToString();
 
-            // Å¸ÀÌ¸Ó ÃÊ±âÈ­
+            // íƒ€ì´ë¨¸ ì´ˆê¸°í™”
             countdownTimer = 1f;
 
             if (timeRemaining <= 0 && !isScoreAdded)
             {
-                // Á¡¼ö¸¦ ÇÑ ¹ø¸¸ Ãß°¡ÇÏµµ·Ï Ã¼Å©
+                // ì ìˆ˜ë¥¼ í•œ ë²ˆë§Œ ì¶”ê°€í•˜ë„ë¡ ì²´í¬
                 foreach (var playerScore in GameManager.instance.playerScores)
                 {
-                    // ÇÃ·¹ÀÌ¾î°¡ Á×Áö ¾Ê¾ÒÀ¸¸é Á¡¼ö Ãß°¡
+                    // í”Œë ˆì´ì–´ê°€ ì£½ì§€ ì•Šì•˜ìœ¼ë©´ ì ìˆ˜ ì¶”ê°€
                     if (!playerScore.isDeath && PhotonNetwork.IsMasterClient)
                     {
-                        Debug.Log("Á¡¼ö Ãß°¡");
-                        playerScore.AddScore(1000);  // Á¡¼ö Ãß°¡
+                        Debug.Log("ì ìˆ˜ ì¶”ê°€");
+                        playerScore.AddScore(1000);  // ì ìˆ˜ ì¶”ê°€
                     }
                 }
 
-                // Á¡¼ö°¡ Ãß°¡µÇ¾úÀ½À» ±â·Ï
+                // ì ìˆ˜ê°€ ì¶”ê°€ë˜ì—ˆìŒì„ ê¸°ë¡
                 isScoreAdded = true;
 
                 GameManager.instance.ArrowBrainFalse();
