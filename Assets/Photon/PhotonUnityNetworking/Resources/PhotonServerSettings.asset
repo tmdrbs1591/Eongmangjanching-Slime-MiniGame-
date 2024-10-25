@@ -67,6 +67,8 @@ MonoBehaviour:
   - ChooseRandomTarget
   - SyncTarget
   - SetTargetIndex
+  - SyncRotation
+  - ToggleWarningLine
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
