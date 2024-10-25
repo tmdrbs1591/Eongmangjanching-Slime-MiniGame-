@@ -53,7 +53,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Screen.SetResolution(960, 540, false);
         PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.ConnectToRegion("asia");
+
     }
 
     public void Start()
