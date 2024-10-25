@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: "Assets/Main Folder/02.Scene/\uC774\uBCA4\uD2B8\uB4E4/EV.Arrow Event.unity"
     guid: aeb622bd9967898489576e236d03bd13
+  - enabled: 1
+    path: "Assets/Main Folder/02.Scene/\uC774\uBCA4\uD2B8\uB4E4/Ev.KIng Slime.unity"
+    guid: cca4400cba816344f914e6e3accab42a
   m_configObjects: {}

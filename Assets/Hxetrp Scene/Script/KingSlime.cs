@@ -9,8 +9,8 @@ public class KingSlime : MonoBehaviour
     public float chargeSpeed = 5f; // 돌진 속도
     public float initialChargeSpeed; // 돌진 속도의 초기 값
 
-    private TestPlayer targetPlayer; // 타겟 플레이어
-    private List<TestPlayer> players;
+    private PlayerScript targetPlayer; // 타겟 플레이어
+    private List<PlayerScript> players;
     private Vector3 chargeDirection; // 돌진 방향
     private enum State { Idle, Looking, Charging }; // 상태 정의
     private State currentState = State.Idle; // 초기 상태는 Idle
@@ -24,15 +24,15 @@ public class KingSlime : MonoBehaviour
 
         warningLine = transform.Find("Warning Line").gameObject;
         // 플레이어 목록 초기화
-        players = new List<TestPlayer>();
+        players = new List<PlayerScript>();
 
         // "Test Player" 태그를 가진 모든 오브젝트를 찾음
-        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Test Player");
+        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
 
         // 각 플레이어 오브젝트에서 TestPlayer 스크립트를 가져와 리스트에 추가
         foreach (GameObject playerObject in playerObjects)
         {
-            TestPlayer player = playerObject.GetComponent<TestPlayer>();
+            PlayerScript player = playerObject.GetComponent<PlayerScript>();
             if (player != null)
             {
                 players.Add(player);
@@ -119,7 +119,7 @@ public class KingSlime : MonoBehaviour
     }
    private void OnTriggerEnter(Collider other)
 {
-    if (other.gameObject.CompareTag("Test Player"))
+    if (other.gameObject.CompareTag("Player"))
     {
         Rigidbody playerRb = other.gameObject.GetComponent<Rigidbody>();
         var playerScript = other.gameObject.GetComponent<PlayerScript>();
@@ -132,8 +132,8 @@ public class KingSlime : MonoBehaviour
             StartCoroutine(playerScript.StunCor());
         }
 
-        // 충돌한 플레이어를 타겟 리스트에서 제거
-        TestPlayer hitPlayer = other.gameObject.GetComponent<TestPlayer>();
+            // 충돌한 플레이어를 타겟 리스트에서 제거
+            PlayerScript hitPlayer = other.gameObject.GetComponent<PlayerScript>();
         if (hitPlayer != null)
         {
             players.Remove(hitPlayer);  // 플레이어 목록에서 제거
