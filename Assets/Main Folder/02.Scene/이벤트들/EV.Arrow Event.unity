@@ -1093,6 +1093,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentArrowCount: 0
   forceAmount: 0
+  failEffect: {fileID: 0}
   leftArrow: {fileID: 0}
   rightArrow: {fileID: 0}
   upArrow: {fileID: 0}
