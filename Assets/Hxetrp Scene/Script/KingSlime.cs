@@ -29,14 +29,6 @@ public class KingSlime : MonoBehaviourPunCallbacks
 
         GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
 
-        foreach (GameObject playerObject in playerObjects)
-        {
-            PlayerScript player = playerObject.GetComponent<PlayerScript>();
-            if (player != null)
-            {
-                players.Add(player);
-            }
-        }
 
         StartCoroutine(InitialWaitAndChooseTarget());
     }
