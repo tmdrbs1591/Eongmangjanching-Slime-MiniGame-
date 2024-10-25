@@ -88,6 +88,7 @@ public class KingSlime : MonoBehaviourPunCallbacks
 
     void StartCharging()
     {
+        if (currentState == State.Charging) return; // 충전 상태인 경우 종료
         chargeDirection = (targetPlayer.transform.position - transform.position).normalized;
         currentState = State.Charging;
 
