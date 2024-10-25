@@ -76,8 +76,11 @@ public class KingSlime : MonoBehaviourPunCallbacks
         float elapsedTime = 0f;
         while (elapsedTime < lookDuration)
         {
-            Vector3 direction = (targetPlayer.transform.position - transform.position).normalized;
-            transform.rotation = Quaternion.LookRotation(direction);
+            if (targetPlayer != null) // 타겟이 null이 아닌 경우에만
+            {
+                Vector3 direction = (targetPlayer.transform.position - transform.position).normalized;
+                transform.rotation = Quaternion.LookRotation(direction); // 타겟을 바라봄
+            }
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -89,7 +92,7 @@ public class KingSlime : MonoBehaviourPunCallbacks
     void StartCharging()
     {
         // 마스터 클라이언트에서만 충전 시작
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient && targetPlayer != null)
         {
             chargeDirection = (targetPlayer.transform.position - transform.position).normalized;
             currentState = State.Charging;
