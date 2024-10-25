@@ -25,7 +25,7 @@ public class RunningEventManager : TimeManager
     {
         base.Start();
         StartCoroutine(Co_SpawnLog());
-        //StartCoroutine(Co_SpawnBall());
+        StartCoroutine(Co_SpawnBall());
     }
 
     IEnumerator Co_SpawnLog()
@@ -42,7 +42,7 @@ public class RunningEventManager : TimeManager
     {
         int index = Random.Range(0, ballSpawnPos.Length);
         
-        Instantiate(ball, ballSpawnPos[index].position, Quaternion.identity);
+        Instantiate(ball, ballSpawnPos[index].position, ballSpawnPos[index].rotation);
 
         yield return new WaitForSeconds(ballSpawnTime);
 
