@@ -70,33 +70,42 @@ public class KingSlime : MonoBehaviourPunCallbacks
     IEnumerator LookAtTarget()
     {
         currentState = State.Looking;
-        photonView.RPC("ToggleWarningLine", RpcTarget.All, true); // 모든 클라이언트에 warningLine 활성화 동기화
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("ToggleWarningLine", RpcTarget.All, true); // warningLine 활성화 동기화
+        }
 
         float elapsedTime = 0f;
         while (elapsedTime < lookDuration)
         {
-            if (targetPlayer != null)
+            if (PhotonNetwork.IsMasterClient && targetPlayer != null)
             {
                 Vector3 direction = (targetPlayer.transform.position - transform.position).normalized;
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
 
-                // 로테이션을 모든 클라이언트에 동기화
-                photonView.RPC("SyncRotation", RpcTarget.All, targetRotation);
-
+                // 마스터 클라이언트에서만 로테이션을 동기화
+                photonView.RPC("SyncRotation", RpcTarget.Others, targetRotation);
                 transform.rotation = targetRotation;
             }
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        photonView.RPC("ToggleWarningLine", RpcTarget.All, false); // warningLine 비활성화 동기화
-        StartCharging();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("ToggleWarningLine", RpcTarget.All, false); // warningLine 비활성화 동기화
+            StartCharging();
+        }
     }
 
     [PunRPC]
     void SyncRotation(Quaternion rotation)
     {
-        transform.rotation = rotation;
+        if (!PhotonNetwork.IsMasterClient) // 마스터 클라이언트는 로컬에서 로테이션을 설정하므로, 클라이언트만 RPC 값 사용
+        {
+            transform.rotation = rotation;
+        }
     }
 
     [PunRPC]
