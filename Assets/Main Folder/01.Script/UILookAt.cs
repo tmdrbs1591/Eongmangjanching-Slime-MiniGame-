@@ -20,7 +20,6 @@ public class UILookAt : MonoBehaviourPunCallbacks
         // 메인 카메라의 Transform을 가져옵니다.
         mainCameraTransform = mainCamera.transform;
     }
-
     void LateUpdate()
     {
         if (mainCameraTransform == null)
@@ -41,6 +40,18 @@ public class UILookAt : MonoBehaviourPunCallbacks
     {
         base.OnEnable();
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        // 메인 카메라를 찾습니다.
+        Camera mainCamera = Camera.main;
+
+        if (mainCamera == null)
+        {
+            Debug.LogError("Main camera not found. Make sure it is tagged as 'MainCamera'.");
+            return;
+        }
+
+        // 메인 카메라의 Transform을 가져옵니다.
+        mainCameraTransform = mainCamera.transform;
     }
 
     public override void OnDisable()

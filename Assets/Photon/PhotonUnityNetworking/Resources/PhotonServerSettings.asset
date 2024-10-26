@@ -69,6 +69,7 @@ MonoBehaviour:
   - SetTargetIndex
   - SyncRotation
   - ToggleWarningLine
+  - RPC_PlaySound
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
