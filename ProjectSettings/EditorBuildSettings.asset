@@ -12,18 +12,20 @@ EditorBuildSettings:
     path: Assets/Main Folder/02.Scene/01.StartWaitRoom.unity
     guid: c61f7a8e469c5874791a799c4720e890
   - enabled: 1
-    path: "Assets/Main Folder/02.Scene/\uC774\uBCA4\uD2B8\uB4E4/EV.HammerEvent.unity"
+    path: "Assets/Main Folder/02.Scene/\u110B\u1175\u1107\u1166\u11AB\u1110\u1173\u1103\u1173\u11AF/EV.HammerEvent.unity"
     guid: d1c3109bdb54ad54c8a2b2838528e640
   - enabled: 1
     path: Assets/Main Folder/02.Scene/01.WaitRoom.unity
     guid: 76887be7906a40341b407a90bf078acf
   - enabled: 1
-    path: "Assets/Main Folder/02.Scene/\uC774\uBCA4\uD2B8\uB4E4/EV.LogEvent.unity"
+    path: "Assets/Main Folder/02.Scene/\u110B\u1175\u1107\u1166\u11AB\u1110\u1173\u1103\u1173\u11AF/EV.LogEvent.unity"
     guid: e25ab9597cd8ad2499675092313c9f55
   - enabled: 1
-    path: "Assets/Main Folder/02.Scene/\uC774\uBCA4\uD2B8\uB4E4/EV.Arrow Event.unity"
+    path: "Assets/Main Folder/02.Scene/\u110B\u1175\u1107\u1166\u11AB\u1110\u1173\u1103\u1173\u11AF/EV.Arrow
+      Event.unity"
     guid: aeb622bd9967898489576e236d03bd13
   - enabled: 1
-    path: "Assets/Main Folder/02.Scene/\uC774\uBCA4\uD2B8\uB4E4/Ev.KIng Slime.unity"
+    path: "Assets/Main Folder/02.Scene/\u110B\u1175\u1107\u1166\u11AB\u1110\u1173\u1103\u1173\u11AF/Ev.KIng
+      Slime.unity"
     guid: cca4400cba816344f914e6e3accab42a
   m_configObjects: {}
