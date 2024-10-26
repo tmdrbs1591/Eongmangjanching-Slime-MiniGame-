@@ -55,9 +55,11 @@ public class PlayerScore : MonoBehaviourPunCallbacks
         if (other.CompareTag("Ocean"))
         {
             isDeath = true;
-            AudioManager.instance.PlaySound(transform.position, 0, Random.Range(1f, 1f), 1f);
-            PhotonNetwork.Instantiate(waterEffectPrefabs.name, transform.position, Quaternion.identity);
-
+            if (photonView.IsMine)
+            {
+                AudioManager.instance.PlaySound(transform.position, 0, Random.Range(1f, 1f), 1f);
+                PhotonNetwork.Instantiate(waterEffectPrefabs.name, transform.position, Quaternion.identity);
+            }
         }
     }
 }
