@@ -14,8 +14,6 @@ public class TimeManager : MonoBehaviourPunCallbacks
     [SerializeField] protected GameObject Fadein;
     [SerializeField] protected GameObject FadeOut;
 
-    private string nextScene; // 다음 씬 이름을 저장할 변수
-
     protected virtual void Start()
     {
         // 처음 시작할 때 텍스트 초기화
@@ -41,17 +39,13 @@ public class TimeManager : MonoBehaviourPunCallbacks
 
             if (timeRemaining <= 0)
             {
-                int randomIndex = Random.Range(0, sceneName.Length);
-                nextScene = sceneName[randomIndex]; // 다음 씬 이름 저장
-
                 if (PhotonNetwork.IsMasterClient)
                 {
                     StartCoroutine(FadeScene());
-                    photonView.RPC("SyncFadeScene", RpcTarget.All, nextScene); // 씬 이름 전달
                 }
                 else
                 {
-                    photonView.RPC("SyncFadeScene", RpcTarget.All, nextScene); // 다른 클라이언트에게 씬 전환을 동기화
+                    photonView.RPC("SyncFadeScene", RpcTarget.All); // 다른 클라이언트에게 씬 전환을 동기화
                 }
             }
         }
@@ -62,14 +56,24 @@ public class TimeManager : MonoBehaviourPunCallbacks
         Fadein.SetActive(true);
         yield return new WaitForSeconds(1.5f);
 
-        // 저장된 씬으로 이동
-        PhotonNetwork.LoadLevel(nextScene);
+        // 씬 전환을 위한 RPC 호출
+        photonView.RPC("LoadRandomScene", RpcTarget.All);
     }
 
     [PunRPC]
-    private void SyncFadeScene(string sceneToLoad)
+    private void LoadRandomScene()
     {
-        nextScene = sceneToLoad; // 다음 씬 이름을 저장
+        // 랜덤으로 씬 이름 선택
+        int randomIndex = Random.Range(0, sceneName.Length);
+        string randomScene = sceneName[randomIndex];
+
+        // 랜덤으로 선택된 씬으로 이동
+        PhotonNetwork.LoadLevel(randomScene);
+    }
+
+    [PunRPC]
+    private void SyncFadeScene()
+    {
         StartCoroutine(FadeScene()); // 마스터 클라이언트의 씬 전환에 맞춰 실행
     }
 }
