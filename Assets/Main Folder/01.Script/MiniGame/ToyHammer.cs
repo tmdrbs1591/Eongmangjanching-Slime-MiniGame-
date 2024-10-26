@@ -34,6 +34,10 @@ public class ToyHammer : MonoBehaviourPunCallbacks
             {
                 anim.SetTrigger("isAttack");
                 photonView.RPC("PunAttack", RpcTarget.AllBuffered);
+                if (photonView.IsMine)
+                {
+                    AudioManager.instance.PlaySound(transform.position, 5, Random.Range(0.9f, 1f), 1f);
+                }
             }
         }
     }
