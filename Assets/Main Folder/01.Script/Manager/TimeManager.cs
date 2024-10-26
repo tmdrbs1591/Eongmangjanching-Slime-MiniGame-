@@ -13,6 +13,11 @@ public class TimeManager : MonoBehaviourPunCallbacks
     [SerializeField] protected GameObject Fadein;
     [SerializeField] protected GameObject FadeOut;
 
+    protected virtual void Awake()
+    {
+        PhotonNetwork.AutomaticallySyncScene = true; // 씬 자동 동기화 설정
+    }
+
     protected virtual void Start()
     {
         // 처음 시작할 때 텍스트 초기화
@@ -36,10 +41,6 @@ public class TimeManager : MonoBehaviourPunCallbacks
                 {
                     StartCoroutine(FadeScene());
                 }
-                else
-                {
-                    photonView.RPC("SyncFadeScene", RpcTarget.All);
-                }
             }
         }
     }
@@ -61,12 +62,9 @@ public class TimeManager : MonoBehaviourPunCallbacks
         string randomScene = sceneName[randomIndex];
 
         // 랜덤으로 선택된 씬으로 이동
-        PhotonNetwork.LoadLevel(randomScene);
-    }
-
-    [PunRPC]
-    private void SyncFadeScene()
-    {
-        StartCoroutine(FadeScene());
+        if (PhotonNetwork.IsMasterClient) // 마스터 클라이언트만 LoadLevel 호출
+        {
+            PhotonNetwork.LoadLevel(randomScene);
+        }
     }
 }
