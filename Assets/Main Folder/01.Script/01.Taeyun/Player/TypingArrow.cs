@@ -160,15 +160,21 @@ public class TypingArrow : MonoBehaviourPunCallbacks
         if (currentArrowCount < ArrowEventManager.instance.arrowCount)
         {
             FailedArrow();
-            photonView.RPC("ImageActive", RpcTarget.All, false);  // 실패 이미지 활성화
-            AudioManager.instance.PlaySound(transform.position, 3, Random.Range(1f, 1f), 1f);
+            if (photonView.IsMine)
+            {
+                photonView.RPC("ImageActive", RpcTarget.All, false);  // 실패 이미지 활성화
+                AudioManager.instance.PlaySound(transform.position, 3, Random.Range(1f, 1f), 1f);
+            }
 
         }
         else
         {
             ResetState(); // 이벤트가 끝날 때 상태 초기화
-            AudioManager.instance.PlaySound(transform.position, 2, Random.Range(1f, 1f), 1f);
-            photonView.RPC("ImageActive", RpcTarget.All, true);  // 성공 이미지 활성화
+            if (photonView.IsMine)
+            {
+                AudioManager.instance.PlaySound(transform.position, 2, Random.Range(1f, 1f), 1f);
+                photonView.RPC("ImageActive", RpcTarget.All, true);  // 성공 이미지 활성화
+            }
 
         }
     }
