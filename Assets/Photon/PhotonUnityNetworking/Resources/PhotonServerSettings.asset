@@ -72,6 +72,7 @@ MonoBehaviour:
   - RPC_PlaySound
   - ImageActive
   - ActivateFadeIn
+  - RPC_HatChange
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

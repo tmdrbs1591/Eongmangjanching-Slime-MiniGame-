@@ -7,7 +7,7 @@ public class PlayerCustomizing : MonoBehaviourPunCallbacks
 {
     [SerializeField] SkinnedMeshRenderer skinnedMeshRenderer;
     [SerializeField] public Material currentMaterial;
-
+    [SerializeField] public GameObject currentHat;
 
     [SerializeField] public Material redColor;
     [SerializeField] public Material yellowColor;
@@ -15,20 +15,28 @@ public class PlayerCustomizing : MonoBehaviourPunCallbacks
     [SerializeField] public Material whiteColor;
     [SerializeField] public Material pinkColor;
     [SerializeField] public Material skyColor;
+
+    [SerializeField] private GameObject vikingHat;
+    [SerializeField] private GameObject sproutHat;
+    [SerializeField] private GameObject leafHat;
+    [SerializeField] private GameObject metalHat;
+
     void Start()
     {
-
         if (photonView.IsMine)
         {
             Select();
         }
-
     }
 
     [PunRPC]
     public void RPC_Select()
     {
         skinnedMeshRenderer.material = currentMaterial;
+        if (currentHat != null)
+        {
+            currentHat.SetActive(true); // 현재 모자를 활성화
+        }
     }
 
     public void Select()
@@ -36,6 +44,39 @@ public class PlayerCustomizing : MonoBehaviourPunCallbacks
         photonView.RPC("RPC_Select", RpcTarget.AllBuffered);
     }
 
+    [PunRPC]
+    public void RPC_HatChange(string hatName)
+    {
+        // 현재 모자를 비활성화
+        if (currentHat != null)
+        {
+            currentHat.SetActive(false);
+        }
+
+        switch (hatName.ToLower())
+        {
+            case "viking":
+                currentHat = vikingHat;
+                break;
+            case "sprouthat": // 수정: "sproutHat"을 "sprouthat"로 변경
+                currentHat = sproutHat;
+                break;
+            case "leafhat": 
+                currentHat = leafHat;
+                break;
+            case "metalhat": 
+                currentHat = metalHat;
+                break;
+
+
+            default:
+                Debug.LogWarning("Unknown hat name: " + hatName);
+                return; // 알 수 없는 모자 이름 처리
+        }
+
+        // 변경된 모자를 활성화
+        currentHat.SetActive(true);
+    }
 
     [PunRPC]
     public void RPC_ColorChange(string colorName)
@@ -45,11 +86,9 @@ public class PlayerCustomizing : MonoBehaviourPunCallbacks
             case "red":
                 currentMaterial = redColor;
                 break;
-
             case "yellow":
                 currentMaterial = yellowColor;
                 break;
-
             case "blue":
                 currentMaterial = blueColor;
                 break;
@@ -67,6 +106,7 @@ public class PlayerCustomizing : MonoBehaviourPunCallbacks
                 break;
         }
     }
+
     void ColorChangeGM(string colorName)
     {
         switch (colorName.ToLower())
@@ -74,11 +114,9 @@ public class PlayerCustomizing : MonoBehaviourPunCallbacks
             case "red":
                 GameManager.instance.dumiSkinMeshRenderer.material = redColor;
                 break;
-
             case "yellow":
                 GameManager.instance.dumiSkinMeshRenderer.material = yellowColor;
                 break;
-
             case "blue":
                 GameManager.instance.dumiSkinMeshRenderer.material = blueColor;
                 break;
@@ -96,6 +134,7 @@ public class PlayerCustomizing : MonoBehaviourPunCallbacks
                 break;
         }
     }
+
     public void ColorChange(string colorName)
     {
         photonView.RPC("RPC_ColorChange", RpcTarget.AllBuffered, colorName);
@@ -103,4 +142,9 @@ public class PlayerCustomizing : MonoBehaviourPunCallbacks
         Select();
     }
 
+    public void HatChange(string hatName)
+    {
+        photonView.RPC("RPC_HatChange", RpcTarget.AllBuffered, hatName);
+        Select();
+    }
 }
