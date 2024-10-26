@@ -101,7 +101,10 @@ public class ArrowEventManager : TimeManager
 
     private string RandomArrow()
     {
-        AudioManager.instance.PlaySound(transform.position, 4, Random.Range(1f, 1f), 1f);
+        if (photonView.IsMine)
+        {
+            AudioManager.instance.PlaySound(transform.position, 4, Random.Range(1f, 1f), 1f);
+        }
         int i = Random.Range(0, 4);
         switch (i)
         {
