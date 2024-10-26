@@ -1,7 +1,6 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement; // 씬을 변경하려면 필요
 using Photon.Pun;
 
 public class TimeManager : MonoBehaviourPunCallbacks
@@ -23,18 +22,12 @@ public class TimeManager : MonoBehaviourPunCallbacks
 
     protected virtual void Update()
     {
-        // 카운트다운 타이머가 0 이하로 내려가면 숫자 감소
         countdownTimer -= Time.deltaTime;
 
         if (countdownTimer <= 0)
         {
-            // 1초가 지나면 카운트다운 숫자 감소
             timeRemaining -= 1;
-
-            // 텍스트 갱신
             countdownText.text = timeRemaining.ToString();
-
-            // 타이머 초기화
             countdownTimer = 1f;
 
             if (timeRemaining <= 0)
@@ -45,7 +38,7 @@ public class TimeManager : MonoBehaviourPunCallbacks
                 }
                 else
                 {
-                    photonView.RPC("SyncFadeScene", RpcTarget.All); // 다른 클라이언트에게 씬 전환을 동기화
+                    photonView.RPC("SyncFadeScene", RpcTarget.All);
                 }
             }
         }
@@ -61,7 +54,7 @@ public class TimeManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void LoadRandomScene()
+    public void LoadRandomScene() // 접근성을 public으로 변경
     {
         // 랜덤으로 씬 이름 선택
         int randomIndex = Random.Range(0, sceneName.Length);
@@ -74,6 +67,6 @@ public class TimeManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SyncFadeScene()
     {
-        StartCoroutine(FadeScene()); // 마스터 클라이언트의 씬 전환에 맞춰 실행
+        StartCoroutine(FadeScene());
     }
 }
