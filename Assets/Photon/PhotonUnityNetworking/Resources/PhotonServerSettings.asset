@@ -73,6 +73,9 @@ MonoBehaviour:
   - ImageActive
   - ActivateFadeIn
   - RPC_HatChange
+  - RPC_HappyEmoticonTrue
+  - RPC_AngryEmoticonTrue
+  - RPC_SadEmoticonTrue
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
