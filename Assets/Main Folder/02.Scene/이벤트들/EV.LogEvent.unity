@@ -1145,6 +1145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 608810964}
   - component: {fileID: 608810965}
+  - component: {fileID: 608810966}
   m_Layer: 0
   m_Name: logMiniGame
   m_TagString: Untagged
@@ -1195,6 +1196,28 @@ MonoBehaviour:
   backPos: {fileID: 1708996449}
   logPrefabs: {fileID: 5062745626216023992, guid: 26f506d47cbdf2a43ba56821d0080128, type: 3}
   moveSpeed: 5
+--- !u!114 &608810966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608810963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 56
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &659702924
 PrefabInstance:
   m_ObjectHideFlags: 0
