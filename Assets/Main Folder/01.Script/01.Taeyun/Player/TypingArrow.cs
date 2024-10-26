@@ -59,18 +59,23 @@ public class TypingArrow : MonoBehaviourPunCallbacks
                 if (Input.GetKeyDown(KeyCode.UpArrow))
                 {
                     HandleArrowInput("↑", "Up");
+                    AudioManager.instance.PlaySound(transform.position, 1, Random.Range(0.9f, 1.4f), 1f);
                 }
                 if (Input.GetKeyDown(KeyCode.DownArrow))
                 {
                     HandleArrowInput("↓", "Down");
+                    AudioManager.instance.PlaySound(transform.position, 1, Random.Range(0.9f, 1.4f), 1f);
                 }
                 if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
                     HandleArrowInput("←", "Left");
+                    AudioManager.instance.PlaySound(transform.position, 1, Random.Range(0.9f, 1.4f), 1f);
                 }
                 if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
                     HandleArrowInput("→", "Right");
+                    AudioManager.instance.PlaySound(transform.position, 1, Random.Range(0.9f, 1.4f), 1f);
+
                 }
             }
         }

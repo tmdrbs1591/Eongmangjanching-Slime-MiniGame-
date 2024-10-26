@@ -17,6 +17,8 @@ public class PlayerScore : MonoBehaviourPunCallbacks
     [SerializeField] public GameObject hammer;
     [SerializeField] public GameObject arrowBrain;
 
+    [SerializeField] public GameObject waterEffectPrefabs;
+
     private void Start()
     {
         GameManager.instance.playerScores.Add(this);
@@ -53,6 +55,9 @@ public class PlayerScore : MonoBehaviourPunCallbacks
         if (other.CompareTag("Ocean"))
         {
             isDeath = true;
+            AudioManager.instance.PlaySound(transform.position, 0, Random.Range(1f, 1f), 1f);
+            PhotonNetwork.Instantiate(waterEffectPrefabs.name, transform.position, Quaternion.identity);
+
         }
     }
 }
