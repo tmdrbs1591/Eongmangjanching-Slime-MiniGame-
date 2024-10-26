@@ -39,34 +39,34 @@ public class TimeManager : MonoBehaviourPunCallbacks
 
             if (timeRemaining <= 0)
             {
+                int randomIndex = Random.Range(0, sceneName.Length);
+                string randomScene = sceneName[randomIndex];
+
                 if (PhotonNetwork.IsMasterClient)
                 {
-                    StartCoroutine(FadeScene());
+                    StartCoroutine(FadeScene(randomScene));
+                    photonView.RPC("SyncFadeScene", RpcTarget.All, randomScene); // 씬 이름 전달
                 }
                 else
                 {
-                    photonView.RPC("SyncFadeScene", RpcTarget.All); // 다른 클라이언트에게 씬 전환을 동기화
+                    photonView.RPC("SyncFadeScene", RpcTarget.All, randomScene); // 다른 클라이언트에게 씬 전환을 동기화
                 }
             }
         }
     }
 
-    protected IEnumerator FadeScene()
+    protected IEnumerator FadeScene(string sceneToLoad)
     {
         Fadein.SetActive(true);
         yield return new WaitForSeconds(1.5f);
 
-        // sceneName 배열에서 랜덤으로 하나의 씬 이름 선택
-        int randomIndex = Random.Range(0, sceneName.Length);
-        string randomScene = sceneName[randomIndex];
-
         // 랜덤으로 선택된 씬으로 이동
-        PhotonNetwork.LoadLevel(randomScene);
+        PhotonNetwork.LoadLevel(sceneToLoad);
     }
 
     [PunRPC]
-    private void SyncFadeScene()
+    private void SyncFadeScene(string sceneToLoad)
     {
-        StartCoroutine(FadeScene()); // 마스터 클라이언트의 씬 전환에 맞춰 실행
+        StartCoroutine(FadeScene(sceneToLoad)); // 마스터 클라이언트의 씬 전환에 맞춰 실행
     }
 }
