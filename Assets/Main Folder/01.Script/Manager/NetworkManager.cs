@@ -196,7 +196,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
 
         Player[] players = PhotonNetwork.PlayerList;
-
+        StartCoroutine(SongManager.Instance.ChangeMusic(4));
         for (int i = 0; i < players.Count(); i++)
         {
             GameObject playerItem = Instantiate(playerListItemPrefab, playerLisContent);
@@ -234,8 +234,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         RoomInput.text = "";
         CreateRoom();
     }
-    public void LeaveRoom() => PhotonNetwork.LeaveRoom();
-
+    public void LeaveRoom()
+    {
+        StartCoroutine(SongManager.Instance.ChangeMusic(0));
+        PhotonNetwork.LeaveRoom();
+    }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         RoomRenewal();
