@@ -61,10 +61,10 @@ public class PlayerCustomizing : MonoBehaviourPunCallbacks
             case "sprouthat": // 수정: "sproutHat"을 "sprouthat"로 변경
                 currentHat = sproutHat;
                 break;
-            case "leafhat": 
+            case "leafhat":
                 currentHat = leafHat;
                 break;
-            case "metalhat": 
+            case "metalhat":
                 currentHat = metalHat;
                 break;
 
@@ -74,10 +74,28 @@ public class PlayerCustomizing : MonoBehaviourPunCallbacks
                 return; // 알 수 없는 모자 이름 처리
         }
 
-        // 변경된 모자를 활성화
-        currentHat.SetActive(true);
     }
-
+    void DumiHatChange(string colorName)
+    {
+        switch (colorName.ToLower())
+        {
+            case "viking":
+                GameManager.instance.HatActive(GameManager.instance.vikingHat);
+                break;
+            case "sprouthat": // 수정: "sproutHat"을 "sprouthat"로 변경
+                GameManager.instance.HatActive(GameManager.instance.sproutHat);
+                break;
+            case "leafhat":
+                GameManager.instance.HatActive(GameManager.instance.leafHat);
+                break;
+            case "metalhat":
+                GameManager.instance.HatActive(GameManager.instance.metalHat);
+                break;
+            default:
+                Debug.LogWarning("Unknown color name: " + colorName);
+                break;
+        }
+    }
     [PunRPC]
     public void RPC_ColorChange(string colorName)
     {
@@ -145,6 +163,7 @@ public class PlayerCustomizing : MonoBehaviourPunCallbacks
     public void HatChange(string hatName)
     {
         photonView.RPC("RPC_HatChange", RpcTarget.AllBuffered, hatName);
+        DumiHatChange(hatName);
         Select();
     }
 }

@@ -7,12 +7,21 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager instance { get; private set; }
 
+    [Header("더미")]
     public SkinnedMeshRenderer dumiSkinMeshRenderer;
+    [SerializeField] public GameObject vikingHat;
+    [SerializeField] public GameObject sproutHat;
+    [SerializeField] public GameObject leafHat;
+    [SerializeField] public GameObject metalHat;
+
+    private List<GameObject> hats;
+
     public List<PlayerScore> playerScores = new List<PlayerScore>();
     public List<ScoreListItem> scoreListItem = new List<ScoreListItem>();
 
     private void Awake()
     {
+
         // 싱글톤 인스턴스 설정
         if (instance == null)
         {
@@ -23,6 +32,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Destroy(gameObject);  // 이미 인스턴스가 있으면 자신을 파괴
         }
+
+        hats = new List<GameObject> { vikingHat, sproutHat, leafHat, metalHat };
+
     }
     private void Update()
     {
@@ -44,6 +56,26 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
     }
+
+
+
+
+    public void HatActive(GameObject selectedHat)
+    {
+        // 모든 모자를 비활성화합니다.
+        foreach (GameObject hat in hats)
+        {
+            hat.SetActive(false);
+        }
+
+        // 선택된 모자만 활성화합니다.
+        selectedHat.SetActive(true);
+    }
+
+
+
+
+
     // 점수 기반 순위 업데이트 메서드
     public void UpdateScoreRanking()
     {
