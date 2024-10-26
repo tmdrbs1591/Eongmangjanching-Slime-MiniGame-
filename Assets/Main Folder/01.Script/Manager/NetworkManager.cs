@@ -234,6 +234,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         RoomInput.text = "";
         CreateRoom();
     }
+    public void LeaveRoom() => PhotonNetwork.LeaveRoom();
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {

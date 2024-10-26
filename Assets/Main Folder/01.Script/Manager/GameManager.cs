@@ -24,7 +24,26 @@ public class GameManager : MonoBehaviourPunCallbacks
             Destroy(gameObject);  // 이미 인스턴스가 있으면 자신을 파괴
         }
     }
+    private void Update()
+    {
+        // playerScores 리스트에서 Missing된 항목 제거
+        for (int i = playerScores.Count - 1; i >= 0; i--)
+        {
+            if (playerScores[i] == null)
+            {
+                playerScores.RemoveAt(i);
+            }
+        }
 
+        // scoreListItem 리스트에서 Missing된 항목 제거
+        for (int i = scoreListItem.Count - 1; i >= 0; i--)
+        {
+            if (scoreListItem[i] == null)
+            {
+                scoreListItem.RemoveAt(i);
+            }
+        }
+    }
     // 점수 기반 순위 업데이트 메서드
     public void UpdateScoreRanking()
     {
