@@ -13,6 +13,8 @@ public class PlayerCustomizing : MonoBehaviourPunCallbacks
     [SerializeField] public Material yellowColor;
     [SerializeField] public Material blueColor;
     [SerializeField] public Material whiteColor;
+    [SerializeField] public Material pinkColor;
+    [SerializeField] public Material skyColor;
     void Start()
     {
 
@@ -54,6 +56,12 @@ public class PlayerCustomizing : MonoBehaviourPunCallbacks
             case "white":
                 currentMaterial = whiteColor;
                 break;
+            case "sky":
+                currentMaterial = skyColor;
+                break;
+            case "pink":
+                currentMaterial = pinkColor;
+                break;
             default:
                 Debug.LogWarning("Unknown color name: " + colorName);
                 break;
@@ -76,6 +84,12 @@ public class PlayerCustomizing : MonoBehaviourPunCallbacks
                 break;
             case "white":
                 GameManager.instance.dumiSkinMeshRenderer.material = whiteColor;
+                break;
+            case "sky":
+                GameManager.instance.dumiSkinMeshRenderer.material = skyColor;
+                break;
+            case "pink":
+                GameManager.instance.dumiSkinMeshRenderer.material = pinkColor;
                 break;
             default:
                 Debug.LogWarning("Unknown color name: " + colorName);
