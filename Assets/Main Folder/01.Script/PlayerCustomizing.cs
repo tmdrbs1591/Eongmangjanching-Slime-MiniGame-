@@ -41,22 +41,17 @@ public class PlayerCustomizing : MonoBehaviourPunCallbacks
         switch (colorName.ToLower())
         {
             case "red":
-                GameManager.instance.dumiSkinMeshRenderer.material = redColor;
                 currentMaterial = redColor;
                 break;
 
             case "yellow":
-                GameManager.instance.dumiSkinMeshRenderer.material = yellowColor;
-
                 currentMaterial = yellowColor;
                 break;
 
             case "blue":
-                GameManager.instance.dumiSkinMeshRenderer.material = blueColor;
-                currentMaterial =blueColor;
+                currentMaterial = blueColor;
                 break;
             case "white":
-                GameManager.instance.dumiSkinMeshRenderer.material = whiteColor;
                 currentMaterial = whiteColor;
                 break;
             default:
@@ -64,10 +59,33 @@ public class PlayerCustomizing : MonoBehaviourPunCallbacks
                 break;
         }
     }
+    void ColorChangeGM(string colorName)
+    {
+        switch (colorName.ToLower())
+        {
+            case "red":
+                GameManager.instance.dumiSkinMeshRenderer.material = redColor;
+                break;
 
+            case "yellow":
+                GameManager.instance.dumiSkinMeshRenderer.material = yellowColor;
+                break;
+
+            case "blue":
+                GameManager.instance.dumiSkinMeshRenderer.material = blueColor;
+                break;
+            case "white":
+                GameManager.instance.dumiSkinMeshRenderer.material = whiteColor;
+                break;
+            default:
+                Debug.LogWarning("Unknown color name: " + colorName);
+                break;
+        }
+    }
     public void ColorChange(string colorName)
     {
         photonView.RPC("RPC_ColorChange", RpcTarget.AllBuffered, colorName);
+        ColorChangeGM(colorName);
         Select();
     }
 
