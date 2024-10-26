@@ -95,7 +95,10 @@ public class TypingArrow : MonoBehaviourPunCallbacks
         }
         else
         {
-            FailedArrow(); // 틀렸으면 실패 처리
+            if (photonView.IsMine)
+            {
+                FailedArrow(); // 틀렸으면 실패 처리
+            }
         }
     }
 

@@ -47,12 +47,20 @@ public class TimeManager : MonoBehaviourPunCallbacks
 
     protected IEnumerator FadeScene()
     {
-        Fadein.SetActive(true);
+        photonView.RPC("ActivateFadeIn", RpcTarget.All); // 모든 클라이언트에서 Fadein 활성화
+
         yield return new WaitForSeconds(1.5f);
 
         // 씬 전환을 위한 RPC 호출
         photonView.RPC("LoadRandomScene", RpcTarget.All);
     }
+
+    [PunRPC]
+    void ActivateFadeIn()
+    {
+        Fadein.SetActive(true); // 모든 클라이언트에서 Fadein 활성화
+    }
+
 
     [PunRPC]
     public void LoadRandomScene() // 접근성을 public으로 변경

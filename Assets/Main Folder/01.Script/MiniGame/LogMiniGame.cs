@@ -128,10 +128,26 @@ public class LogMiniGame : TimeManager
 
                 // 점수가 추가되었음을 기록
                 isScoreAdded = true;
-
-                StartCoroutine(FadeScene());
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    StartCoroutine(FadeScene());
+                }
             }
         }
     }
+    [PunRPC]
+    public void ActivateFadeIn()
+    {
+        Fadein.SetActive(true); // 모든 클라이언트에서 FadeIn 활성화
+    }
 
+    protected IEnumerator FadeScene()
+    {
+        // FadeIn을 활성화하는 RPC 호출
+        photonView.RPC("ActivateFadeIn", RpcTarget.All);
+        yield return new WaitForSeconds(1.5f);
+
+        // 씬 전환을 위한 RPC 호출
+        photonView.RPC("LoadRandomScene", RpcTarget.All);
+    }
 }

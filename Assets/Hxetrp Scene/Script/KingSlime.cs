@@ -23,7 +23,7 @@ public class KingSlime : MonoBehaviourPunCallbacks
         rb = GetComponent<Rigidbody>();
         warningLine = transform.Find("Warning Line").gameObject;
 
-        // GameManager의 playerScores 리스트를 통해 players 리스트 구성
+        // players 리스트 초기화
         foreach (var playerScore in GameManager.instance.playerScores)
         {
             PlayerScript player = playerScore.GetComponent<PlayerScript>();
@@ -36,6 +36,27 @@ public class KingSlime : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             StartCoroutine(InitialWaitAndChooseTarget());
+        }
+    }
+
+    void Update()
+    {
+        // 주기적으로 isDeath 상태를 확인하여 사망한 플레이어를 리스트에서 제거
+        RemoveDeadPlayers();
+    }
+
+    void RemoveDeadPlayers()
+    {
+        for (int i = players.Count - 1; i >= 0; i--)
+        {
+            PlayerScript player = players[i];
+            PlayerScore playerScore = GameManager.instance.playerScores.Find(ps => ps.GetComponent<PlayerScript>() == player);
+
+            if (playerScore != null && playerScore.isDeath) // 사망한 플레이어일 경우 리스트에서 제거
+            {
+                players.RemoveAt(i);
+                Debug.Log("Removed player: " + player.name + " from target list due to death.");
+            }
         }
     }
 
@@ -113,7 +134,6 @@ public class KingSlime : MonoBehaviourPunCallbacks
     {
         warningLine.SetActive(isActive);
     }
-
 
     void StartCharging()
     {
