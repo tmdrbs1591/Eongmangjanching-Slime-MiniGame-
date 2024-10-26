@@ -18,6 +18,10 @@ public class TypingArrow : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject upArrow;
     [SerializeField] private GameObject downArrow;
 
+    [SerializeField] private GameObject successImage;
+    [SerializeField] private GameObject failImage;
+    
+
     private void OnEnable()
     {
         player = GetComponentInParent<PlayerScript>();
@@ -125,6 +129,17 @@ public class TypingArrow : MonoBehaviourPunCallbacks
         }
     }
 
+
+    [PunRPC]
+    void ImageActive(bool isSuccess)
+    {
+        successImage.SetActive(false);
+        failImage.SetActive(!false);
+        successImage.SetActive(isSuccess);
+        failImage.SetActive(!isSuccess);
+    }
+
+
     private void FailedArrow()
     {
         if (photonView.IsMine)
@@ -134,6 +149,8 @@ public class TypingArrow : MonoBehaviourPunCallbacks
             PhotonNetwork.Instantiate(failEffect.name, transform.position, Quaternion.identity);
             // 캐릭터가 뒤로 날아가게 하는 로직
             player.rb.AddForce((-transform.forward + Vector3.up) * forceAmount, ForceMode.Impulse);
+            photonView.RPC("ImageActive", RpcTarget.All, false);  // 실패 이미지 활성화
+            AudioManager.instance.PlaySound(transform.position, 3, Random.Range(1f, 1f), 1f);
         }
     }
 
@@ -143,10 +160,16 @@ public class TypingArrow : MonoBehaviourPunCallbacks
         if (currentArrowCount < ArrowEventManager.instance.arrowCount)
         {
             FailedArrow();
+            photonView.RPC("ImageActive", RpcTarget.All, false);  // 실패 이미지 활성화
+            AudioManager.instance.PlaySound(transform.position, 3, Random.Range(1f, 1f), 1f);
+
         }
         else
         {
             ResetState(); // 이벤트가 끝날 때 상태 초기화
+            AudioManager.instance.PlaySound(transform.position, 2, Random.Range(1f, 1f), 1f);
+            photonView.RPC("ImageActive", RpcTarget.All, true);  // 성공 이미지 활성화
+
         }
     }
 
