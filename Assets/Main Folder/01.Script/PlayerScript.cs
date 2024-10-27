@@ -151,10 +151,10 @@ public class PlayerScript : MonoBehaviourPunCallbacks , IPunObservable
         }
     }
 
-    public IEnumerator StunCor()
+    public IEnumerator StunCor(float time)
     {
         isStun = true;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(time);
         isStun = false;
     }
 
