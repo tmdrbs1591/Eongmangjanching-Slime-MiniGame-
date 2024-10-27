@@ -144,10 +144,10 @@ public class TypingArrow : MonoBehaviourPunCallbacks
 
     private void FailedArrow()
     {
+        player.rb.constraints = RigidbodyConstraints.None;
         if (photonView.IsMine)
         {
             isFailed = true;
-            player.rb.constraints = RigidbodyConstraints.None;
             PhotonNetwork.Instantiate(failEffect.name, transform.position, Quaternion.identity);
             // 캐릭터가 뒤로 날아가게 하는 로직
             player.rb.AddForce((-transform.forward + Vector3.up) * forceAmount, ForceMode.Impulse);
@@ -158,6 +158,9 @@ public class TypingArrow : MonoBehaviourPunCallbacks
 
     private void OnTypingTimeEnd()
     {
+        // 이미 탈락한 경우 추가 처리를 하지 않음
+        if (isFailed) return;
+
         // 타이핑 시간이 끝났을 때 아직 모든 화살표를 입력하지 못한 경우 실패 처리
         if (currentArrowCount < ArrowEventManager.instance.arrowCount)
         {
@@ -167,7 +170,6 @@ public class TypingArrow : MonoBehaviourPunCallbacks
                 photonView.RPC("ImageActive", RpcTarget.All, false);  // 실패 이미지 활성화
                 AudioManager.instance.PlaySound(transform.position, 3, Random.Range(1f, 1f), 1f);
             }
-
         }
         else
         {
@@ -177,7 +179,6 @@ public class TypingArrow : MonoBehaviourPunCallbacks
                 AudioManager.instance.PlaySound(transform.position, 2, Random.Range(1f, 1f), 1f);
                 photonView.RPC("ImageActive", RpcTarget.All, true);  // 성공 이미지 활성화
             }
-
         }
     }
 

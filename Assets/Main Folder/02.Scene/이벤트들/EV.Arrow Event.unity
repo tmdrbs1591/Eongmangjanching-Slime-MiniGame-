@@ -257,7 +257,7 @@ MonoBehaviour:
   countdownText: {fileID: 476406564}
   sceneName:
   - 01.WaitRoom
-  timeRemaining: 30
+  timeRemaining: 35
   Fadein: {fileID: 395150787}
   FadeOut: {fileID: 391613239}
   arrowText: {fileID: 980430672}
