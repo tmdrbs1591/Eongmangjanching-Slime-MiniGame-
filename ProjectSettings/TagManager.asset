@@ -12,6 +12,7 @@ TagManager:
   - Wall
   - Arrow
   - Target
+  - Block
   layers:
   - Default
   - TransparentFX
