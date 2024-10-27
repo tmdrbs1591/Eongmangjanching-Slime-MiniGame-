@@ -39,7 +39,7 @@ public class Log : MonoBehaviour
                 // Log 객체가 충돌한 방향으로 힘을 가함
                 Vector3 forceDirection = collision.contacts[0].normal * -1;  // 충돌면의 반대 방향
                 playerRb.AddForce(forceDirection * forcePower, ForceMode.Impulse);  // 힘을 즉시 가함
-                StartCoroutine(playerScript.StunCor());
+                StartCoroutine(playerScript.StunCor(1));
             } 
         }
     }

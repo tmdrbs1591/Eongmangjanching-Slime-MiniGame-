@@ -605,8 +605,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 5, z: 25}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 21.319706, y: 5, z: 40.78046}
+  m_Center: {x: 10.159854, y: 0, z: -3.0693398e-14}
 --- !u!4 &294337673
 Transform:
   m_ObjectHideFlags: 0
@@ -727,8 +727,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 5, z: 25}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 17.33929, y: 5, z: 62.868385}
+  m_Center: {x: -8.169645, y: 0, z: 0}
 --- !u!4 &445818598
 Transform:
   m_ObjectHideFlags: 0
@@ -952,8 +952,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 5, z: 25}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 43.2645, y: 5, z: 51.626045}
+  m_Center: {x: 21.13225, y: 0, z: 0}
 --- !u!4 &523033671
 Transform:
   m_ObjectHideFlags: 0
@@ -5989,7 +5989,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookDuration: 1
-  chargeSpeed: 8
+  chargeSpeed: 13
 --- !u!114 &849002192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6259,8 +6259,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 5, z: 25}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 53.96264, y: 5, z: 50.98522}
+  m_Center: {x: -26.481325, y: 0, z: -7.842498e-14}
 --- !u!4 &1014316581
 Transform:
   m_ObjectHideFlags: 0

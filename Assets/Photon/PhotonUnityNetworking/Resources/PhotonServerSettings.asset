@@ -76,6 +76,9 @@ MonoBehaviour:
   - RPC_HappyEmoticonTrue
   - RPC_AngryEmoticonTrue
   - RPC_SadEmoticonTrue
+  - ChooseRandomDirection
+  - ChooseOppositeDirection
+  - ChooseAdjustedOppositeDirection
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

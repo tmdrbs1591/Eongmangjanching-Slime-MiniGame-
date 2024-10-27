@@ -184,8 +184,8 @@ public class KingSlime : MonoBehaviourPunCallbacks
             if (playerRb != null)
             {
                 Vector3 forceDirection = collision.contacts[0].normal * -1;
-                playerRb.AddForce(forceDirection * 15, ForceMode.Impulse);
-                StartCoroutine(playerScript.StunCor());
+                playerRb.AddForce(forceDirection * 35, ForceMode.Impulse);
+                StartCoroutine(playerScript.StunCor(2));
             }
 
             PlayerScript hitPlayer = collision.gameObject.GetComponent<PlayerScript>();
