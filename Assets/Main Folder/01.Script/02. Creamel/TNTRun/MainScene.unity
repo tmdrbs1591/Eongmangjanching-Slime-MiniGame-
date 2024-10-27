@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.33642992, g: 0.60150236, b: 0.91948694, a: 1}
+  m_IndirectSpecularColor: {r: 0.3368063, g: 0.60164183, b: 0.91964096, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -172,7 +172,7 @@ MonoBehaviour:
     grid: {x: 30, y: 30}
     CameraPosition: {x: 21.5, y: 26, z: -6.5}
     CameraFov: 60
-    gridObj: {fileID: 49730818340971701, guid: e332ad93f5e17492aa927b98d788e616, type: 3}
+    gridObj: {fileID: 49730818340971701, guid: d3b9aae7f3d411649a5bcfec0759a01d, type: 3}
     blockSize: {x: 1.5, y: 1.5, z: 1.5}
   - yOffset: -30
     grid: {x: 30, y: 30}
