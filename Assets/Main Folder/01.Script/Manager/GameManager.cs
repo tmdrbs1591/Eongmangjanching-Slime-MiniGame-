@@ -134,6 +134,50 @@ public class GameManager : MonoBehaviourPunCallbacks
             highestScorePlayer.crown.SetActive(true);
         }
     }
+
+        #region 화살 이벤트
+    public void ArrowShotTrue()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            foreach (var playerScore in playerScores)
+            {
+                playerScore.arrowShot.SetActive(true);
+            }
+            photonView.RPC("SyncArrowShotTrue", RpcTarget.Others); // 다른 클라이언트에 동기화
+        }
+    }
+
+    [PunRPC]
+    public void SyncArrowShotTrue()
+    {
+        foreach (var playerScore in playerScores)
+        {
+            playerScore.arrowShot.SetActive(true);
+        }
+    }
+
+    public void ArrowShotFalse()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            foreach (var playerScore in playerScores)
+            {
+                playerScore.arrowShot.SetActive(false);
+            }
+            photonView.RPC("SyncArrowShotFalse", RpcTarget.Others); // 다른 클라이언트에 동기화
+        }
+    }
+
+    [PunRPC]
+    public void SyncArrowShotFalse()
+    {
+        foreach (var playerScore in playerScores)
+        {
+            playerScore.arrowShot.SetActive(false);
+        }
+    }
+    #endregion
     #region 화살 이벤트
     public void ArrowBrainTrue()
     {

@@ -80,6 +80,11 @@ MonoBehaviour:
   - ChooseOppositeDirection
   - ChooseAdjustedOppositeDirection
   - Freeze
+  - SyncArrowShotFalse
+  - SyncArrowShotTrue
+  - initArrow
+  - ArrowIns
+  - SyncArrowRotation
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
