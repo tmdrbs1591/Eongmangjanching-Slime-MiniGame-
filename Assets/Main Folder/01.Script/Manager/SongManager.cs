@@ -2,16 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI; // UI 관련 기능을 위해 추가
 using Photon.Pun;
 
 public class SongManager : MonoBehaviourPunCallbacks
 {
     public static SongManager Instance;
 
-    private AudioSource audioSource; // 오디오 소스
+    [SerializeField] private AudioSource musicSource; // 음악용 오디오 소스
+    [SerializeField]private AudioSource sfxSource; // 효과음용 오디오 소스
     public List<AudioClip> sceneMusicClips; // 씬에 맞는 음악 클립 리스트
     private float fadeDuration = 0.3f; // 페이드 시간 설정
-    public float targetVolume = 0.8f; // 최종 볼륨값 설정 (1f 대신 원하는 값으로 변경)
+    public float targetVolume = 0.8f; // 최종 음악 볼륨값 설정 (1f 대신 원하는 값으로 변경)
+
+    [Header("Volume Sliders")]
+    public Slider masterVolumeSlider; // 마스터 볼륨 슬라이더
+    public Slider musicVolumeSlider; // 음악 볼륨 슬라이더
+    public Slider sfxVolumeSlider; // 효과음 볼륨 슬라이더
+
+    private float masterVolume = 1f; // 마스터 볼륨 초기값
+    private float musicVolume = 1f; // 음악 볼륨 초기값
+    private float sfxVolume = 1f; // 효과음 볼륨 초기값
 
     private void Awake()
     {
@@ -24,9 +35,16 @@ public class SongManager : MonoBehaviourPunCallbacks
         DontDestroyOnLoad(gameObject);
         Instance = this;
 
-        audioSource = gameObject.AddComponent<AudioSource>(); // AudioSource 추가
-        audioSource.volume = 1f; // 초기 볼륨 설정
-        audioSource.loop = true; // 반복 재생 활성화
+        musicSource.loop = true; // 음악 반복 재생 활성화
+        UpdateAudioVolume();
+    }
+
+    private void Start()
+    {
+        // 슬라이더 값 변경 시 호출될 메소드 연결
+        if (masterVolumeSlider) masterVolumeSlider.onValueChanged.AddListener(SetMasterVolume);
+        if (musicVolumeSlider) musicVolumeSlider.onValueChanged.AddListener(SetMusicVolume);
+        if (sfxVolumeSlider) sfxVolumeSlider.onValueChanged.AddListener(SetSFXVolume);
     }
 
     public override void OnEnable()
@@ -69,17 +87,16 @@ public class SongManager : MonoBehaviourPunCallbacks
     public IEnumerator ChangeMusic(int clipIndex)
     {
         // 현재 재생 중인 음악이 있을 경우 페이드 아웃
-        if (audioSource.isPlaying)
+        if (musicSource.isPlaying)
         {
-            yield return StartCoroutine(FadeOut(audioSource, fadeDuration));
+            yield return StartCoroutine(FadeOut(musicSource, fadeDuration));
         }
 
         // 새로운 음악 클립 설정
-        audioSource.clip = sceneMusicClips[clipIndex];
-        audioSource.Play();
+        musicSource.clip = sceneMusicClips[clipIndex];
 
         // 페이드 인
-        yield return StartCoroutine(FadeIn(audioSource, fadeDuration));
+        yield return StartCoroutine(FadeIn(musicSource, fadeDuration));
     }
 
     private IEnumerator FadeOut(AudioSource audioSource, float duration)
@@ -103,10 +120,44 @@ public class SongManager : MonoBehaviourPunCallbacks
 
         for (float t = 0; t < duration; t += Time.deltaTime)
         {
-            audioSource.volume = Mathf.Lerp(0, targetVolume, t / duration); // 최종 볼륨으로 설정
+            audioSource.volume = Mathf.Lerp(0, targetVolume * masterVolume * musicVolume, t / duration); // 최종 볼륨으로 설정
             yield return null;
         }
 
-        audioSource.volume = targetVolume; // 최종 볼륨 설정
+        audioSource.volume = targetVolume * masterVolume * musicVolume; // 최종 볼륨 설정
+    }
+
+    // 마스터 볼륨 설정 메소드
+    public void SetMasterVolume(float value)
+    {
+        masterVolume = value;
+        UpdateAudioVolume();
+    }
+
+    // 음악 볼륨 설정 메소드
+    public void SetMusicVolume(float value)
+    {
+        musicVolume = value;
+        UpdateAudioVolume();
+    }
+
+    // 효과음 볼륨 설정 메소드
+    public void SetSFXVolume(float value)
+    {
+        sfxVolume = value;
+        UpdateAudioVolume();
+    }
+
+    // 오디오 소스 볼륨 업데이트 메소드
+    private void UpdateAudioVolume()
+    {
+        musicSource.volume = targetVolume * masterVolume * musicVolume;
+        sfxSource.volume = masterVolume * sfxVolume; // 효과음 볼륨은 마스터 볼륨과 효과음 슬라이더 값만 사용
+    }
+
+    // 효과음을 재생하는 메소드
+    public void PlaySFX(AudioClip clip)
+    {
+        sfxSource.PlayOneShot(clip, sfxVolume * masterVolume);
     }
 }
