@@ -144,9 +144,9 @@ public class TypingArrow : MonoBehaviourPunCallbacks
 
     private void FailedArrow()
     {
-        player.rb.constraints = RigidbodyConstraints.None;
         if (photonView.IsMine)
         {
+            photonView.RPC("Freeze", RpcTarget.All);
             isFailed = true;
             PhotonNetwork.Instantiate(failEffect.name, transform.position, Quaternion.identity);
             // 캐릭터가 뒤로 날아가게 하는 로직
@@ -154,6 +154,12 @@ public class TypingArrow : MonoBehaviourPunCallbacks
             photonView.RPC("ImageActive", RpcTarget.All, false);  // 실패 이미지 활성화
             AudioManager.instance.PlaySound(transform.position, 3, Random.Range(1f, 1f), 1f);
         }
+    }
+
+    [PunRPC]
+    private void Freeze()
+    {
+        player.rb.constraints = RigidbodyConstraints.None;
     }
 
     private void OnTypingTimeEnd()

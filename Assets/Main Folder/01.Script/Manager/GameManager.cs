@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     public List<PlayerScore> playerScores = new List<PlayerScore>();
     public List<ScoreListItem> scoreListItem = new List<ScoreListItem>();
 
+
+    [SerializeField] public GameObject grayScaleScreen;
+
     private void Awake()
     {
 

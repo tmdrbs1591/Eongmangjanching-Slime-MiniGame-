@@ -19,6 +19,7 @@ public class PlayerScore : MonoBehaviourPunCallbacks
 
     [SerializeField] public GameObject waterEffectPrefabs;
 
+
     private void Start()
     {
         GameManager.instance.playerScores.Add(this);
@@ -29,6 +30,14 @@ public class PlayerScore : MonoBehaviourPunCallbacks
     {
         scoreText.text = currentScore.ToString();
 
+        if (isDeath && photonView.IsMine)
+        {
+            GameManager.instance.grayScaleScreen.SetActive(true);
+        }
+        else if (!isDeath && photonView.IsMine)
+        {
+            GameManager.instance.grayScaleScreen.SetActive(false);
+        }
         // 점수 추가
         if (Input.GetKeyDown(KeyCode.H) && photonView.IsMine)
         {
@@ -55,6 +64,7 @@ public class PlayerScore : MonoBehaviourPunCallbacks
         if (other.CompareTag("Ocean"))
         {
             isDeath = true;
+        
             if (photonView.IsMine)
             {
                 AudioManager.instance.PlaySound(transform.position, 0, Random.Range(1f, 1f), 1f);

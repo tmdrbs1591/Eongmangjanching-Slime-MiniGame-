@@ -79,6 +79,7 @@ MonoBehaviour:
   - ChooseRandomDirection
   - ChooseOppositeDirection
   - ChooseAdjustedOppositeDirection
+  - Freeze
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
