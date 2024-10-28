@@ -19,8 +19,6 @@ public class RunningEventManager : TimeManager
     [SerializeField] private Transform[] ballSpawnPos;
     [SerializeField] private float ballSpawnTime;
 
-
-
     protected override void Start()
     {
         base.Start();
