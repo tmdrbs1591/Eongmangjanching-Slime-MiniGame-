@@ -47,14 +47,6 @@ public class GridSpawner : MonoBehaviour
 
     private void Update()
     {
-        for(int i = 0; i < floors.Length; i++)
-        {
-            if (player.transform.position.y > (floors[i].yOffset - 2f) && player.transform.position.y < (floors[i].yOffset + 5f))
-            {
-                Camera.main.transform.position = floors[i].CameraPosition;
-                Camera.main.fieldOfView = floors[i].CameraFov;
-            }
-        }
     }
 
     public void SpawnFloor(int index)
