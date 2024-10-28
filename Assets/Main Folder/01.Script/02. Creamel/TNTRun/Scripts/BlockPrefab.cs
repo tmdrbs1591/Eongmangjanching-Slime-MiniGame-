@@ -5,6 +5,7 @@ using UnityEngine;
 public class BlockPrefab : MonoBehaviour
 {
     public float blockFallCool;
+    public Material lightMat;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -16,6 +17,7 @@ public class BlockPrefab : MonoBehaviour
 
     IEnumerator BlockFalling()
     {
+        gameObject.GetComponent<MeshRenderer>().material = lightMat;
         yield return new WaitForSeconds(blockFallCool);
         gameObject.AddComponent<Rigidbody>();
         gameObject.GetComponent<Rigidbody>().mass = 10;

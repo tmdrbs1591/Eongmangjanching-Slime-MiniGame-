@@ -111,3 +111,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockFallCool: 0.2
+  lightMat: {fileID: 2100000, guid: 1dd3cab61255a4586a0a16666b017597, type: 2}
