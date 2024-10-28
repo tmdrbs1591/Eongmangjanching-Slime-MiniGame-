@@ -16,6 +16,7 @@ public class PlayerScore : MonoBehaviourPunCallbacks
     [SerializeField] public GameObject crown;
     [SerializeField] public GameObject hammer;
     [SerializeField] public GameObject arrowBrain;
+    [SerializeField] public GameObject arrowShot;
 
     [SerializeField] public GameObject waterEffectPrefabs;
 

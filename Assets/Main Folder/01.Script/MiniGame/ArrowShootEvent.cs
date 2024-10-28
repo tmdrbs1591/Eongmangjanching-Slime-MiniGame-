@@ -13,6 +13,7 @@ public class ArrowShootEvent : TimeManager
     protected override void Start()
     {
         base.Start();
+        EventStart();
         // 마스터 클라이언트만 로그를 생성하도록 설정
     }
 
@@ -25,6 +26,7 @@ public class ArrowShootEvent : TimeManager
 
     void EventStart()
     {
+        GameManager.instance.ArrowShotTrue();
     }
 
     void TimeEnd()
@@ -97,6 +99,9 @@ public class ArrowShootEvent : TimeManager
 
                 // 점수가 추가되었음을 기록
                 isScoreAdded = true;
+
+                GameManager.instance.ArrowShotFalse();
+
                 if (PhotonNetwork.IsMasterClient)
                 {
                     StartCoroutine(FadeScene());
