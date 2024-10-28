@@ -39,6 +39,11 @@ public class Target : MonoBehaviour
             if(hitMax != 1)left.text = (hitMax - hitCount).ToString();
             if (hitMax <= hitCount)
             {
+                GameObject player = GameObject.FindWithTag("Player");
+                var playerscore = player.GetComponent<PlayerScore>();
+
+                playerscore.AddScore(Point * 100);
+
                 Debug.Log(other.gameObject.GetComponent<ArrowInit>().playerName + "님이 점수 " + Point + "점을 얻었습니다!");
                 Destroy(gameObject);
             }

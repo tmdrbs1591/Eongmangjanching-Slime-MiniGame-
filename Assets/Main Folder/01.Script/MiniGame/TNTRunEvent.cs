@@ -29,48 +29,44 @@ public class TNTRunEvent : TimeManager
 
     void TimeEnd()
     {
-        // 모든 플레이어가 죽었는지 검사
-        bool allPlayersDead = true; // 모든 플레이어가 죽었음을 나타내는 변수
+        // 카운트다운 타이머가 0 이하로 내려가면 숫자 감소
+        countdownTimer -= Time.deltaTime;
+
+        // 살아있는 플레이어 수를 확인
+        int alivePlayerCount = 0;
 
         foreach (var playerScore in GameManager.instance.playerScores)
         {
-            // 한 명이라도 죽지 않은 플레이어가 있으면 false
+            // 살아있는 플레이어 수 증가
             if (!playerScore.isDeath)
             {
-                allPlayersDead = false;
-                break; // 더 이상 검사할 필요 없음
+                alivePlayerCount++;
             }
         }
 
-        // 모든 플레이어가 죽었다면 즉시 게임 종료
-        if (allPlayersDead)
+        // 살아있는 플레이어가 1명이라면 게임 종료
+        if (alivePlayerCount == 1 && !isScoreAdded)
         {
-            // 즉시 게임 종료를 위한 처리
-            if (!isScoreAdded) // 점수를 추가하지 않았다면
+            foreach (var playerScore in GameManager.instance.playerScores)
             {
-                foreach (var playerScore in GameManager.instance.playerScores)
+                // 점수 추가 (마스터 클라이언트인 경우)
+                if (!playerScore.isDeath && PhotonNetwork.IsMasterClient)
                 {
-                    // 플레이어가 죽지 않았으면 점수 추가
-                    if (!playerScore.isDeath && PhotonNetwork.IsMasterClient)
-                    {
-                        Debug.Log("점수 추가");
-                        playerScore.AddScore(1000);  // 점수 추가
-                    }
+                    Debug.Log("점수 추가");
+                    playerScore.AddScore(1000);  // 점수 추가
                 }
-
-                // 점수가 추가되었음을 기록
-                isScoreAdded = true;
-
-                // 게임 종료 및 씬 전환 처리
-                StartCoroutine(FadeScene());
             }
 
-            // 타이머를 1로 설정해도 타이머 감소를 막고, 더 이상의 업데이트는 하지 않음
+            // 점수가 추가되었음을 기록
+            isScoreAdded = true;
+
+            GameManager.instance.HammerFalse();
+
+            StartCoroutine(FadeScene());
+
+            // 타이머를 멈추기 위해 함수 종료
             return;
         }
-
-        // 카운트다운 타이머가 0 이하로 내려가면 숫자 감소
-        countdownTimer -= Time.deltaTime;
 
         if (countdownTimer <= 0)
         {
@@ -83,9 +79,9 @@ public class TNTRunEvent : TimeManager
             // 타이머 초기화
             countdownTimer = 1f;
 
+            // timeRemaining이 0 이하일 때 점수를 추가
             if (timeRemaining <= 0 && !isScoreAdded)
             {
-                // 점수를 한 번만 추가하도록 체크
                 foreach (var playerScore in GameManager.instance.playerScores)
                 {
                     // 플레이어가 죽지 않았으면 점수 추가
@@ -98,6 +94,9 @@ public class TNTRunEvent : TimeManager
 
                 // 점수가 추가되었음을 기록
                 isScoreAdded = true;
+
+                GameManager.instance.HammerFalse();
+
                 if (PhotonNetwork.IsMasterClient)
                 {
                     StartCoroutine(FadeScene());

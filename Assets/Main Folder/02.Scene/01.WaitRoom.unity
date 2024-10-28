@@ -1182,6 +1182,7 @@ MonoBehaviour:
   - EV.LogEvent
   - EV.Arrow Event
   - Ev.KIng Slime
+  - Ev.TNTRun Event
   timeRemaining: 5
   Fadein: {fileID: 765542665}
   FadeOut: {fileID: 1278790345}

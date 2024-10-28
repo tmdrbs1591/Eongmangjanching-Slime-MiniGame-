@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: "Assets/Main Folder/02.Scene/\uC774\uBCA4\uD2B8\uB4E4/EV.Arrow Event.unity"
     guid: aeb622bd9967898489576e236d03bd13
   - enabled: 1
+    path: "Assets/Main Folder/02.Scene/\uC774\uBCA4\uD2B8\uB4E4/Ev.ArrowShoot.unity"
+    guid: 6513ebac1589444b2a45ae6b7a3efad2
+  - enabled: 1
     path: "Assets/Main Folder/02.Scene/\uC774\uBCA4\uD2B8\uB4E4/Ev.TNTRun Event.unity"
     guid: 6a6403d9bd815f14d87d4daee44f505e
   - enabled: 1
