@@ -37,13 +37,14 @@ public class FullManager : MonoBehaviour
 
     IEnumerator InGame()
     {
-        systemTMP.text = "Àá½Ã ÈÄ °ÔÀÓÀÌ ½ÃÀÛµË´Ï´Ù\n3";
+        yield return new WaitForSeconds(3);
+        systemTMP.text = "ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµË´Ï´ï¿½\n3";
         yield return new WaitForSeconds(1);
-        systemTMP.text = "Àá½Ã ÈÄ °ÔÀÓÀÌ ½ÃÀÛµË´Ï´Ù\n2";
+        systemTMP.text = "ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµË´Ï´ï¿½\n2";
         yield return new WaitForSeconds(1);
-        systemTMP.text = "Àá½Ã ÈÄ °ÔÀÓÀÌ ½ÃÀÛµË´Ï´Ù\n1";
+        systemTMP.text = "ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµË´Ï´ï¿½\n1";
         yield return new WaitForSeconds(1);
-        systemTMP.text = "½ÃÀÛ!";
+        systemTMP.text = "ï¿½ï¿½ï¿½ï¿½!";
         floor.SetActive(false);
         StartCoroutine(Timer());
         yield return new WaitForSeconds(12);
@@ -56,18 +57,18 @@ public class FullManager : MonoBehaviour
         int DelTX = Random.Range(0, floorManager.floorList.Length);
         int DelTY = Random.Range(0, floorManager.floorList[0].Length);
         floorManager.floorList[DelTX][DelTY].gameObject.GetComponent<MeshRenderer>().material = lightMat;
-        systemTMP.text = "Àá½Ã ÈÄ ·£´ýÇÑ ¹âÆÇÀÌ »ç¶óÁý´Ï´Ù!\n5";
+        systemTMP.text = "ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½!\n5";
         yield return new WaitForSeconds(1);
-        systemTMP.text = "Àá½Ã ÈÄ ·£´ýÇÑ ¹âÆÇÀÌ »ç¶óÁý´Ï´Ù!\n4";
+        systemTMP.text = "ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½!\n4";
         yield return new WaitForSeconds(1);
-        systemTMP.text = "Àá½Ã ÈÄ ·£´ýÇÑ ¹âÆÇÀÌ »ç¶óÁý´Ï´Ù!\n3";
+        systemTMP.text = "ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½!\n3";
         yield return new WaitForSeconds(1);
         floorManager.floorList[DelTX][DelTY].gameObject.GetComponent<MeshRenderer>().material = normalMat;
-        systemTMP.text = "Àá½Ã ÈÄ ·£´ýÇÑ ¹âÆÇÀÌ »ç¶óÁý´Ï´Ù!\n2";
+        systemTMP.text = "ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½!\n2";
         yield return new WaitForSeconds(1);
-        systemTMP.text = "Àá½Ã ÈÄ ·£´ýÇÑ ¹âÆÇÀÌ »ç¶óÁý´Ï´Ù!\n1";
+        systemTMP.text = "ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½!\n1";
         yield return new WaitForSeconds(1);
-        systemTMP.text = "Àá½Ã ÈÄ ·£´ýÇÑ ¹âÆÇÀÌ »ç¶óÁý´Ï´Ù!\n0";
+        systemTMP.text = "ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½!\n0";
         yield return new WaitForSeconds(1);
         RandomDel(DelTX, DelTY);
         yield return new WaitForSeconds(3);
