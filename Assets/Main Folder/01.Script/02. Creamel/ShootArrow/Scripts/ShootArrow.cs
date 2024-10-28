@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class ShootArrow : MonoBehaviour
+public class ShootArrow : MonoBehaviourPunCallbacks
 {
     public GameObject player;
     public int power;
@@ -17,7 +18,7 @@ public class ShootArrow : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && photonView.IsMine)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -33,7 +34,7 @@ public class ShootArrow : MonoBehaviour
 
                 target.position = hit.point;
 
-                GameObject TempArrow = Instantiate(arrowPrefab, transform.position, Quaternion.identity);
+                GameObject TempArrow = PhotonNetwork.Instantiate(arrowPrefab.name, transform.position, Quaternion.identity);
                 TempArrow.GetComponent<ArrowInit>().initArrow(transform.position, target, power, name);
                 StartCoroutine("CoolTime");
             }
