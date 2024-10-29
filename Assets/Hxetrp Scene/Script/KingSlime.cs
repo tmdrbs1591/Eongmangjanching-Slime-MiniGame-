@@ -12,7 +12,7 @@ public class KingSlime : MonoBehaviourPunCallbacks
     private List<PlayerScript> players = new List<PlayerScript>();
     private Vector3 chargeDirection;
 
-    private enum State { Idle, Looking, Charging, Attacking };
+    private enum State { Idle, Targeting, Charging, Attacking };
     private State currentState = State.Idle;
 
     private GameObject warningLine;
@@ -41,7 +41,6 @@ public class KingSlime : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        // 주기적으로 isDeath 상태를 확인하여 사망한 플레이어를 리스트에서 제거
         RemoveDeadPlayers();
     }
 
@@ -52,7 +51,7 @@ public class KingSlime : MonoBehaviourPunCallbacks
             PlayerScript player = players[i];
             PlayerScore playerScore = GameManager.instance.playerScores.Find(ps => ps.GetComponent<PlayerScript>() == player);
 
-            if (playerScore != null && playerScore.isDeath) // 사망한 플레이어일 경우 리스트에서 제거
+            if (playerScore != null && playerScore.isDeath)
             {
                 players.RemoveAt(i);
                 Debug.Log("Removed player: " + player.name + " from target list due to death.");
@@ -63,69 +62,54 @@ public class KingSlime : MonoBehaviourPunCallbacks
     IEnumerator InitialWaitAndChooseTarget()
     {
         yield return new WaitForSeconds(3f);
-
-        // ChooseRandomTarget을 호출할 때 매개변수를 전달하지 않도록 수정
-        photonView.RPC("ChooseRandomTarget", RpcTarget.All);
+        photonView.RPC("TargetAndPrepare", RpcTarget.All);
     }
 
     [PunRPC]
-    void ChooseRandomTarget()
+    void TargetAndPrepare()
     {
-        // Idle 상태가 아니면 타겟을 변경하지 않음
         if (currentState != State.Idle || players.Count == 0) return;
 
         int playerIndex = Random.Range(0, players.Count);
-        photonView.RPC("SetTargetIndex", RpcTarget.All, playerIndex);
-    }
-
-    [PunRPC]
-    void SetTargetIndex(int index)
-    {
-        if (index >= 0 && index < players.Count)
-        {
-            targetPlayer = players[index];
-            StartCoroutine(LookAtTarget());
-        }
-    }
-
-    IEnumerator LookAtTarget()
-    {
-        currentState = State.Looking;
+        targetPlayer = players[playerIndex];
+        chargeDirection = (targetPlayer.transform.position - transform.position).normalized;
 
         if (PhotonNetwork.IsMasterClient)
         {
-            photonView.RPC("ToggleWarningLine", RpcTarget.All, true); // warningLine 활성화 동기화
+            StartCoroutine(LookAndChargeCoroutine());
         }
 
+        currentState = State.Targeting;
+    }
+
+    IEnumerator LookAndChargeCoroutine()
+    {
+        photonView.RPC("ToggleWarningLine", RpcTarget.All, true); // 경고 라인 활성화
         float elapsedTime = 0f;
+
         while (elapsedTime < lookDuration)
         {
-            if (PhotonNetwork.IsMasterClient && targetPlayer != null)
-            {
-                Vector3 direction = (targetPlayer.transform.position - transform.position).normalized;
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
+            Vector3 direction = (targetPlayer.transform.position - transform.position).normalized;
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
 
-                // 마스터 클라이언트에서만 로테이션을 동기화
-                photonView.RPC("SyncRotation", RpcTarget.Others, targetRotation);
-                transform.rotation = targetRotation;
-            }
+            photonView.RPC("SyncRotationAndDirection", RpcTarget.Others, targetRotation, direction);
+            transform.rotation = targetRotation;
+
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        if (PhotonNetwork.IsMasterClient)
-        {
-            photonView.RPC("ToggleWarningLine", RpcTarget.All, false); // warningLine 비활성화 동기화
-            StartCharging();
-        }
+        photonView.RPC("ToggleWarningLine", RpcTarget.All, false); // 경고 라인 비활성화
+        photonView.RPC("StartChargingRPC", RpcTarget.All, chargeDirection);
     }
 
     [PunRPC]
-    void SyncRotation(Quaternion rotation)
+    void SyncRotationAndDirection(Quaternion rotation, Vector3 direction)
     {
-        if (!PhotonNetwork.IsMasterClient) // 마스터 클라이언트는 로컬에서 로테이션을 설정하므로, 클라이언트만 RPC 값 사용
+        if (!PhotonNetwork.IsMasterClient)
         {
             transform.rotation = rotation;
+            chargeDirection = direction;
         }
     }
 
@@ -135,22 +119,11 @@ public class KingSlime : MonoBehaviourPunCallbacks
         warningLine.SetActive(isActive);
     }
 
-    void StartCharging()
-    {
-        if (PhotonNetwork.IsMasterClient && targetPlayer != null)
-        {
-            chargeDirection = (targetPlayer.transform.position - transform.position).normalized;
-            currentState = State.Charging;
-
-            photonView.RPC("StartChargingRPC", RpcTarget.All, chargeDirection);
-        }
-    }
-
     [PunRPC]
     void StartChargingRPC(Vector3 direction)
     {
         chargeDirection = direction;
-        currentState = State.Attacking; // 공격 시작 상태로 변경
+        currentState = State.Charging;
     }
 
     void FixedUpdate()
@@ -163,17 +136,15 @@ public class KingSlime : MonoBehaviourPunCallbacks
 
     void StopCharging()
     {
-        Debug.Log("Charge complete.");
         currentState = State.Idle;
         chargeSpeed += 1f;
-        photonView.RPC("ChooseRandomTarget", RpcTarget.All);
+        photonView.RPC("TargetAndPrepare", RpcTarget.All);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Wall"))
         {
-            Debug.Log("Hit a wall, stopping charge.");
             StopCharging();
         }
         if (collision.gameObject.CompareTag("Player"))
@@ -183,8 +154,9 @@ public class KingSlime : MonoBehaviourPunCallbacks
 
             if (playerRb != null)
             {
-                Vector3 forceDirection = collision.contacts[0].normal * -1;
+                Vector3 forceDirection = (collision.contacts[0].point - transform.position).normalized;
                 playerRb.AddForce(forceDirection * 35, ForceMode.Impulse);
+
                 StartCoroutine(playerScript.StunCor(2));
             }
 
@@ -192,11 +164,8 @@ public class KingSlime : MonoBehaviourPunCallbacks
             if (hitPlayer != null)
             {
                 players.Remove(hitPlayer);
-                Debug.Log("Removed player: " + hitPlayer.name + " from target list.");
                 StopCharging();
             }
-
-            Debug.Log("HIT " + collision.gameObject.name + "!!!");
         }
     }
 }
