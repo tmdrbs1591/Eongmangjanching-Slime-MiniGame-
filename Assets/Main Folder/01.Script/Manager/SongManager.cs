@@ -77,9 +77,13 @@ public class SongManager : MonoBehaviourPunCallbacks
         {
             StartCoroutine(ChangeMusic(3)); // 네 번째 음악 클립 재생
         }
-        else if (SceneManager.GetActiveScene().name == "Ev.KingSlime")
+        else if (SceneManager.GetActiveScene().name == "Ev.KIng Slime")
         {
             StartCoroutine(ChangeMusic(4));
+        }
+        else if (SceneManager.GetActiveScene().name == "Ev.RunningEvent")
+        {
+            StartCoroutine(ChangeMusic(5));
         }
     }
 
