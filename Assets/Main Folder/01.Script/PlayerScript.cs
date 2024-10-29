@@ -234,12 +234,16 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
             Debug.Log("잡았다!");
             var playerScript = collision.gameObject.GetComponent<PlayerScript>();
             playerScript.isStun = true;
+            isStun = true;
+
+
         }
         if (collision.gameObject.CompareTag("Player") && !isCatchTrue)
         {
             Debug.Log("놓쳤다!!");
             var playerScript = collision.gameObject.GetComponent<PlayerScript>();
             playerScript.isStun = false;
+            isStun = false;
         }
     }
 
