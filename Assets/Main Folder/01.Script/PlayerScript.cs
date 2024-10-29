@@ -235,16 +235,13 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
             var playerScript = collision.gameObject.GetComponent<PlayerScript>();
             playerScript.isStun = true;
         }
-    
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-         if (other.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && !isCatchTrue)
         {
             Debug.Log("≥ı√∆¥Ÿ!!");
-            var playerScript = other.gameObject.GetComponent<PlayerScript>();
+            var playerScript = collision.gameObject.GetComponent<PlayerScript>();
             playerScript.isStun = false;
         }
     }
+
+
 }
