@@ -63,19 +63,19 @@ public class KingSlime : MonoBehaviourPunCallbacks
     IEnumerator InitialWaitAndChooseTarget()
     {
         yield return new WaitForSeconds(3f);
-        photonView.RPC("ChooseRandomTarget", RpcTarget.All);
+        int randomIndex = Random.Range(0, players.Count);
+        photonView.RPC("ChooseRandomTarget", RpcTarget.All, randomIndex);
     }
 
     [PunRPC]
-    void ChooseRandomTarget()
+    void ChooseRandomTarget(int playerIndex)
     {
         if (players.Count == 0) return;
 
-        int randomIndex = Random.Range(0, players.Count);
-        targetPlayer = players[randomIndex];
+        targetPlayer = players[playerIndex];
         Debug.Log("Targeting: " + targetPlayer.name);
 
-        photonView.RPC("SetTargetIndex", RpcTarget.All, randomIndex);
+        photonView.RPC("SetTargetIndex", RpcTarget.All, playerIndex);
     }
 
     [PunRPC]
