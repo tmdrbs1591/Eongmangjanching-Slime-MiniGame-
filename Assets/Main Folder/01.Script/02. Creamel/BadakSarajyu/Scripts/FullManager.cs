@@ -47,9 +47,12 @@ public class FullManager : MonoBehaviour
         systemTMP.text = "����!";
         floor.SetActive(false);
         StartCoroutine(Timer());
-        yield return new WaitForSeconds(12);
+        yield return new WaitForSeconds(9);
         StartCoroutine(Timer());
-        yield return new WaitForSeconds(12);
+        yield return new WaitForSeconds(9);
+        StartCoroutine(Timer());
+        yield return new WaitForSeconds(9);
+        systemTMP.text = "END!";
     }
 
     IEnumerator Timer()
@@ -69,12 +72,11 @@ public class FullManager : MonoBehaviour
         systemTMP.text = "��� �� ������ ������ ������ϴ�!\n1";
         yield return new WaitForSeconds(1);
         systemTMP.text = "��� �� ������ ������ ������ϴ�!\n0";
-        yield return new WaitForSeconds(1);
         RandomDel(DelTX, DelTY);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         Recover();
         systemTMP.text = "";
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
     }
 
     public void RandomDel(int x, int y)
