@@ -21,7 +21,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] GameObject CustomPanel;
 
     [Header("Bool")]
-    [SerializeField] public bool isStun;
+    [SerializeField] public bool isStun = fa;
     [SerializeField] public bool isCatchTrue = false;
     [SerializeField] public bool isCatch;
 
@@ -80,7 +80,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
 
     void CatchTrue()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && !isStun)
         {
             photonView.RPC("RPC_CatchTrue", RpcTarget.AllBuffered, true);
             catchPtc.SetActive(true);
