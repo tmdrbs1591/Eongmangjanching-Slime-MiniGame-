@@ -24,7 +24,7 @@ public class CameraFollow : MonoBehaviour
             transform.position = smoothedPosition;
         }
     }
-    private void Update()
+    private void FixedUpdate()
     {
         // 플레이어를 태그로 찾아 할당합니다.
         GameObject player = GameObject.FindWithTag("Player");
