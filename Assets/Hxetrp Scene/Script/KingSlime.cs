@@ -12,7 +12,7 @@ public class KingSlime : MonoBehaviourPunCallbacks
     private List<PlayerScript> players = new List<PlayerScript>();
     private Vector3 chargeDirection;
 
-    private enum State { Idle, Looking, Charging };
+    private enum State { Idle, Looking, Charging, Attacking };
     private State currentState = State.Idle;
 
     private GameObject warningLine;
@@ -63,18 +63,18 @@ public class KingSlime : MonoBehaviourPunCallbacks
     IEnumerator InitialWaitAndChooseTarget()
     {
         yield return new WaitForSeconds(3f);
-        int randomIndex = Random.Range(0, players.Count);
-        photonView.RPC("ChooseRandomTarget", RpcTarget.All, randomIndex);
+
+        // ChooseRandomTarget을 호출할 때 매개변수를 전달하지 않도록 수정
+        photonView.RPC("ChooseRandomTarget", RpcTarget.All);
     }
 
     [PunRPC]
-    void ChooseRandomTarget(int playerIndex)
+    void ChooseRandomTarget()
     {
-        if (players.Count == 0) return;
+        // Idle 상태가 아니면 타겟을 변경하지 않음
+        if (currentState != State.Idle || players.Count == 0) return;
 
-        targetPlayer = players[playerIndex];
-        Debug.Log("Targeting: " + targetPlayer.name);
-
+        int playerIndex = Random.Range(0, players.Count);
         photonView.RPC("SetTargetIndex", RpcTarget.All, playerIndex);
     }
 
@@ -150,12 +150,12 @@ public class KingSlime : MonoBehaviourPunCallbacks
     void StartChargingRPC(Vector3 direction)
     {
         chargeDirection = direction;
-        currentState = State.Charging;
+        currentState = State.Attacking; // 공격 시작 상태로 변경
     }
 
     void FixedUpdate()
     {
-        if (currentState == State.Charging)
+        if (currentState == State.Charging || currentState == State.Attacking)
         {
             rb.MovePosition(transform.position + chargeDirection * chargeSpeed * Time.fixedDeltaTime);
         }
