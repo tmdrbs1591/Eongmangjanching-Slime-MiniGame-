@@ -38,11 +38,11 @@ public class FullManager : MonoBehaviour
     IEnumerator InGame()
     {
         yield return new WaitForSeconds(3);
-        systemTMP.text = "��� �� ������ ���۵˴ϴ�\n3";
+        systemTMP.text = "잠시후 게임이 시작합니다\n3";
         yield return new WaitForSeconds(1);
-        systemTMP.text = "��� �� ������ ���۵˴ϴ�\n2";
+        systemTMP.text = "잠시후 게임이 시작합니다\n2";
         yield return new WaitForSeconds(1);
-        systemTMP.text = "��� �� ������ ���۵˴ϴ�\n1";
+        systemTMP.text = "잠시후 게임이 시작합니다\n1";
         yield return new WaitForSeconds(1);
         systemTMP.text = "����!";
         floor.SetActive(false);
@@ -60,18 +60,18 @@ public class FullManager : MonoBehaviour
         int DelTX = Random.Range(0, floorManager.floorList.Length);
         int DelTY = Random.Range(0, floorManager.floorList[0].Length);
         floorManager.floorList[DelTX][DelTY].gameObject.GetComponent<MeshRenderer>().material = lightMat;
-        systemTMP.text = "��� �� ������ ������ ������ϴ�!\n5";
+        systemTMP.text = "잠시후 바닥이 사라집니다!\n5";
         yield return new WaitForSeconds(1);
-        systemTMP.text = "��� �� ������ ������ ������ϴ�!\n4";
+        systemTMP.text = "잠시후 바닥이 사라집니다!\n4";
         yield return new WaitForSeconds(1);
-        systemTMP.text = "��� �� ������ ������ ������ϴ�!\n3";
+        systemTMP.text = "잠시후 바닥이 사라집니다!\n3";
         yield return new WaitForSeconds(1);
         floorManager.floorList[DelTX][DelTY].gameObject.GetComponent<MeshRenderer>().material = normalMat;
-        systemTMP.text = "��� �� ������ ������ ������ϴ�!\n2";
+        systemTMP.text = "잠시후 바닥이 사라집니다!\n2";
         yield return new WaitForSeconds(1);
-        systemTMP.text = "��� �� ������ ������ ������ϴ�!\n1";
+        systemTMP.text = "잠시후 바닥이 사라집니다!\n1";
         yield return new WaitForSeconds(1);
-        systemTMP.text = "��� �� ������ ������ ������ϴ�!\n0";
+        systemTMP.text = "잠시후 바닥이 사라집니다!\n0";
         RandomDel(DelTX, DelTY);
         yield return new WaitForSeconds(2);
         Recover();
