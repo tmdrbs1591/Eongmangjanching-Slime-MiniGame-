@@ -983,6 +983,7 @@ GameObject:
   m_Component:
   - component: {fileID: 676038116}
   - component: {fileID: 676038115}
+  - component: {fileID: 676038117}
   m_Layer: 0
   m_Name: TargetSpawner M3
   m_TagString: Untagged
@@ -1007,8 +1008,7 @@ MonoBehaviour:
   XspawnRange: 10
   YspawnRange: 4
   checkCooltime: 0.1
-  Distence: 10
-  findTargetScore: -3
+  findTargetScore: 3
   targets: []
 --- !u!4 &676038116
 Transform:
@@ -1025,6 +1025,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &676038117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676038114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 32
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &676915359
 GameObject:
   m_ObjectHideFlags: 0
@@ -1219,6 +1241,7 @@ GameObject:
   m_Component:
   - component: {fileID: 804409160}
   - component: {fileID: 804409159}
+  - component: {fileID: 804409161}
   m_Layer: 0
   m_Name: TargetSpawner 5
   m_TagString: Untagged
@@ -1243,7 +1266,6 @@ MonoBehaviour:
   XspawnRange: 10
   YspawnRange: 4
   checkCooltime: 0.1
-  Distence: 10
   findTargetScore: 5
   targets: []
 --- !u!4 &804409160
@@ -1261,6 +1283,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &804409161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804409158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 33
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &839579632
 GameObject:
   m_ObjectHideFlags: 0
@@ -1441,6 +1485,7 @@ GameObject:
   m_Component:
   - component: {fileID: 913746109}
   - component: {fileID: 913746110}
+  - component: {fileID: 913746111}
   m_Layer: 0
   m_Name: TargetSpawner 1
   m_TagString: Untagged
@@ -1480,9 +1525,30 @@ MonoBehaviour:
   XspawnRange: 10
   YspawnRange: 4
   checkCooltime: 0.1
-  Distence: 10
   findTargetScore: 1
   targets: []
+--- !u!114 &913746111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913746104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 31
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &934585923
 GameObject:
   m_ObjectHideFlags: 0
