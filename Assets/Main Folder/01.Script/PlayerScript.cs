@@ -84,11 +84,13 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
         {
             photonView.RPC("RPC_CatchTrue", RpcTarget.AllBuffered, true);
             catchPtc.SetActive(true);
+            isStun = true;
         }
         else if (Input.GetMouseButtonUp(1))
         {
             photonView.RPC("RPC_CatchTrue", RpcTarget.AllBuffered, false);
             catchPtc.SetActive(false);
+            isStun = false;
         }
 
         if (isCatch)
