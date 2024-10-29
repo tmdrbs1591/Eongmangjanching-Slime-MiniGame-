@@ -21,7 +21,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] GameObject CustomPanel;
 
     [Header("Bool")]
-    [SerializeField] public bool isStun = fa;
+    [SerializeField] public bool isStun = false;
     [SerializeField] public bool isCatchTrue = false;
     [SerializeField] public bool isCatch;
 
