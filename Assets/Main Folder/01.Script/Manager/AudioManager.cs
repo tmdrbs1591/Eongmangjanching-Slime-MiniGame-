@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Photon.Pun;
-using System;
+using UnityEngine.UI; // Add UI for slider control
 
 public class AudioManager : MonoBehaviourPun
 {
@@ -13,9 +13,15 @@ public class AudioManager : MonoBehaviourPun
     private float initVolume;
     private int curSong;
 
+    [Header("Volume Controls")]
+    public Slider masterVolumeSlider; // Master volume slider
+    public Slider sfxVolumeSlider;    // SFX volume slider
+
+    private float masterVolume = 1f; // Master volume default
+    private float sfxVolume = 1f;    // SFX volume default
+
     void Awake()
     {
-        // Singleton instance ¼³Á¤
         if (instance == null)
         {
             instance = this;
@@ -27,15 +33,29 @@ public class AudioManager : MonoBehaviourPun
             return;
         }
 
-        // Get or add AudioSource component
-        aud = gameObject.GetComponent<AudioSource>();
-        if (aud == null)
-        {
-            aud = gameObject.AddComponent<AudioSource>();
-        }
-
-        // Initialize volume
+        aud = gameObject.GetComponent<AudioSource>() ?? gameObject.AddComponent<AudioSource>();
         initVolume = aud.volume;
+
+        // Link sliders to methods
+        if (masterVolumeSlider) masterVolumeSlider.onValueChanged.AddListener(SetMasterVolume);
+        if (sfxVolumeSlider) sfxVolumeSlider.onValueChanged.AddListener(SetSFXVolume);
+    }
+
+    public void SetMasterVolume(float value)
+    {
+        masterVolume = value;
+        UpdateAudioVolume();
+    }
+
+    public void SetSFXVolume(float value)
+    {
+        sfxVolume = value;
+        UpdateAudioVolume();
+    }
+
+    private void UpdateAudioVolume()
+    {
+        aud.volume = initVolume * masterVolume;  // Update background music volume
     }
 
     public IEnumerator SwitchSong(int index)
@@ -54,7 +74,7 @@ public class AudioManager : MonoBehaviourPun
 
         for (float i = 0; i < 1; i += Time.unscaledDeltaTime)
         {
-            aud.volume = Mathf.Lerp(0, initVolume, i);
+            aud.volume = Mathf.Lerp(0, initVolume * masterVolume, i);
             yield return null;
         }
 
@@ -64,7 +84,7 @@ public class AudioManager : MonoBehaviourPun
 
     public void PlaySound(Vector3 position, int index, float pitch = 1, float volume = 1, Transform follower = null)
     {
-        photonView.RPC("RPC_PlaySound", RpcTarget.All, position, index, pitch, volume, follower != null ? follower.GetComponent<PhotonView>().ViewID : -1);
+        photonView.RPC("RPC_PlaySound", RpcTarget.All, position, index, pitch, volume * sfxVolume * masterVolume, follower != null ? follower.GetComponent<PhotonView>().ViewID : -1);
     }
 
     [PunRPC]
@@ -72,11 +92,6 @@ public class AudioManager : MonoBehaviourPun
     {
         Transform follower = followerViewID != -1 ? PhotonView.Find(followerViewID).transform : null;
         AudioObject audObj = Instantiate(audioObjectPrefab, new Vector3(position.x, position.y, -5), Quaternion.identity).GetComponent<AudioObject>();
-        audObj.Initialize(clips[index], pitch, volume, follower);
-    }
-
-    internal void PlaySound(Vector3 position, int v1, object value, float v2)
-    {
-        throw new NotImplementedException();
+        audObj.Initialize(clips[index], pitch, volume * sfxVolume * masterVolume, follower);
     }
 }

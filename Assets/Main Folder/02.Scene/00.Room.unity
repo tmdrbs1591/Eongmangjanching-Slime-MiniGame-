@@ -10814,6 +10814,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 77211ccf31ce028478bba08bdead4834, type: 3}
   songs: []
   audioObjectPrefab: {fileID: 1757632510360373739, guid: 4c10ef6eeb4f2014580d1ac7f786ea41, type: 3}
+  masterVolumeSlider: {fileID: 212288804}
+  sfxVolumeSlider: {fileID: 1873767276}
 --- !u!4 &1451577960
 Transform:
   m_ObjectHideFlags: 0
@@ -11131,7 +11133,6 @@ GameObject:
   - component: {fileID: 1487542223}
   - component: {fileID: 1487542224}
   - component: {fileID: 1487542226}
-  - component: {fileID: 1487542225}
   m_Layer: 0
   m_Name: SongManager
   m_TagString: Untagged
@@ -11167,113 +11168,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicSource: {fileID: 1487542226}
-  sfxSource: {fileID: 1487542225}
   sceneMusicClips:
   - {fileID: 8300000, guid: 6234456e332585949a914cfd18308f0d, type: 3}
   - {fileID: 8300000, guid: c090347109c31524e8dbaef775267ac0, type: 3}
   - {fileID: 8300000, guid: a9c56d5c0046eab4599b12c315d21f5d, type: 3}
   - {fileID: 8300000, guid: d7aa282d490188d4d91247e80464b5da, type: 3}
   - {fileID: 8300000, guid: 12ce454bc1d5dcf4cb3f15a275408bf4, type: 3}
+  - {fileID: 8300000, guid: b3b9a5f0feb697449af7ee94ea8cdef7, type: 3}
   targetVolume: 0.4
   masterVolumeSlider: {fileID: 212288804}
   musicVolumeSlider: {fileID: 125534192}
-  sfxVolumeSlider: {fileID: 1873767276}
---- !u!82 &1487542225
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1487542221}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!82 &1487542226
 AudioSource:
   m_ObjectHideFlags: 0
