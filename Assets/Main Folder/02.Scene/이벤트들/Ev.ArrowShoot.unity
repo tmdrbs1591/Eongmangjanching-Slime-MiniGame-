@@ -1008,7 +1008,7 @@ MonoBehaviour:
   XspawnRange: 10
   YspawnRange: 4
   checkCooltime: 0.1
-  findTargetScore: 3
+  findTargetScore: -3
   targets: []
 --- !u!4 &676038116
 Transform:

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
+using Photon.Pun;
 
-public class Target : MonoBehaviour
+public class Target : MonoBehaviourPunCallbacks
 {
     public int Point;
     public int hitCount;
