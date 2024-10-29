@@ -84,13 +84,11 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
         {
             photonView.RPC("RPC_CatchTrue", RpcTarget.AllBuffered, true);
             catchPtc.SetActive(true);
-            isStun = true;
         }
         else if (Input.GetMouseButtonUp(1))
         {
             photonView.RPC("RPC_CatchTrue", RpcTarget.AllBuffered, false);
             catchPtc.SetActive(false);
-            isStun = false;
         }
 
         if (isCatch)
@@ -237,10 +235,15 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
             var playerScript = collision.gameObject.GetComponent<PlayerScript>();
             playerScript.isStun = true;
         }
-        else if (collision.gameObject.CompareTag("Player") && !isCatchTrue)
+    
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+         if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("≥ı√∆¥Ÿ!!");
-            var playerScript = collision.gameObject.GetComponent<PlayerScript>();
+            var playerScript = other.gameObject.GetComponent<PlayerScript>();
             playerScript.isStun = false;
         }
     }
