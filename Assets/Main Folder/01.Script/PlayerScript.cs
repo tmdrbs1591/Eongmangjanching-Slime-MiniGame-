@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using Photon.Pun;
 
-public class PlayerScript : MonoBehaviourPunCallbacks , IPunObservable
+public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
 {
     [Header("Move")]
     [SerializeField] private float moveSpeed = 5f;  // 이동 속도 설정
@@ -22,9 +22,13 @@ public class PlayerScript : MonoBehaviourPunCallbacks , IPunObservable
 
     [Header("Bool")]
     [SerializeField] public bool isStun;
+    [SerializeField] public bool isCatchTrue = false;
+    [SerializeField] public bool isCatch;
+
 
     [Header("Effects")]
     [SerializeField] ParticleSystem runPtc; // 파티클 시스템
+    [SerializeField] GameObject catchPtc; // 파티클 시스템
 
     public Rigidbody rb;
     private Animator anim; // Animator 컴포넌트
@@ -62,6 +66,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks , IPunObservable
         {
             HandleInput();
             Interaction();
+            CatchTrue();
         }
     }
 
@@ -73,6 +78,30 @@ public class PlayerScript : MonoBehaviourPunCallbacks , IPunObservable
         }
     }
 
+    void CatchTrue()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            photonView.RPC("RPC_CatchTrue", RpcTarget.AllBuffered, true);
+            catchPtc.SetActive(true);
+        }
+        else if (Input.GetMouseButtonUp(1))
+        {
+            photonView.RPC("RPC_CatchTrue", RpcTarget.AllBuffered, false);
+            catchPtc.SetActive(false);
+        }
+
+        if (isCatch)
+        {
+
+        }
+    }
+
+    [PunRPC]
+    void RPC_CatchTrue(bool tf)
+    {
+        isCatchTrue = tf;
+    }
     void Move()
     {
         if (isStun)
@@ -198,5 +227,19 @@ public class PlayerScript : MonoBehaviourPunCallbacks , IPunObservable
             rb.rotation = Quaternion.Lerp(rb.rotation, receivedRotation, Time.deltaTime * 5f); // 부드러운 회전 보간
         }
     }
-
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && isCatchTrue)
+        {
+            Debug.Log("잡았다!");
+            var playerScript = collision.gameObject.GetComponent<PlayerScript>();
+            playerScript.isStun = true;
+        }
+        else if (collision.gameObject.CompareTag("Player") && !isCatchTrue)
+        {
+            Debug.Log("놓쳤다!!");
+            var playerScript = collision.gameObject.GetComponent<PlayerScript>();
+            playerScript.isStun = false;
+        }
+    }
 }
