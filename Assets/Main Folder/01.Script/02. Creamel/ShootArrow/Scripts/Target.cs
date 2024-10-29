@@ -30,6 +30,14 @@ public class Target : MonoBehaviour
         float x = Mathf.PingPong(Time.time * moveSpeed, moveDistance) - (moveDistance / 2);
         transform.position = startPosition + new Vector3(x, 0, 0);
     }
+    private void OnDestroy()
+    {
+        TargetSpawner spawner = FindObjectOfType<TargetSpawner>();
+        if (spawner != null)
+        {
+            spawner.targets.Remove(gameObject);
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -44,7 +52,6 @@ public class Target : MonoBehaviour
 
                 playerscore.AddScore(Point * 100);
 
-                Debug.Log(other.gameObject.GetComponent<ArrowInit>().playerName + "님이 점수 " + Point + "점을 얻었습니다!");
                 Destroy(gameObject);
             }
             Destroy(other.gameObject);

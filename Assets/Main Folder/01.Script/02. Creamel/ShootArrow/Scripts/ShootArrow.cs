@@ -26,6 +26,7 @@ public class ShootArrow : MonoBehaviourPunCallbacks
             {
                 isCanShoot = false;
                 Debug.Log("hit to " + hit.transform.gameObject.name + " at position " + hit.point);
+
                 if (target == null)
                 {
                     GameObject tempTarget = new GameObject("TempTarget");
@@ -35,7 +36,7 @@ public class ShootArrow : MonoBehaviourPunCallbacks
                 target.position = hit.point;
 
                 photonView.RPC("ArrowIns", RpcTarget.All, transform.position, target.position, power, name);
-                StartCoroutine("CoolTime");
+                StartCoroutine(CoolTime());
             }
         }
     }
@@ -44,7 +45,7 @@ public class ShootArrow : MonoBehaviourPunCallbacks
     void ArrowIns(Vector3 startPosition, Vector3 targetPosition, int power, string player)
     {
         GameObject TempArrow = Instantiate(arrowPrefab, startPosition, Quaternion.identity);
-        TempArrow.GetComponent<ArrowInit>().initArrow(startPosition, target, power, player);
+        TempArrow.GetComponent<ArrowInit>().initArrow(startPosition, targetPosition, power, player);
     }
 
     IEnumerator CoolTime()
