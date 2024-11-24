@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     [SerializeField] public GameObject grayScaleScreen;
 
+
+
     private void Awake()
     {
 

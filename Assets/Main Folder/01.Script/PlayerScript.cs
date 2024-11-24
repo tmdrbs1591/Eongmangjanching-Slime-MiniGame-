@@ -48,16 +48,16 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
         anim = GetComponent<Animator>(); // Animator 컴포넌트 가져오기
         playerCustomizing = GetComponent<PlayerCustomizing>();
 
-        if (photonView.IsMine)
-        {
-            nickNameText.text = PhotonNetwork.NickName;
-            nickNameText.color = Color.green;
-        }
-        else
-        {
-            nickNameText.text = photonView.Owner.NickName;
-            nickNameText.color = Color.white;
-        }
+            if (photonView.IsMine)
+            {
+                nickNameText.text = PhotonNetwork.NickName;
+                nickNameText.color = Color.green;
+            }
+            else
+            {
+                nickNameText.text = photonView.Owner.NickName;
+                nickNameText.color = Color.white;
+            }
     }
 
     void Update()
@@ -82,12 +82,12 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (Input.GetMouseButtonDown(1) && !isStun)
         {
-            photonView.RPC("RPC_CatchTrue", RpcTarget.AllBuffered, true);
+          //  photonView.RPC("RPC_CatchTrue", RpcTarget.AllBuffered, true);
             catchPtc.SetActive(true);
         }
         else if (Input.GetMouseButtonUp(1))
         {
-            photonView.RPC("RPC_CatchTrue", RpcTarget.AllBuffered, false);
+         //   photonView.RPC("RPC_CatchTrue", RpcTarget.AllBuffered, false);
             catchPtc.SetActive(false);
         }
 
@@ -227,25 +227,5 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
             rb.rotation = Quaternion.Lerp(rb.rotation, receivedRotation, Time.deltaTime * 5f); // 부드러운 회전 보간
         }
     }
-    private void OnCollisionStay(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player") && isCatchTrue)
-        {
-            Debug.Log("잡았다!");
-            var playerScript = collision.gameObject.GetComponent<PlayerScript>();
-            playerScript.isStun = true;
-            isStun = true;
-
-
-        }
-        if (collision.gameObject.CompareTag("Player") && !isCatchTrue)
-        {
-            Debug.Log("놓쳤다!!");
-            var playerScript = collision.gameObject.GetComponent<PlayerScript>();
-            playerScript.isStun = false;
-            isStun = false;
-        }
-    }
-
 
 }
