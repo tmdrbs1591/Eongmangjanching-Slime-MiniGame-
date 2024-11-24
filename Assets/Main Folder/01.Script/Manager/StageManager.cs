@@ -22,8 +22,8 @@ public class StageManager : MonoBehaviourPunCallbacks
     {
         if (currentStage >= maxStage)
         {
-            Debug.Log("게임끝!!!");
-            SceneManager.LoadScene("ResultStage");
+            Debug.Log("게임끝!!!"); 
+            SceneManager.LoadScene("02.ResultRoom");
         }
     }
 

@@ -10167,7 +10167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentStage: 0
-  maxStage: 10
+  maxStage: 2
 --- !u!1 &1622246235
 GameObject:
   m_ObjectHideFlags: 0
