@@ -3,26 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
-using System.IO;
+
 public class StageManager : MonoBehaviourPunCallbacks
 {
     public static StageManager instance;
 
-    private void Awake()
-    {
-        instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-    // Start is called before the first frame update
     [SerializeField] float currentStage;
     [SerializeField] float maxStage;
 
+    private bool isGameEnding = false; // 씬 전환 중인지 여부를 체크
+
+    private void Awake()
+    {
+        // Singleton 패턴
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Update()
     {
-        if (currentStage >= maxStage)
+        if (!isGameEnding && currentStage >= maxStage) // 한 번만 실행
         {
-            Debug.Log("게임끝!!!"); 
+            isGameEnding = true; // 게임 종료 플래그 설정
+            Debug.Log("게임끝!!!");
             SceneManager.LoadScene("02.ResultRoom");
         }
     }
@@ -39,11 +49,12 @@ public class StageManager : MonoBehaviourPunCallbacks
         SceneManager.sceneLoaded -= OnSceneLoaded; // 구독 해제
     }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
         if (SceneManager.GetActiveScene().name == "01.WaitRoom")
         {
             currentStage++;
+            Debug.Log($"현재 스테이지: {currentStage}");
         }
     }
 }
