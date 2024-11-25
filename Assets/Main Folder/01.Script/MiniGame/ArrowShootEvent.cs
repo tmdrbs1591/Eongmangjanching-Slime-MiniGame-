@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement; // 씬을 변경하려면 필요
 
 public class ArrowShootEvent : TimeManager
 {
-
-
     private bool isScoreAdded = false;  // 점수가 이미 추가되었는지 확인하는 변수
 
     protected override void Start()

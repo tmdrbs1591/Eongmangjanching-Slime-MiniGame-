@@ -13,6 +13,8 @@ public class TimeManager : MonoBehaviourPunCallbacks
     [SerializeField] protected GameObject Fadein;
     [SerializeField] protected GameObject FadeOut;
 
+    [SerializeField] private GameObject nextGameText;
+
     protected virtual void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true; // 씬 자동 동기화 설정
@@ -23,6 +25,7 @@ public class TimeManager : MonoBehaviourPunCallbacks
         // 처음 시작할 때 텍스트 초기화
         countdownText.text = timeRemaining.ToString();
         FadeOut.SetActive(true);
+        StartCoroutine(Co_NextGameText());
     }
 
     protected virtual void Update()
@@ -43,6 +46,14 @@ public class TimeManager : MonoBehaviourPunCallbacks
                 }
             }
         }
+    }
+
+    protected IEnumerator Co_NextGameText()
+    {
+        nextGameText.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        
+        nextGameText.SetActive(false);
     }
 
     protected IEnumerator FadeScene()
